@@ -2589,3 +2589,21 @@ Caused by: java.lang.IllegalArgumentException: Result Maps collection already co
 2020-07-18 16:08:51.896  INFO 5308 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 18081 (http) with context path ''
 2020-07-18 16:08:51.899  INFO 5308 --- [main] com.platform.PlatformRenewApplication    : Started PlatformRenewApplication in 4.347 seconds (JVM running for 5.425)
 2020-07-18 16:13:58.590  INFO 5308 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-18 16:14:04.153  INFO 12264 --- [main] com.platform.PlatformRenewApplication    : Starting PlatformRenewApplication on DESKTOP-AFMJG69 with PID 12264 (D:\yiliaoworks\mt-platform\target\classes started by shidun in D:\yiliaoworks\mt-platform)
+2020-07-18 16:14:04.157  INFO 12264 --- [main] com.platform.PlatformRenewApplication    : The following profiles are active: dev
+2020-07-18 16:14:05.100  INFO 12264 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-07-18 16:14:05.102  INFO 12264 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-07-18 16:14:05.135  INFO 12264 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18ms. Found 0 Redis repository interfaces.
+2020-07-18 16:14:05.863  INFO 12264 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 18081 (http)
+2020-07-18 16:14:05.873  INFO 12264 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-18 16:14:05.873  INFO 12264 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.34]
+2020-07-18 16:14:05.974  INFO 12264 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-18 16:14:05.975  INFO 12264 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1721 ms
+2020-07-18 16:14:07.094  INFO 12264 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-07-18 16:14:07.235  INFO 12264 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-18 16:14:07.637  INFO 12264 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-18 16:14:07.655  INFO 12264 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-18 16:14:07.687  INFO 12264 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-18 16:14:07.870  INFO 12264 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 18081 (http) with context path ''
+2020-07-18 16:14:07.875  INFO 12264 --- [main] com.platform.PlatformRenewApplication    : Started PlatformRenewApplication in 4.425 seconds (JVM running for 5.438)
+2020-07-18 17:00:26.342  INFO 12264 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
