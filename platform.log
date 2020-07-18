@@ -2607,3 +2607,373 @@ Caused by: java.lang.IllegalArgumentException: Result Maps collection already co
 2020-07-18 16:14:07.870  INFO 12264 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 18081 (http) with context path ''
 2020-07-18 16:14:07.875  INFO 12264 --- [main] com.platform.PlatformRenewApplication    : Started PlatformRenewApplication in 4.425 seconds (JVM running for 5.438)
 2020-07-18 17:00:26.342  INFO 12264 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-18 17:01:21.163  INFO 5196 --- [main] com.platform.PlatformRenewApplication    : Starting PlatformRenewApplication on DESKTOP-AFMJG69 with PID 5196 (D:\yiliaoworks\mt-platform\target\classes started by shidun in D:\yiliaoworks\mt-platform)
+2020-07-18 17:01:21.166  INFO 5196 --- [main] com.platform.PlatformRenewApplication    : The following profiles are active: dev
+2020-07-18 17:01:22.057  INFO 5196 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-07-18 17:01:22.059  INFO 5196 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-07-18 17:01:22.090  INFO 5196 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17ms. Found 0 Redis repository interfaces.
+2020-07-18 17:01:22.810  INFO 5196 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 18081 (http)
+2020-07-18 17:01:22.819  INFO 5196 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-18 17:01:22.820  INFO 5196 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.34]
+2020-07-18 17:01:22.918  INFO 5196 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-18 17:01:22.919  INFO 5196 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1688 ms
+2020-07-18 17:01:24.016  INFO 5196 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-07-18 17:01:24.156  INFO 5196 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-18 17:01:24.555  INFO 5196 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-18 17:01:24.573  INFO 5196 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-18 17:01:24.604  INFO 5196 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-18 17:01:24.781  INFO 5196 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 18081 (http) with context path ''
+2020-07-18 17:01:24.785  INFO 5196 --- [main] com.platform.PlatformRenewApplication    : Started PlatformRenewApplication in 4.32 seconds (JVM running for 5.443)
+2020-07-18 17:14:33.434  INFO 10904 --- [main] c.p.PlatformRenewApplicationTests        : Starting PlatformRenewApplicationTests on DESKTOP-AFMJG69 with PID 10904 (started by shidun in D:\yiliaoworks\mt-platform)
+2020-07-18 17:14:33.436  INFO 10904 --- [main] c.p.PlatformRenewApplicationTests        : The following profiles are active: pro
+2020-07-18 17:14:34.521  INFO 10904 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-07-18 17:14:34.524  INFO 10904 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-07-18 17:14:34.565  INFO 10904 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 25ms. Found 0 Redis repository interfaces.
+2020-07-18 17:14:37.671  INFO 10904 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-07-18 17:14:38.245  INFO 10904 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-18 17:14:39.058  INFO 10904 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-18 17:14:39.091  INFO 10904 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-18 17:14:39.133  INFO 10904 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-18 17:14:39.346  INFO 10904 --- [main] c.p.PlatformRenewApplicationTests        : Started PlatformRenewApplicationTests in 6.413 seconds (JVM running for 7.591)
+2020-07-18 17:14:39.695  INFO 10904 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-18 17:20:38.352  INFO 5196 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-18 17:20:45.635  INFO 16820 --- [main] com.platform.PlatformRenewApplication    : Starting PlatformRenewApplication on DESKTOP-AFMJG69 with PID 16820 (D:\yiliaoworks\mt-platform\target\classes started by shidun in D:\yiliaoworks\mt-platform)
+2020-07-18 17:20:45.638  INFO 16820 --- [main] com.platform.PlatformRenewApplication    : The following profiles are active: dev
+2020-07-18 17:20:46.528  INFO 16820 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-07-18 17:20:46.530  INFO 16820 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-07-18 17:20:46.560  INFO 16820 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16ms. Found 0 Redis repository interfaces.
+2020-07-18 17:20:47.288  INFO 16820 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 18081 (http)
+2020-07-18 17:20:47.296  INFO 16820 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-18 17:20:47.297  INFO 16820 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.34]
+2020-07-18 17:20:47.398  INFO 16820 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-18 17:20:47.399  INFO 16820 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1688 ms
+2020-07-18 17:20:48.510  INFO 16820 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-07-18 17:20:48.648  INFO 16820 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-18 17:20:49.046  INFO 16820 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-18 17:20:49.064  INFO 16820 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-18 17:20:49.100  INFO 16820 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-18 17:20:49.290  INFO 16820 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 18081 (http) with context path ''
+2020-07-18 17:20:49.293  INFO 16820 --- [main] com.platform.PlatformRenewApplication    : Started PlatformRenewApplication in 4.305 seconds (JVM running for 5.496)
+2020-07-18 17:21:34.488  INFO 16820 --- [http-nio-18081-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-07-18 17:21:34.488  INFO 16820 --- [http-nio-18081-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-07-18 17:21:34.496  INFO 16820 --- [http-nio-18081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 8 ms
+2020-07-18 17:21:43.549  INFO 16820 --- [http-nio-18081-exec-9] com.platform.config.LogAspect            : REQUEST: {
+  "classMethod": "sendCaptcha",
+  "args": [
+    {
+      "eMail": "460475302@qq.com",
+      "mailType": "FORGET_PASSWORD"
+    }
+  ],
+  "method": "POST",
+  "ip": "127.0.0.1",
+  "className": "com.platform.controller.MailController",
+  "url": "http://127.0.0.1:18081/mtApi/send/captcha"
+}
+2020-07-18 17:21:43.721  INFO 16820 --- [http-nio-18081-exec-9] io.lettuce.core.EpollProvider            : Starting without optional epoll library
+2020-07-18 17:21:43.725  INFO 16820 --- [http-nio-18081-exec-9] io.lettuce.core.KqueueProvider           : Starting without optional kqueue library
+2020-07-18 17:21:47.350  INFO 16820 --- [http-nio-18081-exec-9] c.platform.service.impl.MailServiceImpl  : 验证码邮件已经发送。
+2020-07-18 17:21:47.354  INFO 16820 --- [http-nio-18081-exec-9] com.platform.config.LogAspect            : Response:[Result{status=200, msg='成功', data=null}]
+2020-07-18 17:21:47.355  INFO 16820 --- [http-nio-18081-exec-9] com.platform.config.LogAspect            : Request spend times : [3822ms]
+2020-07-18 17:45:05.520  INFO 10004 --- [main] c.p.PlatformRenewApplicationTests        : Starting PlatformRenewApplicationTests on DESKTOP-AFMJG69 with PID 10004 (started by shidun in D:\yiliaoworks\mt-platform)
+2020-07-18 17:45:05.524  INFO 10004 --- [main] c.p.PlatformRenewApplicationTests        : The following profiles are active: pro
+2020-07-18 17:45:06.669  INFO 10004 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-07-18 17:45:06.672  INFO 10004 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-07-18 17:45:06.713  INFO 10004 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 24ms. Found 0 Redis repository interfaces.
+2020-07-18 17:45:10.096  INFO 10004 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-07-18 17:45:10.840  INFO 10004 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-18 17:45:11.673  INFO 10004 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-18 17:45:11.706  INFO 10004 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-18 17:45:11.748  INFO 10004 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-18 17:45:11.969  INFO 10004 --- [main] c.p.PlatformRenewApplicationTests        : Started PlatformRenewApplicationTests in 6.916 seconds (JVM running for 8.07)
+2020-07-18 17:45:12.369  INFO 10004 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-18 17:57:32.170  INFO 16820 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-18 17:58:00.814  INFO 11916 --- [main] c.p.PlatformRenewApplicationTests        : Starting PlatformRenewApplicationTests on DESKTOP-AFMJG69 with PID 11916 (started by shidun in D:\yiliaoworks\mt-platform)
+2020-07-18 17:58:00.817  INFO 11916 --- [main] c.p.PlatformRenewApplicationTests        : The following profiles are active: pro
+2020-07-18 17:58:01.831  INFO 11916 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-07-18 17:58:01.834  INFO 11916 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-07-18 17:58:01.870  INFO 11916 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22ms. Found 0 Redis repository interfaces.
+2020-07-18 17:58:04.895  INFO 11916 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-07-18 17:58:05.474  INFO 11916 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-18 17:58:06.249  INFO 11916 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-18 17:58:06.279  INFO 11916 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-18 17:58:06.312  INFO 11916 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-18 17:58:06.527  INFO 11916 --- [main] c.p.PlatformRenewApplicationTests        : Started PlatformRenewApplicationTests in 6.166 seconds (JVM running for 7.243)
+2020-07-18 17:58:06.824  INFO 11916 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-18 18:42:58.222  INFO 16204 --- [main] com.platform.PlatformRenewApplication    : Starting PlatformRenewApplication on DESKTOP-AFMJG69 with PID 16204 (D:\yiliaoworks\mt-platform\target\classes started by shidun in D:\yiliaoworks\mt-platform)
+2020-07-18 18:42:58.226  INFO 16204 --- [main] com.platform.PlatformRenewApplication    : The following profiles are active: dev
+2020-07-18 18:42:59.188  INFO 16204 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-07-18 18:42:59.191  INFO 16204 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-07-18 18:42:59.223  INFO 16204 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18ms. Found 0 Redis repository interfaces.
+2020-07-18 18:42:59.974  INFO 16204 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 18081 (http)
+2020-07-18 18:42:59.984  INFO 16204 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-18 18:42:59.984  INFO 16204 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.34]
+2020-07-18 18:43:00.118  INFO 16204 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-18 18:43:00.118  INFO 16204 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1805 ms
+2020-07-18 18:43:01.284  INFO 16204 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-07-18 18:43:01.450  INFO 16204 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-18 18:43:01.866  INFO 16204 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-18 18:43:01.887  INFO 16204 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-18 18:43:01.918  INFO 16204 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-18 18:43:02.103  INFO 16204 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 18081 (http) with context path ''
+2020-07-18 18:43:02.106  INFO 16204 --- [main] com.platform.PlatformRenewApplication    : Started PlatformRenewApplication in 4.557 seconds (JVM running for 5.972)
+2020-07-18 18:43:51.821  INFO 16204 --- [http-nio-18081-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-07-18 18:43:51.822  INFO 16204 --- [http-nio-18081-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-07-18 18:43:51.838  INFO 16204 --- [http-nio-18081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 15 ms
+2020-07-18 18:44:34.594  INFO 16204 --- [http-nio-18081-exec-2] com.platform.config.LogAspect            : REQUEST: {
+  "classMethod": "userLogin",
+  "args": [
+    {
+      "userName": "shidun",
+      "password": "sd123456"
+    }
+  ],
+  "method": "POST",
+  "ip": "127.0.0.1",
+  "className": "com.platform.controller.UserController",
+  "url": "http://127.0.0.1:18081/mtApi/user/login"
+}
+2020-07-18 18:44:35.294  INFO 16204 --- [http-nio-18081-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-18 18:44:36.915  INFO 16204 --- [http-nio-18081-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-18 18:44:37.070 ERROR 16204 --- [http-nio-18081-exec-2] c.platform.service.impl.UserServiceImpl  : shidun 用户不存在。
+2020-07-18 20:26:42.323  INFO 16204 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-18 20:26:42.370  INFO 16204 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-18 20:26:42.380  INFO 16204 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-18 20:26:48.756  INFO 15068 --- [main] com.platform.PlatformRenewApplication    : Starting PlatformRenewApplication on DESKTOP-AFMJG69 with PID 15068 (D:\yiliaoworks\mt-platform\target\classes started by shidun in D:\yiliaoworks\mt-platform)
+2020-07-18 20:26:48.761  INFO 15068 --- [main] com.platform.PlatformRenewApplication    : The following profiles are active: dev
+2020-07-18 20:26:49.689  INFO 15068 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-07-18 20:26:49.692  INFO 15068 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-07-18 20:26:49.727  INFO 15068 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20ms. Found 0 Redis repository interfaces.
+2020-07-18 20:26:50.497  INFO 15068 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 18081 (http)
+2020-07-18 20:26:50.508  INFO 15068 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-18 20:26:50.508  INFO 15068 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.34]
+2020-07-18 20:26:50.611  INFO 15068 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-18 20:26:50.611  INFO 15068 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1760 ms
+2020-07-18 20:26:51.783  INFO 15068 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-07-18 20:26:51.935  INFO 15068 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-18 20:26:52.366  INFO 15068 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-18 20:26:52.387  INFO 15068 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-18 20:26:52.424  INFO 15068 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-18 20:26:52.620  INFO 15068 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 18081 (http) with context path ''
+2020-07-18 20:26:52.623  INFO 15068 --- [main] com.platform.PlatformRenewApplication    : Started PlatformRenewApplication in 4.576 seconds (JVM running for 5.811)
+2020-07-18 20:27:12.715  INFO 15068 --- [http-nio-18081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-07-18 20:27:12.716  INFO 15068 --- [http-nio-18081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-07-18 20:27:12.730  INFO 15068 --- [http-nio-18081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 14 ms
+2020-07-18 20:27:39.911  WARN 15068 --- [http-nio-18081-exec-1] org.apache.catalina.connector.Request    : Creating the temporary upload location [D:\git-depository\upload] as it is required by the servlet [dispatcherServlet]
+2020-07-18 20:28:07.238  INFO 15068 --- [http-nio-18081-exec-5] com.platform.config.LogAspect            : REQUEST: {
+  "classMethod": "userLogin",
+  "args": [
+    {
+      "userName": "shidun",
+      "password": "sd123456"
+    }
+  ],
+  "method": "POST",
+  "ip": "127.0.0.1",
+  "className": "com.platform.controller.UserController",
+  "url": "http://127.0.0.1:18081/mtApi/user/login"
+}
+2020-07-18 20:28:07.651  INFO 15068 --- [http-nio-18081-exec-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-18 20:28:08.591  INFO 15068 --- [http-nio-18081-exec-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-18 20:28:08.658 ERROR 15068 --- [http-nio-18081-exec-5] c.platform.service.impl.UserServiceImpl  : shidun 用户不存在。
+2020-07-18 20:28:15.180  INFO 15068 --- [http-nio-18081-exec-6] com.platform.config.LogAspect            : REQUEST: {
+  "classMethod": "userLogin",
+  "args": [
+    {
+      "userName": "shidun",
+      "password": "123456"
+    }
+  ],
+  "method": "POST",
+  "ip": "127.0.0.1",
+  "className": "com.platform.controller.UserController",
+  "url": "http://127.0.0.1:18081/mtApi/user/login"
+}
+2020-07-18 20:28:15.186 ERROR 15068 --- [http-nio-18081-exec-6] c.platform.service.impl.UserServiceImpl  : shidun 用户不存在。
+2020-07-18 20:28:23.104  INFO 15068 --- [http-nio-18081-exec-7] com.platform.config.LogAspect            : REQUEST: {
+  "classMethod": "userLogin",
+  "args": [
+    {
+      "userName": "shidun",
+      "password": "sd911223"
+    }
+  ],
+  "method": "POST",
+  "ip": "127.0.0.1",
+  "className": "com.platform.controller.UserController",
+  "url": "http://127.0.0.1:18081/mtApi/user/login"
+}
+2020-07-18 20:28:23.150  INFO 15068 --- [http-nio-18081-exec-7] com.platform.config.LogAspect            : Response:[Result{status=200, msg='成功', data=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNTk1MDc1MzAzLCJleHAiOjE1OTUwNzg5MDN9.Ko-oYx06H88ilpgoA59tejm13mGfcENBlysVyC7Pos2kn496ODRpBJBaWQvcI1bfQRd0kxeaiW014Vj8nbhFLA}]
+2020-07-18 20:28:23.151  INFO 15068 --- [http-nio-18081-exec-7] com.platform.config.LogAspect            : Request spend times : [47ms]
+2020-07-18 20:37:29.642  INFO 15068 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-18 20:37:29.665  INFO 15068 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-18 20:37:29.683  INFO 15068 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-18 20:37:37.931  INFO 10904 --- [main] com.platform.PlatformRenewApplication    : Starting PlatformRenewApplication on DESKTOP-AFMJG69 with PID 10904 (D:\yiliaoworks\mt-platform\target\classes started by shidun in D:\yiliaoworks\mt-platform)
+2020-07-18 20:37:37.935  INFO 10904 --- [main] com.platform.PlatformRenewApplication    : The following profiles are active: dev
+2020-07-18 20:37:38.916  INFO 10904 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-07-18 20:37:38.918  INFO 10904 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-07-18 20:37:38.955  INFO 10904 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21ms. Found 0 Redis repository interfaces.
+2020-07-18 20:37:39.789  INFO 10904 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 18081 (http)
+2020-07-18 20:37:39.799  INFO 10904 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-18 20:37:39.799  INFO 10904 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.34]
+2020-07-18 20:37:39.903  INFO 10904 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-18 20:37:39.903  INFO 10904 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1869 ms
+2020-07-18 20:37:41.153  INFO 10904 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-07-18 20:37:41.321  INFO 10904 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-18 20:37:41.759  INFO 10904 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-18 20:37:41.781  INFO 10904 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-18 20:37:41.819  INFO 10904 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-18 20:37:42.023  INFO 10904 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 18081 (http) with context path ''
+2020-07-18 20:37:42.027  INFO 10904 --- [main] com.platform.PlatformRenewApplication    : Started PlatformRenewApplication in 4.842 seconds (JVM running for 6.189)
+2020-07-18 20:37:57.298  INFO 10904 --- [http-nio-18081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-07-18 20:37:57.298  INFO 10904 --- [http-nio-18081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-07-18 20:37:57.314  INFO 10904 --- [http-nio-18081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 15 ms
+2020-07-18 20:38:16.881  INFO 10904 --- [http-nio-18081-exec-1] com.platform.config.LogAspect            : REQUEST: {
+  "classMethod": "userLogin",
+  "args": [
+    {
+      "userName": "shidun",
+      "password": "sd911223"
+    }
+  ],
+  "method": "POST",
+  "ip": "127.0.0.1",
+  "className": "com.platform.controller.UserController",
+  "url": "http://127.0.0.1:18081/mtApi/user/login"
+}
+2020-07-18 20:38:17.298  INFO 10904 --- [http-nio-18081-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-18 20:38:18.271  INFO 10904 --- [http-nio-18081-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-18 20:38:18.378  INFO 10904 --- [http-nio-18081-exec-1] com.platform.config.LogAspect            : Response:[Result{status=200, msg='成功', data=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNTk1MDc1ODk4LCJleHAiOjE1OTUwNzk0OTh9.SHU5cJ4f3DQkKWr8d3G2A9CTRxAxwHnqjfGxTD1gakAPjPTSaF7Mv8zaN_1fnEbe3w4aWDk0IfzeFBNnGRseEw}]
+2020-07-18 20:38:18.379  INFO 10904 --- [http-nio-18081-exec-1] com.platform.config.LogAspect            : Request spend times : [1510ms]
+2020-07-18 20:38:35.760  INFO 10904 --- [http-nio-18081-exec-5] com.platform.config.LogAspect            : REQUEST: {
+  "classMethod": "uploadFile",
+  "args": [
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNTk1MDc1ODk4LCJleHAiOjE1OTUwNzk0OTh9.SHU5cJ4f3DQkKWr8d3G2A9CTRxAxwHnqjfGxTD1gakAPjPTSaF7Mv8zaN_1fnEbe3w4aWDk0IfzeFBNnGRseEw",
+    {
+      "part": {
+        "fileItem": {
+          "fieldName": "file",
+          "contentType": "image/png",
+          "isFormField": false,
+          "fileName": "212321.png",
+          "size": -1,
+          "sizeThreshold": 0,
+          "repository": {
+            "path": "D:\\git-depository\\upload"
+          },
+          "headers": {
+            "headerNameToValueListMap": {
+              "content-disposition": [
+                "form-data; name\u003d\"file\"; filename\u003d\"212321.png\""
+              ],
+              "content-type": [
+                "image/png"
+              ]
+            }
+          },
+          "defaultCharset": "ISO-8859-1"
+        },
+        "location": {
+          "path": "D:\\git-depository\\upload"
+        }
+      },
+      "filename": "212321.png"
+    }
+  ],
+  "method": "POST",
+  "ip": "127.0.0.1",
+  "className": "com.platform.controller.ImgManageController",
+  "url": "http://127.0.0.1:18081/mtApi/upload"
+}
+2020-07-18 20:38:35.770  INFO 10904 --- [http-nio-18081-exec-5] c.platform.service.impl.ImgServiceImpl   : 上传图片:name=20200718203835_212321.png,type=image/png
+2020-07-18 20:38:35.771  INFO 10904 --- [http-nio-18081-exec-5] c.platform.service.impl.ImgServiceImpl   : file文件真实路径:D:\git-depository\upload\20200718203835_212321.png
+2020-07-18 20:38:35.772  INFO 10904 --- [http-nio-18081-exec-5] com.platform.config.LogAspect            : Response:[Result{status=200, msg='成功', data=D:/git-depository/upload/20200718203835_212321.png}]
+2020-07-18 20:38:35.772  INFO 10904 --- [http-nio-18081-exec-5] com.platform.config.LogAspect            : Request spend times : [20ms]
+2020-07-18 22:42:46.461  INFO 10904 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-18 22:42:46.552  INFO 10904 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-18 22:42:46.564  INFO 10904 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-18 22:42:50.779  INFO 5216 --- [main] com.platform.PlatformRenewApplication    : Starting PlatformRenewApplication on DESKTOP-AFMJG69 with PID 5216 (D:\yiliaoworks\mt-platform\target\classes started by shidun in D:\yiliaoworks\mt-platform)
+2020-07-18 22:42:50.784  INFO 5216 --- [main] com.platform.PlatformRenewApplication    : The following profiles are active: dev
+2020-07-18 22:42:51.695  INFO 5216 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-07-18 22:42:51.698  INFO 5216 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-07-18 22:42:51.729  INFO 5216 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18ms. Found 0 Redis repository interfaces.
+2020-07-18 22:42:52.463  INFO 5216 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 18081 (http)
+2020-07-18 22:42:52.471  INFO 5216 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-18 22:42:52.472  INFO 5216 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.34]
+2020-07-18 22:42:52.570  INFO 5216 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-18 22:42:52.570  INFO 5216 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1706 ms
+2020-07-18 22:42:53.682  INFO 5216 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-07-18 22:42:53.843  INFO 5216 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-18 22:42:54.234  INFO 5216 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-07-18 22:42:54.253  INFO 5216 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-07-18 22:42:54.285  INFO 5216 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-07-18 22:42:54.583  INFO 5216 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 18081 (http) with context path ''
+2020-07-18 22:42:54.590  INFO 5216 --- [main] com.platform.PlatformRenewApplication    : Started PlatformRenewApplication in 4.463 seconds (JVM running for 5.595)
+2020-07-18 22:43:24.300  INFO 5216 --- [http-nio-18081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-07-18 22:43:24.300  INFO 5216 --- [http-nio-18081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-07-18 22:43:24.314  INFO 5216 --- [http-nio-18081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 14 ms
+2020-07-18 22:43:24.345  WARN 5216 --- [http-nio-18081-exec-1] org.apache.catalina.connector.Request    : Creating the temporary upload location [D:\git-depository\upload] as it is required by the servlet [dispatcherServlet]
+2020-07-18 22:43:33.897  INFO 5216 --- [http-nio-18081-exec-2] com.platform.config.LogAspect            : REQUEST: {
+  "classMethod": "userLogin",
+  "args": [
+    {
+      "userName": "shidun",
+      "password": "sd911223"
+    }
+  ],
+  "method": "POST",
+  "ip": "127.0.0.1",
+  "className": "com.platform.controller.UserController",
+  "url": "http://127.0.0.1:18081/mtApi/user/login"
+}
+2020-07-18 22:43:34.034  INFO 5216 --- [http-nio-18081-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-18 22:43:34.360  INFO 5216 --- [http-nio-18081-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-18 22:43:34.791  INFO 5216 --- [http-nio-18081-exec-2] com.platform.config.LogAspect            : Response:[Result{status=200, msg='成功', data=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNTk1MDgzNDE0LCJleHAiOjE1OTUwODcwMTR9.68MsRnUcEsULsMf3hxEEgPpMTbZh6wD9d3dqt10Et4FZuFrpuIME3C6S3VTI5SpeZpe_j4bna-XMCpVzyMXtxg}]
+2020-07-18 22:43:34.792  INFO 5216 --- [http-nio-18081-exec-2] com.platform.config.LogAspect            : Request spend times : [909ms]
+2020-07-18 22:43:48.331  INFO 5216 --- [http-nio-18081-exec-3] com.platform.config.LogAspect            : REQUEST: {
+  "classMethod": "uploadFile",
+  "args": [
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNTk1MDgzNDE0LCJleHAiOjE1OTUwODcwMTR9.68MsRnUcEsULsMf3hxEEgPpMTbZh6wD9d3dqt10Et4FZuFrpuIME3C6S3VTI5SpeZpe_j4bna-XMCpVzyMXtxg",
+    {
+      "part": {
+        "fileItem": {
+          "fieldName": "file",
+          "contentType": "image/png",
+          "isFormField": false,
+          "fileName": "212321.png",
+          "size": -1,
+          "sizeThreshold": 0,
+          "repository": {
+            "path": "D:\\git-depository\\upload"
+          },
+          "headers": {
+            "headerNameToValueListMap": {
+              "content-disposition": [
+                "form-data; name\u003d\"file\"; filename\u003d\"212321.png\""
+              ],
+              "content-type": [
+                "image/png"
+              ]
+            }
+          },
+          "defaultCharset": "ISO-8859-1"
+        },
+        "location": {
+          "path": "D:\\git-depository\\upload"
+        }
+      },
+      "filename": "212321.png"
+    }
+  ],
+  "method": "POST",
+  "ip": "127.0.0.1",
+  "className": "com.platform.controller.ImgManageController",
+  "url": "http://127.0.0.1:18081/mtApi/upload"
+}
+2020-07-18 22:43:48.343  INFO 5216 --- [http-nio-18081-exec-3] c.platform.service.impl.ImgServiceImpl   : 上传图片:name=20200718224348_212321.png,type=image/png
+2020-07-18 22:43:48.343  INFO 5216 --- [http-nio-18081-exec-3] c.platform.service.impl.ImgServiceImpl   : file文件真实路径:D:\git-depository\upload\20200718224348_212321.png
+2020-07-18 22:43:48.345  INFO 5216 --- [http-nio-18081-exec-3] com.platform.config.LogAspect            : Response:[Result{status=200, msg='成功', data=D:/git-depository/upload/20200718224348_212321.png}]
+2020-07-18 22:43:48.345  INFO 5216 --- [http-nio-18081-exec-3] com.platform.config.LogAspect            : Request spend times : [25ms]
+2020-07-18 23:19:09.990  INFO 5216 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-18 23:19:10.016  INFO 5216 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-18 23:19:10.024  INFO 5216 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

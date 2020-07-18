@@ -9,6 +9,8 @@ import com.platform.entity.enums.MailType;
 import com.platform.entity.req.ForgetPasswordReq;
 import com.platform.entity.req.LoginReq;
 import com.platform.entity.req.RegisteredReq;
+import com.platform.entity.req.UserInfoReq;
+import com.platform.entity.resp.UserInfoResp;
 import com.platform.exception.BusinessException;
 import com.platform.model.UserInfo;
 import com.platform.model.UserInfoExample;
@@ -162,6 +164,7 @@ public class UserServiceImpl implements UserService {
         return ResultUtil.success("密码修改成功!");
     }
 
+
     /**
      * 通过邮箱查询用户
      *
@@ -201,5 +204,45 @@ public class UserServiceImpl implements UserService {
         if (!forgetPasswordReq.getVerificationCode().equals(mailCode)) {
             throw new BusinessException(ResultEnum.VERIFICATION_ERROR.getStatus(), ResultEnum.VERIFICATION_ERROR.getMsg());
         }
+    }
+
+    /**
+     * 查询用户信息
+     *
+     * @param userInfo
+     * @return
+     */
+    @Override
+    public RestResponse<UserInfoResp> queryUserInfo(UserInfo userInfo) {
+        UserInfo info = userInfoMapper.selectByPrimaryKey(userInfo.getUserId());
+        UserInfoResp userInfoResp = new UserInfoResp();
+        BeanUtils.copyProperties(info, userInfoResp);
+        return ResultUtil.success(userInfoResp);
+    }
+
+    /**
+     * 修改用户信息
+     *
+     * @param userInfo
+     * @param userInfoReq
+     * @return
+     */
+    @Override
+    public RestResponse<UserInfoResp> updateUser(UserInfo userInfo, UserInfoReq userInfoReq) {
+        UserInfo info = userInfoMapper.selectByPrimaryKey(userInfo.getUserId());
+        //判断邮箱是否相同,不同的话 查看是否存在
+        if (!info.geteMail().equals(userInfoReq.getEMail())) {
+            UserInfoExample infoExample = new UserInfoExample();
+            infoExample.createCriteria().andIsAvailableEqualTo(0).andEMailEqualTo(userInfoReq.getEMail());
+            List<UserInfo> userInfos = userInfoMapper.selectByExample(infoExample);
+            if (!userInfos.isEmpty()) {
+                log.error("用户修改信息,邮箱已将已将存在,邮箱{}", userInfoReq.getEMail());
+                throw new BusinessException(ResultEnum.EMAIL_IS_EXISTS.getStatus(), ResultEnum.EMAIL_IS_EXISTS.getMsg());
+            }
+        }
+        BeanUtils.copyProperties(userInfoReq, info);
+        userInfoMapper.updateByPrimaryKey(userInfo);
+        log.info("用户修改信息成功");
+        return ResultUtil.success();
     }
 }

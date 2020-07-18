@@ -1,10 +1,14 @@
 package com.platform.controller;
 
+import com.platform.annotation.LoginUser;
 import com.platform.common.RestResponse;
 import com.platform.common.ResultUtil;
 import com.platform.entity.req.ForgetPasswordReq;
 import com.platform.entity.req.LoginReq;
 import com.platform.entity.req.RegisteredReq;
+import com.platform.entity.req.UserInfoReq;
+import com.platform.entity.resp.UserInfoResp;
+import com.platform.model.UserInfo;
 import com.platform.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,6 +65,32 @@ public class UserController {
     public RestResponse forgetPassword(@RequestBody @Valid ForgetPasswordReq forgetPasswordReq) {
 
         return userService.forgetPassword(forgetPasswordReq);
+    }
+
+    /**
+     * 查询用户信息
+     *
+     * @param userInfo
+     * @return
+     */
+    @ApiOperation("查询用户信息")
+    @PostMapping("/user/userInfo")
+    public RestResponse<UserInfoResp> queryUserInfo(@LoginUser UserInfo userInfo) {
+
+        return userService.queryUserInfo(userInfo);
+    }
+
+    /**
+     * 修改用户信息
+     *
+     * @param userInfo
+     * @return
+     */
+    @ApiOperation("修改用户信息")
+    @PostMapping("/user/updateUser")
+    public RestResponse<UserInfoResp> updateUser(@LoginUser UserInfo userInfo, @RequestBody @Valid UserInfoReq userInfoReq) {
+
+        return userService.updateUser(userInfo, userInfoReq);
     }
 
 }

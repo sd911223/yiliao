@@ -15,8 +15,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @Slf4j
 public class MailServiceImpl implements MailService {
@@ -39,12 +37,6 @@ public class MailServiceImpl implements MailService {
      */
     @Override
     public void sendTextMail(MailReq mailReq) {
-        UserInfoExample infoExample = new UserInfoExample();
-        infoExample.createCriteria().andEMailEqualTo(mailReq.getEMail()).andIsAvailableEqualTo(0);
-        List<UserInfo> infoList = userInfoMapper.selectByExample(infoExample);
-        if (infoList.isEmpty()) {
-            throw new BusinessException(ResultEnum.EMAIL_NOT_EXISTS.getStatus(), ResultEnum.EMAIL_NOT_EXISTS.getMsg());
-        }
         // 纯文本邮件对象
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
