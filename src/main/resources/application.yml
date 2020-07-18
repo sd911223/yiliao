@@ -1,0 +1,44 @@
+spring:
+  profiles:
+    active: dev
+
+#日志
+logging:
+  level:
+    root: info
+  file:
+    name: platform.log
+#mybatis配置
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapping/**/*.xml
+
+#分页配置
+pagehelper:
+  helper-dialect: mysql
+  auto-dialect: true
+  page-size-zero: false
+  reasonable: true
+  offset-as-page-num: false
+  row-bounds-with-count: false
+  auto-runtime-dialect: false
+  close-conn: true
+  default-count: false
+
+
+swagger:
+  production: false
+  basic:
+    enable: true
+    username: shitou
+    password: 123456
+
+jwt:
+  info:
+    # 加密秘钥
+    secret: f4e2e52034348f86b67cde581c0f9eb5
+    # token有效时长，1天，单位秒
+    expire: 3600
+    header: token
