@@ -18,7 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@Profile("dev")
+@Profile({"pro","dev"})
 @EnableSwaggerBootstrapUI
 public class SwaggerConfig {
     @Bean
@@ -33,7 +33,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Spring Boot中使用Swagger2构建RESTful APIs")
+                .title("醫療項目RESTful APIs")
                 .version("1.0")
                 .description("接口文档")
                 .termsOfServiceUrl("127.0.0.1:18081/doc.html")

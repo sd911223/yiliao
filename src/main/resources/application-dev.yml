@@ -7,16 +7,16 @@ spring:
       #指定文件的位置, 没有指定时会自动创建一个临时文件夹
       location: D:/git-depository/upload/
       #指定上传文件大小， 默认1M
-      max-file-size: 20MB
+      max-file-size: 500MB
       #指定multipart / form-data请求允许的最大大小， 默认10M
-      max-request-size: 20MB
+      max-request-size: 1000MB
 
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/mt-platform?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://52.82.15.67:3306/mt-platform?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
-    password: sd123456
+    password: 123456
     db-type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 5
     minIdle: 5

@@ -5,11 +5,11 @@ spring:
       #是否启用文件上传功能
       enabled: true
       #指定文件的位置, 没有指定时会自动创建一个临时文件夹
-      location: /home/img
+      location: /home/img/
       #指定上传文件大小， 默认1M
-      max-file-size: 20MB
+      max-file-size: 500MB
       #指定multipart / form-data请求允许的最大大小， 默认10M
-      max-request-size: 20MB
+      max-request-size: 1000MB
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -74,4 +74,4 @@ redis:
   token: token_uid_
 
 img:
-  location: /home/img
+  location: /home/img/

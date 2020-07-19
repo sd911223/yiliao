@@ -241,7 +241,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         BeanUtils.copyProperties(userInfoReq, info);
-        userInfoMapper.updateByPrimaryKey(userInfo);
+        userInfoMapper.updateByPrimaryKey(info);
         log.info("用户修改信息成功");
         return ResultUtil.success();
     }

@@ -2,10 +2,12 @@ package com.platform.interceptor;
 
 import com.platform.annotation.LoginUserHandlerMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -17,7 +19,8 @@ import java.util.List;
  */
 @Configuration
 public class DefaultWebMvcConfigurerAdapter implements WebMvcConfigurer {
-
+    @Value("${img.location}")
+    private String location;
     @Autowired
     LoginUserHandlerMethod loginUserHandlerMethod;
 
@@ -31,8 +34,9 @@ public class DefaultWebMvcConfigurerAdapter implements WebMvcConfigurer {
         // 访问权限控制
         registry.addInterceptor(getDefaultWebMvcConfigurerAdapter())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/swagger-resources/**","/mtApi/user/registered","/mtApi/user/login","/mtApi/send/captcha","/mtApi/user/forgetPassword");
+                .excludePathPatterns("/swagger-resources/**", "/mtApi/user/registered", "/mtApi/user/login", "/mtApi/send/captcha", "/mtApi/user/forgetPassword");
     }
+
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
