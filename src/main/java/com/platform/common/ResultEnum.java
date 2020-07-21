@@ -12,6 +12,7 @@ public enum ResultEnum {
     USER_NOT_EXIST(1, "用户不存在"),
     USER_IS_EXISTS(2, "用户已存在"),
     EMAIL_IS_EXISTS(6, "邮箱已存在"),
+    ID_NOT_EXISTS(8, "id不存在"),
     EMAIL_NOT_EXISTS(7, "邮箱不存在"),
     PASSWORD_NOT_IDENTICAL(4, "密码不一致"),
     VERIFICATION_ERROR(5, "验证码错误"),
