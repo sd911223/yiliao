@@ -7,11 +7,15 @@ import com.platform.entity.resp.VcfCountResp;
 import com.platform.model.PatientInfoExample;
 import com.platform.model.UserInfo;
 import com.platform.service.VcfService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * VCF管理
  */
+@Service
+@Slf4j
 public class VcfServiceImpl implements VcfService {
     @Autowired
     PatientInfoMapper patientInfoMapper;
