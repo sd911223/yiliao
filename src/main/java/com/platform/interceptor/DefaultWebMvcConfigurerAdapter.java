@@ -38,9 +38,7 @@ public class DefaultWebMvcConfigurerAdapter implements WebMvcConfigurer {
                         "/mtApi/user/registered",
                         "/mtApi/user/login",
                         "/mtApi/send/captcha",
-                        "/mtApi/user/forgetPassword",
-                        "/mtApi/add/patient",
-                        "/mtApi/list/patient");
+                        "/mtApi/user/forgetPassword");
     }
 
 

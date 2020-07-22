@@ -46,6 +46,7 @@ public class PatientServiceImpl implements PatientService {
         }
         patientInfo.setCreateTime(new Date());
         patientInfo.setDoctorId(userInfo.getUserId());
+        patientInfo.setIsEffective(1);
         patientInfoMapper.insert(patientInfo);
         return ResultUtil.success("添加患者成功!");
     }
@@ -62,7 +63,7 @@ public class PatientServiceImpl implements PatientService {
         PatientInfoExample patientInfoExample = new PatientInfoExample();
         PatientInfoExample.Criteria criteria = patientInfoExample.createCriteria();
         criteria.andIsEffectiveEqualTo(1);
-        if (StringUtils.isBlank(patientListReq.getPatientName())) {
+        if (!StringUtils.isBlank(patientListReq.getPatientName())) {
             criteria.andPatientNameLike("%" + patientListReq.getPatientName() + "%");
         }
         if ("isAge".equals(patientListReq.getIsAgeAsc())) {

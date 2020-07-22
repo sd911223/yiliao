@@ -33,12 +33,12 @@ public class LeaveAMessageReq {
      */
     @ApiModelProperty(value = "图片地址")
     @NotBlank(message = "图片地址不能为空")
-    private String imgList;
+    private List<String> imgList;
 
     /**
      * 图片ID
      */
     @ApiModelProperty(value = "图片ID")
     @NotBlank(message = "图片ID不能为空")
-    private String imgId;
+    private List<String> imgId;
 }

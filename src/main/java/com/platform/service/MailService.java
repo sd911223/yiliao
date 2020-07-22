@@ -18,5 +18,5 @@ public interface MailService {
      * @param imgId   图片id，在img标签里使用
      * @throws javax.mail.MessagingException
      */
-    void sendImageMail(String to, String subject, String content, String imgPath, String imgId);
+    void sendImageMail(String to, String subject, String content, String[] imgPath, String[] imgId);
 }

@@ -1,25 +1,41 @@
 package com.platform.service.impl;
 
+import com.platform.dao.MailManageMapper;
 import com.platform.dao.UserInfoMapper;
 import com.platform.entity.req.MailReq;
+import com.platform.model.MailManage;
 import com.platform.service.MailService;
 import com.platform.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 @Service
 @Slf4j
 public class MailServiceImpl implements MailService {
     @Autowired
     UserInfoMapper userInfoMapper;
+
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    MailManageMapper mailManageMapper;
+
+    @Autowired
+    RedisUtil redisUtil;
 
     @Value("${mail.fromMail.addr}")
     private String from;
@@ -27,8 +43,6 @@ public class MailServiceImpl implements MailService {
     @Value("${mail.fromMail.title}")
     private String title;
 
-    @Autowired
-    RedisUtil redisUtil;
 
     /**
      * 发送验证码
@@ -54,6 +68,7 @@ public class MailServiceImpl implements MailService {
         message.setText(sb.toString());
         try {
             mailSender.send(message);
+            addMailManage(from, mailReq.getEMail(), title, sb.toString(), mailReq.getMailType());
             log.info("验证码邮件已经发送。");
         } catch (Exception e) {
             log.error("发送验证码邮件时发生异常！", e);
@@ -72,29 +87,57 @@ public class MailServiceImpl implements MailService {
      * @author: ***
      */
     @Override
-    public void sendImageMail(String to, String subject, String content, String imgPath, String imgId) {
+    public void sendImageMail(String to, String subject, String content, String[] imgPath, String[] imgId) {
         //创建message
         MimeMessage message = mailSender.createMimeMessage();
-//        try {
-//            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-//            //发件人
-//            helper.setFrom(from);
-//            //收件人
-//            helper.setTo(to);
-//            //标题
-//            helper.setSubject(subject);
-//            //true指的是html邮件，false指的是普通文本
-//            helper.setText(content, true);
-//            //添加图片
-//            FileSystemResource file = new FileSystemResource(new File(imgPath));
-//            helper.addInline(imgId, file);
-//            //发送邮件
-//
-//        } catch (javax.mail.MessagingException e) {
-//            log.info("发送邮件带图片发送异常{}", e);
-//            e.printStackTrace();
-//        }
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
+            //发件人
+            helper.setFrom(to);
+            //收件人
+            helper.setTo(from);
+            //标题
+            helper.setSubject(subject);
+            //内容
+            helper.setText(content, true);
+            // 设置 html 中内联的图片
+            for (int i = 0; i < imgId.length; i++) {
+                FileSystemResource file = new FileSystemResource(imgPath[i]);
+                // addInline() 方法 cid 需要 html 中的 cid (Content ID) 对应，才能设置图片成功，
+                helper.addInline(imgId[i], file);
+            }
+        } catch (MessagingException e) {
+            log.info("发送邮件带图片发送异常{}", e.getMessage());
+            e.printStackTrace();
+        }
         log.info("发送邮件带图片成功!");
+        //发送邮件
         mailSender.send(message);
+        addMailManage(to, from, title, content, "");
+    }
+
+    @Async
+    public void addMailManage(String send, String to, String title, String content, String type) {
+        MailManage mailManage = new MailManage();
+        //内容
+        mailManage.setContent(content);
+        //标题
+        mailManage.setTitle(title);
+        //创建时间
+        mailManage.setCreateTime(new Date());
+        //发送邮箱
+        mailManage.setMailSender(send);
+        //收件邮箱
+        mailManage.setMailReceive(to);
+        if ("REGISTERED".equals(type)) {
+            mailManage.setMailType(1);
+        }
+        if ("FORGET_PASSWORD".equals(type)) {
+            mailManage.setMailType(2);
+        }
+        if (StringUtils.isBlank(type)){
+            mailManage.setMailType(3);
+        }
+        mailManageMapper.insert(mailManage);
     }
 }

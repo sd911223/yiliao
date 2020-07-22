@@ -32,8 +32,9 @@ public class LeaveAMessageServiceImpl implements LeaveAMessageService {
     @Override
     public RestResponse addLeaveMessage(UserInfo userInfo, LeaveAMessageReq leaveAMessageReq) {
         UserInfo byIdUserInfo = userInfoMapper.selectByPrimaryKey(userInfo.getUserId());
-
-        mailService.sendImageMail(byIdUserInfo.geteMail(), leaveAMessageReq.getTitle(), leaveAMessageReq.getContent(), leaveAMessageReq.getImgList(), leaveAMessageReq.getImgId());
+        String[] imgList = leaveAMessageReq.getImgList().toArray(new String[leaveAMessageReq.getImgList().size()]);
+        String[] imgIdList = leaveAMessageReq.getImgId().toArray(new String[leaveAMessageReq.getImgId().size()]);
+        mailService.sendImageMail(byIdUserInfo.geteMail(), leaveAMessageReq.getTitle(), leaveAMessageReq.getContent(), imgList, imgIdList);
         return ResultUtil.success("发送邮件带图片成功!");
     }
 }
