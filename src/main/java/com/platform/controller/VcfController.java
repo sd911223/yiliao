@@ -6,6 +6,7 @@ import com.platform.entity.resp.VcfCountResp;
 import com.platform.model.UserInfo;
 import com.platform.service.VcfService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ public class VcfController {
      * @return 数量
      */
     @GetMapping("/vcf/processCount")
+    @ApiOperation("vcf统计")
     public RestResponse<VcfCountResp> handleStatus(@LoginUser UserInfo userInfo) {
         return vcfService.handleStatus(userInfo);
     }
