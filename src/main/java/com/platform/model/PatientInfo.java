@@ -6,7 +6,7 @@ import java.util.Date;
  * 
  *
  * @author shiTou
- * @date   2020/07/21
+ * @date   2020/07/23
  */
 public class PatientInfo {
     /**
@@ -68,6 +68,11 @@ public class PatientInfo {
      * 是否有效 1:有效;2无效
      */
     private Integer isEffective;
+
+    /**
+     * 身份证号
+     */
+    private String idCard;
 
     public Integer getPatientId() {
         return patientId;
@@ -163,5 +168,13 @@ public class PatientInfo {
 
     public void setIsEffective(Integer isEffective) {
         this.isEffective = isEffective;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 }

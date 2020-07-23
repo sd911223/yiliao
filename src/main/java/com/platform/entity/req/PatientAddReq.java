@@ -9,7 +9,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Builder
 @Data
@@ -38,5 +41,10 @@ public class PatientAddReq {
     @Min(value = 1, message = "年龄必须大于0")
     @Max(value = 200, message = "别闹!")
     private Integer age;
-
+    /**
+     * 身份证号
+     */
+    @ApiModelProperty(value = "身份证号", required = true)
+    @NotBlank(message = "身份证号不能为空")
+    private String idCard;
 }

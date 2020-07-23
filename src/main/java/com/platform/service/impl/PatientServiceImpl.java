@@ -36,6 +36,13 @@ public class PatientServiceImpl implements PatientService {
      */
     @Override
     public RestResponse addPatient(UserInfo userInfo, PatientAddReq patientAddReq) {
+        PatientInfoExample infoExample = new PatientInfoExample();
+        infoExample.createCriteria().andIdCardEqualTo(patientAddReq.getIdCard()).andIsEffectiveEqualTo(1);
+        List<PatientInfo> infoList = patientInfoMapper.selectByExample(infoExample);
+        if (!infoList.isEmpty()) {
+            log.error("患者已存在!", patientAddReq.getIdCard());
+            throw new BusinessException(ResultEnum.IDCAR_IS_EXIST.getStatus(), ResultEnum.IDCAR_IS_EXIST.getMsg());
+        }
         PatientInfo patientInfo = new PatientInfo();
         BeanUtils.copyProperties(patientAddReq, patientInfo);
         if (patientAddReq.getSex().equals("MAN")) {

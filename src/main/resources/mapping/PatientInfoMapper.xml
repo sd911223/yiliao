@@ -14,6 +14,7 @@
     <result column="resolve_time" jdbcType="TIMESTAMP" property="resolveTime" />
     <result column="is_resolve" jdbcType="TINYINT" property="isResolve" />
     <result column="is_effective" jdbcType="TINYINT" property="isEffective" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     patient_id, doctor_id, patient_name, sex, age, symptom, family_medical_history, job_id, 
-    create_time, resolve_time, is_resolve, is_effective
+    create_time, resolve_time, is_resolve, is_effective, id_card
   </sql>
   <select id="selectByExample" parameterType="com.platform.model.PatientInfoExample" resultMap="BaseResultMap">
     select
@@ -112,13 +113,13 @@
     insert into patient_info (patient_id, doctor_id, patient_name, 
       sex, age, symptom, 
       family_medical_history, job_id, create_time, 
-      resolve_time, is_resolve, is_effective
-      )
+      resolve_time, is_resolve, is_effective, 
+      id_card)
     values (#{patientId,jdbcType=INTEGER}, #{doctorId,jdbcType=INTEGER}, #{patientName,jdbcType=VARCHAR}, 
       #{sex,jdbcType=TINYINT}, #{age,jdbcType=TINYINT}, #{symptom,jdbcType=VARCHAR}, 
       #{familyMedicalHistory,jdbcType=VARCHAR}, #{jobId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{resolveTime,jdbcType=TIMESTAMP}, #{isResolve,jdbcType=TINYINT}, #{isEffective,jdbcType=TINYINT}
-      )
+      #{resolveTime,jdbcType=TIMESTAMP}, #{isResolve,jdbcType=TINYINT}, #{isEffective,jdbcType=TINYINT}, 
+      #{idCard,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.platform.model.PatientInfo">
     insert into patient_info
@@ -159,6 +160,9 @@
       <if test="isEffective != null">
         is_effective,
       </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="patientId != null">
@@ -196,6 +200,9 @@
       </if>
       <if test="isEffective != null">
         #{isEffective,jdbcType=TINYINT},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -244,6 +251,9 @@
       <if test="record.isEffective != null">
         is_effective = #{record.isEffective,jdbcType=TINYINT},
       </if>
+      <if test="record.idCard != null">
+        id_card = #{record.idCard,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -262,7 +272,8 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       resolve_time = #{record.resolveTime,jdbcType=TIMESTAMP},
       is_resolve = #{record.isResolve,jdbcType=TINYINT},
-      is_effective = #{record.isEffective,jdbcType=TINYINT}
+      is_effective = #{record.isEffective,jdbcType=TINYINT},
+      id_card = #{record.idCard,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -303,6 +314,9 @@
       <if test="isEffective != null">
         is_effective = #{isEffective,jdbcType=TINYINT},
       </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
     </set>
     where patient_id = #{patientId,jdbcType=INTEGER}
   </update>
@@ -318,7 +332,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       resolve_time = #{resolveTime,jdbcType=TIMESTAMP},
       is_resolve = #{isResolve,jdbcType=TINYINT},
-      is_effective = #{isEffective,jdbcType=TINYINT}
+      is_effective = #{isEffective,jdbcType=TINYINT},
+      id_card = #{idCard,jdbcType=VARCHAR}
     where patient_id = #{patientId,jdbcType=INTEGER}
   </update>
 </mapper>
