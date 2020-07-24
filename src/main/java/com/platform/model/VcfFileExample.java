@@ -644,6 +644,66 @@ public class VcfFileExample {
             addCriterion("file_name not between", value1, value2, "fileName");
             return (Criteria) this;
         }
+
+        public Criteria andIsEffectiveIsNull() {
+            addCriterion("is_effective is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEffectiveIsNotNull() {
+            addCriterion("is_effective is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEffectiveEqualTo(Integer value) {
+            addCriterion("is_effective =", value, "isEffective");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEffectiveNotEqualTo(Integer value) {
+            addCriterion("is_effective <>", value, "isEffective");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEffectiveGreaterThan(Integer value) {
+            addCriterion("is_effective >", value, "isEffective");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEffectiveGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_effective >=", value, "isEffective");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEffectiveLessThan(Integer value) {
+            addCriterion("is_effective <", value, "isEffective");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEffectiveLessThanOrEqualTo(Integer value) {
+            addCriterion("is_effective <=", value, "isEffective");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEffectiveIn(List<Integer> values) {
+            addCriterion("is_effective in", values, "isEffective");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEffectiveNotIn(List<Integer> values) {
+            addCriterion("is_effective not in", values, "isEffective");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEffectiveBetween(Integer value1, Integer value2) {
+            addCriterion("is_effective between", value1, value2, "isEffective");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsEffectiveNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_effective not between", value1, value2, "isEffective");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

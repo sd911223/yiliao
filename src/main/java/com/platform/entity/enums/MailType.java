@@ -16,7 +16,7 @@ public enum MailType {
 
     FORGET_PASSWORD("forgetPassword", "忘记密码"),
 
-    LEAVE_A_MESSAGE("forgetPassword", "留言板");
+    LEAVE_A_MESSAGE("leave_a_message", "留言板");
 
     // 成员变量
     private String code;

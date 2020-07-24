@@ -10,6 +10,7 @@
     <result column="symptom" jdbcType="VARCHAR" property="symptom" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="is_effective" jdbcType="TINYINT" property="isEffective" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.platform.model.VcfFile">
     <result column="json_result" jdbcType="LONGVARCHAR" property="jsonResult" />
@@ -73,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, job_name, gene_type, attention_disease, symptom_type, symptom, create_time, file_name
+    id, job_name, gene_type, attention_disease, symptom_type, symptom, create_time, file_name, 
+    is_effective
   </sql>
   <sql id="Blob_Column_List">
     json_result
@@ -134,10 +136,12 @@
     </selectKey>
     insert into vcf_file (job_name, gene_type, attention_disease, 
       symptom_type, symptom, create_time, 
-      file_name, json_result)
+      file_name, is_effective, json_result
+      )
     values (#{jobName,jdbcType=VARCHAR}, #{geneType,jdbcType=VARCHAR}, #{attentionDisease,jdbcType=VARCHAR}, 
       #{symptomType,jdbcType=VARCHAR}, #{symptom,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{fileName,jdbcType=VARCHAR}, #{jsonResult,jdbcType=LONGVARCHAR})
+      #{fileName,jdbcType=VARCHAR}, #{isEffective,jdbcType=TINYINT}, #{jsonResult,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.platform.model.VcfFile">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -166,6 +170,9 @@
       <if test="fileName != null">
         file_name,
       </if>
+      <if test="isEffective != null">
+        is_effective,
+      </if>
       <if test="jsonResult != null">
         json_result,
       </if>
@@ -191,6 +198,9 @@
       </if>
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="isEffective != null">
+        #{isEffective,jdbcType=TINYINT},
       </if>
       <if test="jsonResult != null">
         #{jsonResult,jdbcType=LONGVARCHAR},
@@ -230,6 +240,9 @@
       <if test="record.fileName != null">
         file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
+      <if test="record.isEffective != null">
+        is_effective = #{record.isEffective,jdbcType=TINYINT},
+      </if>
       <if test="record.jsonResult != null">
         json_result = #{record.jsonResult,jdbcType=LONGVARCHAR},
       </if>
@@ -248,6 +261,7 @@
       symptom = #{record.symptom,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       file_name = #{record.fileName,jdbcType=VARCHAR},
+      is_effective = #{record.isEffective,jdbcType=TINYINT},
       json_result = #{record.jsonResult,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -262,7 +276,8 @@
       symptom_type = #{record.symptomType,jdbcType=VARCHAR},
       symptom = #{record.symptom,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      file_name = #{record.fileName,jdbcType=VARCHAR}
+      file_name = #{record.fileName,jdbcType=VARCHAR},
+      is_effective = #{record.isEffective,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -291,6 +306,9 @@
       <if test="fileName != null">
         file_name = #{fileName,jdbcType=VARCHAR},
       </if>
+      <if test="isEffective != null">
+        is_effective = #{isEffective,jdbcType=TINYINT},
+      </if>
       <if test="jsonResult != null">
         json_result = #{jsonResult,jdbcType=LONGVARCHAR},
       </if>
@@ -306,6 +324,7 @@
       symptom = #{symptom,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       file_name = #{fileName,jdbcType=VARCHAR},
+      is_effective = #{isEffective,jdbcType=TINYINT},
       json_result = #{jsonResult,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -317,7 +336,8 @@
       symptom_type = #{symptomType,jdbcType=VARCHAR},
       symptom = #{symptom,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      file_name = #{fileName,jdbcType=VARCHAR}
+      file_name = #{fileName,jdbcType=VARCHAR},
+      is_effective = #{isEffective,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

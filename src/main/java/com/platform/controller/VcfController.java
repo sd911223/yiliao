@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.UUID;
-
 
 /**
  * VCF管理
@@ -62,13 +60,40 @@ public class VcfController {
                                   @ApiParam("症状") @RequestParam(name = "symptom") String symptom) {
 
         VcfFile vcf = vcfService.addVcf(vcfFile, jobName, geneType, omimId, patientId, symptomType, symptom);
-        //id
-        UUID uuid = UUID.randomUUID();
-        //调用vcf原始信息存入
-//        Map<String, Object> result = vfs.insert(vcfFile, geneType, omimIdArray, patientId, doctorId, email, uuid);
+
         //调用vcf解析
-//        vfs.vcfDecode(vcfFile, geneType, omimIdArray, email, uuid);
+        vcfService.vcfDecode(vcfFile, geneType, omimId, patientId, vcf);
         //返回分析结果
         return ResultUtil.success();
+    }
+
+    /**
+     * 查看VCF
+     *
+     * @param vcfId
+     * @return
+     */
+    @ApiOperation("查看VCF")
+    @GetMapping("/vcf/detail")
+    public RestResponse vcfDetail(@ApiParam("vcfId") @RequestParam(name = "vcfId") Integer vcfId) {
+
+
+        return vcfService.vcfDetail(vcfId);
+    }
+
+    /**
+     * 删除VCF
+     *
+     * @param vcfId
+     * @param patientId
+     * @return
+     */
+    @ApiOperation("删除VCF")
+    @GetMapping("/vcf/delete")
+    public RestResponse vcfDelete(@ApiParam("vcfId") @RequestParam(name = "vcfId") Integer vcfId,
+                                  @ApiParam("患者ID") @RequestParam(name = "patientId") String patientId) {
+
+
+        return vcfService.vcfDelete(vcfId, patientId);
     }
 }

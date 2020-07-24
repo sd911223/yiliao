@@ -12,14 +12,18 @@ import com.platform.model.PatientInfoExample;
 import com.platform.model.UserInfo;
 import com.platform.model.VcfFile;
 import com.platform.service.VcfService;
+import com.platform.util.ShellUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Date;
@@ -34,6 +38,11 @@ public class VcfServiceImpl implements VcfService {
     PatientInfoMapper patientInfoMapper;
     @Autowired
     VcfFileMapper vcfFileMapper;
+    @Autowired
+    private ShellUtil shellUtil;
+
+    @Value("${vcf.file.path}")
+    private String path;
 
     /**
      * VCF统计
@@ -105,6 +114,8 @@ public class VcfServiceImpl implements VcfService {
         vf.setSymptomType(symptomType);
         //症状
         vf.setSymptom(symptom);
+        //有效
+        vf.setIsEffective(1);
         //解析之前，存入原始文件
         PatientInfo patientInfo = patientInfoMapper.selectByPrimaryKey(Integer.valueOf(patientId));
         if (null == patientInfo) {
@@ -116,6 +127,101 @@ public class VcfServiceImpl implements VcfService {
         patientInfo.setJobId(vf.getId());
 
         patientInfoMapper.updateByPrimaryKey(patientInfo);
+
+        //把vcf存入文件夹
+        File file = new File(path + vf.getId() + "/" + fileName);
+        //获取父目录
+        File fileParent = file.getParentFile();
+        if (!fileParent.exists()) {
+            fileParent.mkdirs();
+        }
+        //储存文件
+        try {
+            file.createNewFile();
+            log.info("文件是否存在：" + file.exists());
+            FileUtils.copyInputStreamToFile(vcfFile.getInputStream(), file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return vf;
     }
+
+    /**
+     * VCF解析
+     *
+     * @param vcfFile
+     * @param geneType
+     * @param omimId
+     * @param patientId
+     * @param vcf
+     */
+    @Override
+    @Async("taskExecutor")
+    public void vcfDecode(MultipartFile vcfFile, String geneType, String omimId, String patientId, VcfFile vcf) {
+        //文件名
+        String fileName = vcfFile.getOriginalFilename();
+        //开始解析
+        log.info("=================  开始解析VCF star ====================");
+        StringBuffer sb = new StringBuffer();
+
+        try {
+            int msg = shellUtil.analysisVcf(path + vcf.getId() + "/" + fileName, geneType,
+                    path + vcf.getId() + "/operate", omimId);
+            //成功执行shell脚本
+            if (msg == 0) {
+                //读取解析之后的结果json文件
+                //新分析结果
+                File jsonFile = new File(path + vcf.getId() + "/operate" + "/tables.json");
+                BufferedInputStream in = new BufferedInputStream(new FileInputStream(jsonFile));
+                BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line);
+                }
+                br.close();
+                in.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        vcf.setJsonResult(sb.toString());
+        PatientInfo patientInfo = new PatientInfo();
+        patientInfo.setPatientId(Integer.valueOf(patientId));
+        patientInfo.setIsEffective(1);
+        patientInfo.setResolveTime(new Date());
+        patientInfoMapper.updateByPrimaryKey(patientInfo);
+        vcfFileMapper.updateByPrimaryKey(vcf);
+        log.info("vfc解析并保存完成");
+    }
+
+    /**
+     * 查询vcf
+     *
+     * @param vcfId
+     * @return
+     */
+    @Override
+    public RestResponse vcfDetail(Integer vcfId) {
+        VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(vcfId);
+        return ResultUtil.success(vcfFile.getJsonResult());
+    }
+
+    /**
+     * 删除vcf
+     *
+     * @param vcfId
+     * @param patientId
+     * @return
+     */
+    @Override
+    public RestResponse vcfDelete(Integer vcfId, String patientId) {
+        VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(vcfId);
+        vcfFile.setIsEffective(2);
+        PatientInfo patientInfo = patientInfoMapper.selectByPrimaryKey(Integer.valueOf(patientId));
+        patientInfo.setJobId(null);
+        vcfFileMapper.updateByPrimaryKey(vcfFile);
+        patientInfoMapper.updateByPrimaryKey(patientInfo);
+        return ResultUtil.success("删除VCF成功!");
+    }
+
 }

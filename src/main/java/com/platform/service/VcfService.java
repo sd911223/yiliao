@@ -31,4 +31,32 @@ public interface VcfService {
      * @return
      */
     VcfFile addVcf(MultipartFile vcfFile, String jobName, String geneType, String omimId, String patientId, String symptomType, String symptom);
+
+    /**
+     * vcf解析
+     *
+     * @param vcfFile
+     * @param geneType
+     * @param omimId
+     * @param patientId
+     * @param vcf
+     */
+    void vcfDecode(MultipartFile vcfFile, String geneType, String omimId, String patientId, VcfFile vcf);
+
+    /**
+     * 查看VCF
+     *
+     * @param vcfId
+     * @return
+     */
+    RestResponse vcfDetail(Integer vcfId);
+
+    /**
+     * 删除VCF
+     *
+     * @param vcfId
+     * @param patientId
+     * @return
+     */
+    RestResponse vcfDelete(Integer vcfId, String patientId);
 }
