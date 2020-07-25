@@ -109,7 +109,7 @@ public class VcfServiceImpl implements VcfService {
         //基因版组
         vf.setGeneType(geneType);
         //关注疾病/OMIM ID
-        vf.setAttentionDisease(omimId);
+        vf.setAttentionDisease(omimId.toString());
         //症状类型
         vf.setSymptomType(symptomType);
         //症状
@@ -167,8 +167,10 @@ public class VcfServiceImpl implements VcfService {
         try {
             int msg = shellUtil.analysisVcf(path + vcf.getId() + "/" + fileName, geneType,
                     path + vcf.getId() + "/operate", omimId);
+            log.info("解析结果{}", msg);
             //成功执行shell脚本
             if (msg == 0) {
+                log.info("============== 进入读取结果  =====================");
                 //读取解析之后的结果json文件
                 //新分析结果
                 File jsonFile = new File(path + vcf.getId() + "/operate" + "/tables.json");
@@ -187,7 +189,7 @@ public class VcfServiceImpl implements VcfService {
         vcf.setJsonResult(sb.toString());
         PatientInfo patientInfo = new PatientInfo();
         patientInfo.setPatientId(Integer.valueOf(patientId));
-        patientInfo.setIsEffective(1);
+        patientInfo.setIsResolve(1);
         patientInfo.setResolveTime(new Date());
         patientInfoMapper.updateByPrimaryKey(patientInfo);
         vcfFileMapper.updateByPrimaryKey(vcf);

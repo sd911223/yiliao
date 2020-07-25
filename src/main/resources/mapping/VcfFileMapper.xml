@@ -10,10 +10,8 @@
     <result column="symptom" jdbcType="VARCHAR" property="symptom" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="json_result" jdbcType="VARCHAR" property="jsonResult" />
     <result column="is_effective" jdbcType="TINYINT" property="isEffective" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.platform.model.VcfFile">
-    <result column="json_result" jdbcType="LONGVARCHAR" property="jsonResult" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,28 +73,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, job_name, gene_type, attention_disease, symptom_type, symptom, create_time, file_name, 
-    is_effective
+    json_result, is_effective
   </sql>
-  <sql id="Blob_Column_List">
-    json_result
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.platform.model.VcfFileExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from vcf_file
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="com.platform.model.VcfFileExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -112,11 +90,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from vcf_file
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -136,11 +112,11 @@
     </selectKey>
     insert into vcf_file (job_name, gene_type, attention_disease, 
       symptom_type, symptom, create_time, 
-      file_name, is_effective, json_result
+      file_name, json_result, is_effective
       )
     values (#{jobName,jdbcType=VARCHAR}, #{geneType,jdbcType=VARCHAR}, #{attentionDisease,jdbcType=VARCHAR}, 
       #{symptomType,jdbcType=VARCHAR}, #{symptom,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{fileName,jdbcType=VARCHAR}, #{isEffective,jdbcType=TINYINT}, #{jsonResult,jdbcType=LONGVARCHAR}
+      #{fileName,jdbcType=VARCHAR}, #{jsonResult,jdbcType=VARCHAR}, #{isEffective,jdbcType=TINYINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.platform.model.VcfFile">
@@ -170,11 +146,11 @@
       <if test="fileName != null">
         file_name,
       </if>
-      <if test="isEffective != null">
-        is_effective,
-      </if>
       <if test="jsonResult != null">
         json_result,
+      </if>
+      <if test="isEffective != null">
+        is_effective,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -199,11 +175,11 @@
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
       </if>
+      <if test="jsonResult != null">
+        #{jsonResult,jdbcType=VARCHAR},
+      </if>
       <if test="isEffective != null">
         #{isEffective,jdbcType=TINYINT},
-      </if>
-      <if test="jsonResult != null">
-        #{jsonResult,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -240,29 +216,13 @@
       <if test="record.fileName != null">
         file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
+      <if test="record.jsonResult != null">
+        json_result = #{record.jsonResult,jdbcType=VARCHAR},
+      </if>
       <if test="record.isEffective != null">
         is_effective = #{record.isEffective,jdbcType=TINYINT},
       </if>
-      <if test="record.jsonResult != null">
-        json_result = #{record.jsonResult,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update vcf_file
-    set id = #{record.id,jdbcType=INTEGER},
-      job_name = #{record.jobName,jdbcType=VARCHAR},
-      gene_type = #{record.geneType,jdbcType=VARCHAR},
-      attention_disease = #{record.attentionDisease,jdbcType=VARCHAR},
-      symptom_type = #{record.symptomType,jdbcType=VARCHAR},
-      symptom = #{record.symptom,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      file_name = #{record.fileName,jdbcType=VARCHAR},
-      is_effective = #{record.isEffective,jdbcType=TINYINT},
-      json_result = #{record.jsonResult,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -277,6 +237,7 @@
       symptom = #{record.symptom,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       file_name = #{record.fileName,jdbcType=VARCHAR},
+      json_result = #{record.jsonResult,jdbcType=VARCHAR},
       is_effective = #{record.isEffective,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -306,26 +267,13 @@
       <if test="fileName != null">
         file_name = #{fileName,jdbcType=VARCHAR},
       </if>
+      <if test="jsonResult != null">
+        json_result = #{jsonResult,jdbcType=VARCHAR},
+      </if>
       <if test="isEffective != null">
         is_effective = #{isEffective,jdbcType=TINYINT},
       </if>
-      <if test="jsonResult != null">
-        json_result = #{jsonResult,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.platform.model.VcfFile">
-    update vcf_file
-    set job_name = #{jobName,jdbcType=VARCHAR},
-      gene_type = #{geneType,jdbcType=VARCHAR},
-      attention_disease = #{attentionDisease,jdbcType=VARCHAR},
-      symptom_type = #{symptomType,jdbcType=VARCHAR},
-      symptom = #{symptom,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      file_name = #{fileName,jdbcType=VARCHAR},
-      is_effective = #{isEffective,jdbcType=TINYINT},
-      json_result = #{jsonResult,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.platform.model.VcfFile">
@@ -337,6 +285,7 @@
       symptom = #{symptom,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       file_name = #{fileName,jdbcType=VARCHAR},
+      json_result = #{jsonResult,jdbcType=VARCHAR},
       is_effective = #{isEffective,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

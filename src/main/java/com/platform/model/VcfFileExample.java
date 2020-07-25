@@ -645,6 +645,76 @@ public class VcfFileExample {
             return (Criteria) this;
         }
 
+        public Criteria andJsonResultIsNull() {
+            addCriterion("json_result is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultIsNotNull() {
+            addCriterion("json_result is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultEqualTo(String value) {
+            addCriterion("json_result =", value, "jsonResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultNotEqualTo(String value) {
+            addCriterion("json_result <>", value, "jsonResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultGreaterThan(String value) {
+            addCriterion("json_result >", value, "jsonResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultGreaterThanOrEqualTo(String value) {
+            addCriterion("json_result >=", value, "jsonResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultLessThan(String value) {
+            addCriterion("json_result <", value, "jsonResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultLessThanOrEqualTo(String value) {
+            addCriterion("json_result <=", value, "jsonResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultLike(String value) {
+            addCriterion("json_result like", value, "jsonResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultNotLike(String value) {
+            addCriterion("json_result not like", value, "jsonResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultIn(List<String> values) {
+            addCriterion("json_result in", values, "jsonResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultNotIn(List<String> values) {
+            addCriterion("json_result not in", values, "jsonResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultBetween(String value1, String value2) {
+            addCriterion("json_result between", value1, value2, "jsonResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andJsonResultNotBetween(String value1, String value2) {
+            addCriterion("json_result not between", value1, value2, "jsonResult");
+            return (Criteria) this;
+        }
+
         public Criteria andIsEffectiveIsNull() {
             addCriterion("is_effective is null");
             return (Criteria) this;

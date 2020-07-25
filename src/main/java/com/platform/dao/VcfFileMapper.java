@@ -16,21 +16,15 @@ public interface VcfFileMapper {
 
     int insertSelective(VcfFile record);
 
-    List<VcfFile> selectByExampleWithBLOBs(VcfFileExample example);
-
     List<VcfFile> selectByExample(VcfFileExample example);
 
     VcfFile selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") VcfFile record, @Param("example") VcfFileExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") VcfFile record, @Param("example") VcfFileExample example);
-
     int updateByExample(@Param("record") VcfFile record, @Param("example") VcfFileExample example);
 
     int updateByPrimaryKeySelective(VcfFile record);
-
-    int updateByPrimaryKeyWithBLOBs(VcfFile record);
 
     int updateByPrimaryKey(VcfFile record);
 }

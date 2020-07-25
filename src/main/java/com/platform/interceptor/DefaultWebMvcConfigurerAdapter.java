@@ -19,8 +19,6 @@ import java.util.List;
  */
 @Configuration
 public class DefaultWebMvcConfigurerAdapter implements WebMvcConfigurer {
-    @Value("${img.location}")
-    private String location;
     @Autowired
     LoginUserHandlerMethod loginUserHandlerMethod;
 
@@ -41,8 +39,6 @@ public class DefaultWebMvcConfigurerAdapter implements WebMvcConfigurer {
                         "/mtApi/user/forgetPassword",
                         "/mtApi/vcf/upload");
     }
-
-
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(loginUserHandlerMethod);

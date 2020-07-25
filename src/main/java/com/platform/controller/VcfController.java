@@ -54,8 +54,8 @@ public class VcfController {
     public RestResponse vcfUpload(@ApiParam("VCF文件") @RequestParam(name = "vcf") MultipartFile vcfFile,
                                   @ApiParam("job名字") @RequestParam(name = "jobName") String jobName,
                                   @ApiParam("基因类型") @RequestParam(name = "geneType") String geneType,
-                                  @ApiParam("疾病ID") @RequestParam(name = "omimId") String omimId,
-                                  @ApiParam("患者ID") @RequestParam(name = "patientId") String patientId,
+                                  @ApiParam("疾病ID")  @RequestParam(name = "omimId") String omimId,
+                                  @ApiParam("患者ID")  @RequestParam(name = "patientId") String patientId,
                                   @ApiParam("症状类型") @RequestParam(name = "symptomType") String symptomType,
                                   @ApiParam("症状") @RequestParam(name = "symptom") String symptom) {
 

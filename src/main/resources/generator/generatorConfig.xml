@@ -112,6 +112,7 @@
             <!-- generatedKey用于生成生成主键的方法 -->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <columnOverride column="is_effective" javaType="Integer"/>
+            <columnOverride column="json_result" javaType="String"/>
         </table>
     </context>
 

@@ -6,7 +6,7 @@ import java.util.Date;
  * 
  *
  * @author shiTou
- * @date   2020/07/24
+ * @date   2020/07/25
  */
 public class VcfFile {
     /**
@@ -50,14 +50,14 @@ public class VcfFile {
     private String fileName;
 
     /**
-     * 是否有效;1:有效;2:无效
-     */
-    private Integer isEffective;
-
-    /**
      * 解析结果
      */
     private String jsonResult;
+
+    /**
+     * 是否有效;1:有效;2:无效
+     */
+    private Integer isEffective;
 
     public Integer getId() {
         return id;
@@ -123,19 +123,19 @@ public class VcfFile {
         this.fileName = fileName;
     }
 
-    public Integer getIsEffective() {
-        return isEffective;
-    }
-
-    public void setIsEffective(Integer isEffective) {
-        this.isEffective = isEffective;
-    }
-
     public String getJsonResult() {
         return jsonResult;
     }
 
     public void setJsonResult(String jsonResult) {
         this.jsonResult = jsonResult;
+    }
+
+    public Integer getIsEffective() {
+        return isEffective;
+    }
+
+    public void setIsEffective(Integer isEffective) {
+        this.isEffective = isEffective;
     }
 }
