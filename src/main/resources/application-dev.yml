@@ -71,3 +71,7 @@ img:
 vcf:
   file:
     path: D:/vcf
+#grakn 路径
+grakn:
+  server:
+    address: 52.82.15.67:48555

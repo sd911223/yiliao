@@ -3,10 +3,7 @@ package com.platform.controller;
 import com.platform.annotation.LoginUser;
 import com.platform.common.RestResponse;
 import com.platform.common.ResultUtil;
-import com.platform.entity.req.ForgetPasswordReq;
-import com.platform.entity.req.LoginReq;
-import com.platform.entity.req.RegisteredReq;
-import com.platform.entity.req.UserInfoReq;
+import com.platform.entity.req.*;
 import com.platform.entity.resp.UserInfoResp;
 import com.platform.model.UserInfo;
 import com.platform.service.UserService;
@@ -93,4 +90,16 @@ public class UserController {
         return userService.updateUser(userInfo, userInfoReq);
     }
 
+    /**
+     * 修改用户信息
+     *
+     * @param userInfo
+     * @return
+     */
+    @ApiOperation("修改用户密码")
+    @PostMapping("/user/updatePassword")
+    public RestResponse updatePassword(@LoginUser UserInfo userInfo, @RequestBody @Valid UpdatePasswordReq updatePasswordReq) {
+
+        return userService.updatePassword(userInfo, updatePasswordReq);
+    }
 }

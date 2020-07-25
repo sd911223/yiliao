@@ -63,17 +63,21 @@ mail:
   fromMail:
     addr: 460475302@qq.com
     title: 【DHExo】验证码
-
+#服务端口
 server:
   port: 18081
 
 redis:
   prefix: njm_
   token: token_uid_
-
+#图片路径
 img:
   location: /home/img/
-
+#vcf4路径
 vcf:
- file:
-   path: /home/ec2-user/web/vcf/
+  file:
+    path: /home/ec2-user/web/vcf/
+#grakn路径
+grakn:
+  server:
+    address: http://52.82.15.67:48555

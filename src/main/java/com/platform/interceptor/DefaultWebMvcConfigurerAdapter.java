@@ -36,8 +36,7 @@ public class DefaultWebMvcConfigurerAdapter implements WebMvcConfigurer {
                         "/mtApi/user/registered",
                         "/mtApi/user/login",
                         "/mtApi/send/captcha",
-                        "/mtApi/user/forgetPassword",
-                        "/mtApi/vcf/upload");
+                        "/mtApi/user/forgetPassword");
     }
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {

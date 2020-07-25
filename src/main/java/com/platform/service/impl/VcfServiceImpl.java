@@ -187,8 +187,7 @@ public class VcfServiceImpl implements VcfService {
             e.printStackTrace();
         }
         vcf.setJsonResult(sb.toString());
-        PatientInfo patientInfo = new PatientInfo();
-        patientInfo.setPatientId(Integer.valueOf(patientId));
+        PatientInfo patientInfo = patientInfoMapper.selectByPrimaryKey(Integer.valueOf(patientId));
         patientInfo.setIsResolve(1);
         patientInfo.setResolveTime(new Date());
         patientInfoMapper.updateByPrimaryKey(patientInfo);

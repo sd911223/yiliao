@@ -6,10 +6,7 @@ import com.platform.common.ResultEnum;
 import com.platform.common.ResultUtil;
 import com.platform.dao.UserInfoMapper;
 import com.platform.entity.enums.MailType;
-import com.platform.entity.req.ForgetPasswordReq;
-import com.platform.entity.req.LoginReq;
-import com.platform.entity.req.RegisteredReq;
-import com.platform.entity.req.UserInfoReq;
+import com.platform.entity.req.*;
 import com.platform.entity.resp.UserInfoResp;
 import com.platform.exception.BusinessException;
 import com.platform.model.UserInfo;
@@ -106,6 +103,7 @@ public class UserServiceImpl implements UserService {
      * @param registeredReq
      */
     private void verificationReq(RegisteredReq registeredReq) {
+        //校验密码是否一致
         if (!registeredReq.getPassword().equals(registeredReq.getAgainPassword())) {
             throw new BusinessException(ResultEnum.PASSWORD_NOT_IDENTICAL.getStatus(), ResultEnum.PASSWORD_NOT_IDENTICAL.getMsg());
         }
@@ -244,5 +242,26 @@ public class UserServiceImpl implements UserService {
         userInfoMapper.updateByPrimaryKey(info);
         log.info("用户修改信息成功");
         return ResultUtil.success();
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param userInfo
+     * @param updatePasswordReq
+     * @return
+     */
+    @Override
+    public RestResponse updatePassword(UserInfo userInfo, UpdatePasswordReq updatePasswordReq) {
+        UserInfo primaryKey = userInfoMapper.selectByPrimaryKey(userInfo.getUserId());
+        if (!primaryKey.getPassword().equals(SecureUtil.md5(updatePasswordReq.getPrimevalPassword()))) {
+            throw new BusinessException(ResultEnum.PRIMEVAL_PASSWORD_ERROR.getStatus(), ResultEnum.PRIMEVAL_PASSWORD_ERROR.getMsg());
+        }
+        if (!updatePasswordReq.getNewPassword().equals(updatePasswordReq.getAgainPassword())) {
+            throw new BusinessException(ResultEnum.PASSWORD_NOT_IDENTICAL.getStatus(), ResultEnum.PASSWORD_NOT_IDENTICAL.getMsg());
+        }
+        primaryKey.setPassword(SecureUtil.md5(updatePasswordReq.getNewPassword()));
+        userInfoMapper.updateByPrimaryKey(primaryKey);
+        return ResultUtil.success("修改密码成功!");
     }
 }

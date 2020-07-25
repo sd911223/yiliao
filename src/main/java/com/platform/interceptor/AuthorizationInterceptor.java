@@ -3,6 +3,7 @@ package com.platform.interceptor;
 import com.platform.annotation.IgnoreAuth;
 import com.platform.exception.BusinessException;
 import com.platform.util.JwtUtils;
+import com.platform.util.RedisUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     @Autowired
-    private JwtUtils jwtUtils;
+    JwtUtils jwtUtils;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

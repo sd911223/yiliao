@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Data
@@ -22,13 +24,14 @@ public class RegisteredReq {
      */
     @ApiModelProperty(value = "用户名", required = true)
     @NotBlank(message = "用户名不能为空")
+    @Length(min = 6,max = 16,message = "用户名最少6位,最大16位")
     private String userName;
     /**
      * 验证码
      */
-    @ApiModelProperty(value = "验证码",required = true)
+    @ApiModelProperty(value = "验证码", required = true)
     @NotBlank(message = "验证码不能为空")
-    @Length(min = 4, max = 4,message = "验证码格式错误")
+    @Length(min = 4, max = 4, message = "验证码格式错误")
     private String verificationCode;
 
     /**
@@ -36,6 +39,7 @@ public class RegisteredReq {
      */
     @ApiModelProperty(value = "用户密码", required = true)
     @NotBlank(message = "用户密码不能为空")
+    @Length(min = 6,max = 16,message = "用户密码最少6位,最大16位")
     private String password;
 
     /**
@@ -43,6 +47,7 @@ public class RegisteredReq {
      */
     @ApiModelProperty(value = "再次密码", required = true)
     @NotBlank(message = "再次密码不能为空")
+    @Length(min = 6,max = 16,message = "再次密码最少6位,最大16位")
     private String againPassword;
     /**
      * 邮箱
