@@ -22,8 +22,8 @@ public class VariationController {
     VariationService variationService;
 
 
-    @ApiOperation("注册用户")
-    @PostMapping("/variation/query")
+    @ApiOperation("变异查询")
+    @PostMapping("/variation/byRsId")
     public RestResponse variationQuery(@ApiParam("变异ID") @RequestParam("rsId") String rsId) {
 
         return variationService.variationService(rsId);

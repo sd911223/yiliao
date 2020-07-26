@@ -1,5 +1,6 @@
 package com.platform.service.impl;
 
+import cn.hutool.core.util.EscapeUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
@@ -55,7 +56,7 @@ public class GeneServiceImpl implements GeneService {
         Map<String, Object> cleanResult = new HashMap<String, Object>(result.size());
 
         for (String key : result.keySet()) {
-
+            /*单引号处理*/
             String value = result.get(key).replaceAll("\\\\'", "\\'")/*单引号处理*/;
             try {
                 if (value.startsWith("[") && value.endsWith("]")) {//数组

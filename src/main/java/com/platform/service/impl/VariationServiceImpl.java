@@ -1,14 +1,17 @@
 package com.platform.service.impl;
 
 import com.platform.common.RestResponse;
+import com.platform.common.ResultUtil;
 import com.platform.dao.VariationMessageMapper;
 import com.platform.model.VariationMessage;
+import com.platform.model.VariationMessageExample;
 import com.platform.service.VariationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.List;
 
 /**
  * @author shitou
@@ -18,9 +21,23 @@ import java.io.*;
 public class VariationServiceImpl implements VariationService {
     @Autowired
     VariationMessageMapper variationMessageMapper;
-    public static String paths="/home/ec2-user/grakn_data/variants/vcf_annotation4.txt";
+    public static String paths = "/home/ec2-user/grakn_data/variants/vcf_annotation4.txt";
+
+    /**
+     * 通过变异ID查询
+     *
+     * @param rsId
+     * @return
+     */
     @Override
     public RestResponse variationService(String rsId) {
+        VariationMessageExample messageExample = new VariationMessageExample();
+        messageExample.createCriteria().andRsEqualTo(rsId);
+        List<VariationMessage> variationMessages = variationMessageMapper.selectByExample(messageExample);
+        return ResultUtil.success(variationMessages);
+    }
+
+    private void daoru() {
         StringBuffer sb = new StringBuffer();
         try {
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(paths));
@@ -61,6 +78,5 @@ public class VariationServiceImpl implements VariationService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
     }
 }
