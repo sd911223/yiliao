@@ -1,5 +1,6 @@
 package com.platform.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.platform.common.RestResponse;
 import com.platform.common.ResultEnum;
 import com.platform.common.ResultUtil;
@@ -12,9 +13,11 @@ import com.platform.model.PatientInfoExample;
 import com.platform.model.UserInfo;
 import com.platform.model.VcfFile;
 import com.platform.service.VcfService;
+import com.platform.util.PdfUtil;
 import com.platform.util.ShellUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.*;
 import java.sql.Blob;
@@ -39,8 +43,9 @@ public class VcfServiceImpl implements VcfService {
     @Autowired
     VcfFileMapper vcfFileMapper;
     @Autowired
-    private ShellUtil shellUtil;
-
+    ShellUtil shellUtil;
+    @Autowired
+    PdfUtil pu;
     @Value("${vcf.file.path}")
     private String path;
 
@@ -158,12 +163,18 @@ public class VcfServiceImpl implements VcfService {
     @Override
     @Async("taskExecutor")
     public void vcfDecode(MultipartFile vcfFile, String geneType, String omimId, String patientId, VcfFile vcf) {
+        if (StringUtils.isNotBlank(omimId)) {
+            StringBuffer sb = new StringBuffer();
+            sb.append("[");
+            sb.append(omimId);
+            sb.append("]");
+            omimId = sb.toString();
+        }
         //文件名
         String fileName = vcfFile.getOriginalFilename();
         //开始解析
         log.info("=================  开始解析VCF star ====================");
         StringBuffer sb = new StringBuffer();
-
         try {
             int msg = shellUtil.analysisVcf(path + vcf.getId() + "/" + fileName, geneType,
                     path + vcf.getId() + "/operate", omimId);
@@ -223,6 +234,27 @@ public class VcfServiceImpl implements VcfService {
         vcfFileMapper.updateByPrimaryKey(vcfFile);
         patientInfoMapper.updateByPrimaryKey(patientInfo);
         return ResultUtil.success("删除VCF成功!");
+    }
+
+    @Override
+    public void exportPdf(String id, HttpServletResponse response) {
+//查询vcf解析详情
+        VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(Integer.valueOf(id));
+        String jsonResult = vcfFile.getJsonResult();
+        //转化成json对象
+        JSONObject json = (JSONObject) JSONObject.parse(jsonResult);
+        //响应中写入pdf输出流
+        try {
+            //清除缓存
+            response.reset();
+            // 指定下载的文件名
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=vc_report_" + new Date() + ".pdf");
+            OutputStream out = response.getOutputStream();
+            pu.createPDF(json, out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

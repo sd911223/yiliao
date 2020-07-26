@@ -56,6 +56,7 @@ public class GeneController {
 
     }
 
+
     /**
      * 通过基因symbol获取基因详细信息
      *
@@ -63,6 +64,7 @@ public class GeneController {
      * @return
      */
     @ApiOperation("通过基因symbol获取基因详细信息")
+    @GetMapping("/gene/bySymbol")
     public RestResponse geneGeneSymbol(@RequestParam(value = "gene_symbol", required = true) String geneSymbol) {
 
         Map<String, Object> result = geneService.getGeneByGeneSymbol(geneSymbol);

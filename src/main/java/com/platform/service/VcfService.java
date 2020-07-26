@@ -6,6 +6,8 @@ import com.platform.model.UserInfo;
 import com.platform.model.VcfFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * VCF管理
  */
@@ -59,4 +61,12 @@ public interface VcfService {
      * @return
      */
     RestResponse vcfDelete(Integer vcfId, String patientId);
+
+    /**
+     * 导出解析报告pdf
+     *
+     * @param id
+     * @param response
+     */
+    void exportPdf(String id, HttpServletResponse response);
 }

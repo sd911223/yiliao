@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * VCF管理
@@ -54,8 +56,8 @@ public class VcfController {
     public RestResponse vcfUpload(@ApiParam("VCF文件") @RequestParam(name = "vcf") MultipartFile vcfFile,
                                   @ApiParam("job名字") @RequestParam(name = "jobName") String jobName,
                                   @ApiParam("基因类型") @RequestParam(name = "geneType") String geneType,
-                                  @ApiParam("疾病ID")  @RequestParam(name = "omimId") String omimId,
-                                  @ApiParam("患者ID")  @RequestParam(name = "patientId") String patientId,
+                                  @ApiParam("疾病ID") @RequestParam(name = "omimId") String omimId,
+                                  @ApiParam("患者ID") @RequestParam(name = "patientId") String patientId,
                                   @ApiParam("症状类型") @RequestParam(name = "symptomType") String symptomType,
                                   @ApiParam("症状") @RequestParam(name = "symptom") String symptom) {
 
@@ -95,5 +97,18 @@ public class VcfController {
 
 
         return vcfService.vcfDelete(vcfId, patientId);
+    }
+
+    /**
+     * 导出解析报告pdf
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation("导出解析报告pdf")
+    @GetMapping("/vcf/export")
+    public RestResponse exportVcf(@ApiParam("VCF id") @RequestParam(value = "id") String id, HttpServletResponse response) {
+        vcfService.exportPdf(id, response);
+        return ResultUtil.success();
     }
 }

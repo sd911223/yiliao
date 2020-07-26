@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+/**
+ * 用户管理
+ */
 @RestController
 @Api(tags = "用户管理")
 @RequestMapping("mtApi/")

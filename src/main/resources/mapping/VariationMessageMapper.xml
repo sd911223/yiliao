@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.dao.VariationMessageMapper">
+  <resultMap id="BaseResultMap" type="com.platform.model.VariationMessage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="RS" jdbcType="VARCHAR" property="rs" />
+    <result column="Chr" jdbcType="VARCHAR" property="chr" />
+    <result column="Start" jdbcType="VARCHAR" property="start" />
+    <result column="End" jdbcType="VARCHAR" property="end" />
+    <result column="Ref" jdbcType="VARCHAR" property="ref" />
+    <result column="Alt" jdbcType="VARCHAR" property="alt" />
+    <result column="Gene" jdbcType="VARCHAR" property="gene" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="ExonicFunc" jdbcType="VARCHAR" property="exonicfunc" />
+    <result column="AAChange" jdbcType="VARCHAR" property="aachange" />
+    <result column="maf_gnomAD" jdbcType="VARCHAR" property="mafGnomad" />
+    <result column="variant_phenotype" jdbcType="VARCHAR" property="variantPhenotype" />
+    <result column="variant_source" jdbcType="VARCHAR" property="variantSource" />
+    <result column="variant_PMID" jdbcType="VARCHAR" property="variantPmid" />
+    <result column="variant_Inheritance" jdbcType="VARCHAR" property="variantInheritance" />
+    <result column="gene_phenotype" jdbcType="VARCHAR" property="genePhenotype" />
+    <result column="gene_source" jdbcType="VARCHAR" property="geneSource" />
+    <result column="gene_PMID" jdbcType="VARCHAR" property="genePmid" />
+    <result column="gene_Inheritance" jdbcType="VARCHAR" property="geneInheritance" />
+    <result column="N_change" jdbcType="VARCHAR" property="nChange" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, RS, Chr, Start, End, Ref, Alt, Gene, label, ExonicFunc, AAChange, maf_gnomAD, 
+    variant_phenotype, variant_source, variant_PMID, variant_Inheritance, gene_phenotype, 
+    gene_source, gene_PMID, gene_Inheritance, N_change
+  </sql>
+  <select id="selectByExample" parameterType="com.platform.model.VariationMessageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from variation_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from variation_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from variation_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.platform.model.VariationMessageExample">
+    delete from variation_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.platform.model.VariationMessage">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into variation_message (RS, Chr, Start, 
+      End, Ref, Alt, Gene, 
+      label, ExonicFunc, AAChange, 
+      maf_gnomAD, variant_phenotype, variant_source, 
+      variant_PMID, variant_Inheritance, gene_phenotype, 
+      gene_source, gene_PMID, gene_Inheritance, 
+      N_change)
+    values (#{rs,jdbcType=VARCHAR}, #{chr,jdbcType=VARCHAR}, #{start,jdbcType=VARCHAR}, 
+      #{end,jdbcType=VARCHAR}, #{ref,jdbcType=VARCHAR}, #{alt,jdbcType=VARCHAR}, #{gene,jdbcType=VARCHAR}, 
+      #{label,jdbcType=VARCHAR}, #{exonicfunc,jdbcType=VARCHAR}, #{aachange,jdbcType=VARCHAR}, 
+      #{mafGnomad,jdbcType=VARCHAR}, #{variantPhenotype,jdbcType=VARCHAR}, #{variantSource,jdbcType=VARCHAR}, 
+      #{variantPmid,jdbcType=VARCHAR}, #{variantInheritance,jdbcType=VARCHAR}, #{genePhenotype,jdbcType=VARCHAR}, 
+      #{geneSource,jdbcType=VARCHAR}, #{genePmid,jdbcType=VARCHAR}, #{geneInheritance,jdbcType=VARCHAR}, 
+      #{nChange,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.platform.model.VariationMessage">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into variation_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rs != null">
+        RS,
+      </if>
+      <if test="chr != null">
+        Chr,
+      </if>
+      <if test="start != null">
+        Start,
+      </if>
+      <if test="end != null">
+        End,
+      </if>
+      <if test="ref != null">
+        Ref,
+      </if>
+      <if test="alt != null">
+        Alt,
+      </if>
+      <if test="gene != null">
+        Gene,
+      </if>
+      <if test="label != null">
+        label,
+      </if>
+      <if test="exonicfunc != null">
+        ExonicFunc,
+      </if>
+      <if test="aachange != null">
+        AAChange,
+      </if>
+      <if test="mafGnomad != null">
+        maf_gnomAD,
+      </if>
+      <if test="variantPhenotype != null">
+        variant_phenotype,
+      </if>
+      <if test="variantSource != null">
+        variant_source,
+      </if>
+      <if test="variantPmid != null">
+        variant_PMID,
+      </if>
+      <if test="variantInheritance != null">
+        variant_Inheritance,
+      </if>
+      <if test="genePhenotype != null">
+        gene_phenotype,
+      </if>
+      <if test="geneSource != null">
+        gene_source,
+      </if>
+      <if test="genePmid != null">
+        gene_PMID,
+      </if>
+      <if test="geneInheritance != null">
+        gene_Inheritance,
+      </if>
+      <if test="nChange != null">
+        N_change,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rs != null">
+        #{rs,jdbcType=VARCHAR},
+      </if>
+      <if test="chr != null">
+        #{chr,jdbcType=VARCHAR},
+      </if>
+      <if test="start != null">
+        #{start,jdbcType=VARCHAR},
+      </if>
+      <if test="end != null">
+        #{end,jdbcType=VARCHAR},
+      </if>
+      <if test="ref != null">
+        #{ref,jdbcType=VARCHAR},
+      </if>
+      <if test="alt != null">
+        #{alt,jdbcType=VARCHAR},
+      </if>
+      <if test="gene != null">
+        #{gene,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="exonicfunc != null">
+        #{exonicfunc,jdbcType=VARCHAR},
+      </if>
+      <if test="aachange != null">
+        #{aachange,jdbcType=VARCHAR},
+      </if>
+      <if test="mafGnomad != null">
+        #{mafGnomad,jdbcType=VARCHAR},
+      </if>
+      <if test="variantPhenotype != null">
+        #{variantPhenotype,jdbcType=VARCHAR},
+      </if>
+      <if test="variantSource != null">
+        #{variantSource,jdbcType=VARCHAR},
+      </if>
+      <if test="variantPmid != null">
+        #{variantPmid,jdbcType=VARCHAR},
+      </if>
+      <if test="variantInheritance != null">
+        #{variantInheritance,jdbcType=VARCHAR},
+      </if>
+      <if test="genePhenotype != null">
+        #{genePhenotype,jdbcType=VARCHAR},
+      </if>
+      <if test="geneSource != null">
+        #{geneSource,jdbcType=VARCHAR},
+      </if>
+      <if test="genePmid != null">
+        #{genePmid,jdbcType=VARCHAR},
+      </if>
+      <if test="geneInheritance != null">
+        #{geneInheritance,jdbcType=VARCHAR},
+      </if>
+      <if test="nChange != null">
+        #{nChange,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.platform.model.VariationMessageExample" resultType="java.lang.Long">
+    select count(*) from variation_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update variation_message
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.rs != null">
+        RS = #{record.rs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chr != null">
+        Chr = #{record.chr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.start != null">
+        Start = #{record.start,jdbcType=VARCHAR},
+      </if>
+      <if test="record.end != null">
+        End = #{record.end,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ref != null">
+        Ref = #{record.ref,jdbcType=VARCHAR},
+      </if>
+      <if test="record.alt != null">
+        Alt = #{record.alt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gene != null">
+        Gene = #{record.gene,jdbcType=VARCHAR},
+      </if>
+      <if test="record.label != null">
+        label = #{record.label,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exonicfunc != null">
+        ExonicFunc = #{record.exonicfunc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aachange != null">
+        AAChange = #{record.aachange,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mafGnomad != null">
+        maf_gnomAD = #{record.mafGnomad,jdbcType=VARCHAR},
+      </if>
+      <if test="record.variantPhenotype != null">
+        variant_phenotype = #{record.variantPhenotype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.variantSource != null">
+        variant_source = #{record.variantSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.variantPmid != null">
+        variant_PMID = #{record.variantPmid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.variantInheritance != null">
+        variant_Inheritance = #{record.variantInheritance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.genePhenotype != null">
+        gene_phenotype = #{record.genePhenotype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.geneSource != null">
+        gene_source = #{record.geneSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.genePmid != null">
+        gene_PMID = #{record.genePmid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.geneInheritance != null">
+        gene_Inheritance = #{record.geneInheritance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nChange != null">
+        N_change = #{record.nChange,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update variation_message
+    set id = #{record.id,jdbcType=INTEGER},
+      RS = #{record.rs,jdbcType=VARCHAR},
+      Chr = #{record.chr,jdbcType=VARCHAR},
+      Start = #{record.start,jdbcType=VARCHAR},
+      End = #{record.end,jdbcType=VARCHAR},
+      Ref = #{record.ref,jdbcType=VARCHAR},
+      Alt = #{record.alt,jdbcType=VARCHAR},
+      Gene = #{record.gene,jdbcType=VARCHAR},
+      label = #{record.label,jdbcType=VARCHAR},
+      ExonicFunc = #{record.exonicfunc,jdbcType=VARCHAR},
+      AAChange = #{record.aachange,jdbcType=VARCHAR},
+      maf_gnomAD = #{record.mafGnomad,jdbcType=VARCHAR},
+      variant_phenotype = #{record.variantPhenotype,jdbcType=VARCHAR},
+      variant_source = #{record.variantSource,jdbcType=VARCHAR},
+      variant_PMID = #{record.variantPmid,jdbcType=VARCHAR},
+      variant_Inheritance = #{record.variantInheritance,jdbcType=VARCHAR},
+      gene_phenotype = #{record.genePhenotype,jdbcType=VARCHAR},
+      gene_source = #{record.geneSource,jdbcType=VARCHAR},
+      gene_PMID = #{record.genePmid,jdbcType=VARCHAR},
+      gene_Inheritance = #{record.geneInheritance,jdbcType=VARCHAR},
+      N_change = #{record.nChange,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.platform.model.VariationMessage">
+    update variation_message
+    <set>
+      <if test="rs != null">
+        RS = #{rs,jdbcType=VARCHAR},
+      </if>
+      <if test="chr != null">
+        Chr = #{chr,jdbcType=VARCHAR},
+      </if>
+      <if test="start != null">
+        Start = #{start,jdbcType=VARCHAR},
+      </if>
+      <if test="end != null">
+        End = #{end,jdbcType=VARCHAR},
+      </if>
+      <if test="ref != null">
+        Ref = #{ref,jdbcType=VARCHAR},
+      </if>
+      <if test="alt != null">
+        Alt = #{alt,jdbcType=VARCHAR},
+      </if>
+      <if test="gene != null">
+        Gene = #{gene,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        label = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="exonicfunc != null">
+        ExonicFunc = #{exonicfunc,jdbcType=VARCHAR},
+      </if>
+      <if test="aachange != null">
+        AAChange = #{aachange,jdbcType=VARCHAR},
+      </if>
+      <if test="mafGnomad != null">
+        maf_gnomAD = #{mafGnomad,jdbcType=VARCHAR},
+      </if>
+      <if test="variantPhenotype != null">
+        variant_phenotype = #{variantPhenotype,jdbcType=VARCHAR},
+      </if>
+      <if test="variantSource != null">
+        variant_source = #{variantSource,jdbcType=VARCHAR},
+      </if>
+      <if test="variantPmid != null">
+        variant_PMID = #{variantPmid,jdbcType=VARCHAR},
+      </if>
+      <if test="variantInheritance != null">
+        variant_Inheritance = #{variantInheritance,jdbcType=VARCHAR},
+      </if>
+      <if test="genePhenotype != null">
+        gene_phenotype = #{genePhenotype,jdbcType=VARCHAR},
+      </if>
+      <if test="geneSource != null">
+        gene_source = #{geneSource,jdbcType=VARCHAR},
+      </if>
+      <if test="genePmid != null">
+        gene_PMID = #{genePmid,jdbcType=VARCHAR},
+      </if>
+      <if test="geneInheritance != null">
+        gene_Inheritance = #{geneInheritance,jdbcType=VARCHAR},
+      </if>
+      <if test="nChange != null">
+        N_change = #{nChange,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.platform.model.VariationMessage">
+    update variation_message
+    set RS = #{rs,jdbcType=VARCHAR},
+      Chr = #{chr,jdbcType=VARCHAR},
+      Start = #{start,jdbcType=VARCHAR},
+      End = #{end,jdbcType=VARCHAR},
+      Ref = #{ref,jdbcType=VARCHAR},
+      Alt = #{alt,jdbcType=VARCHAR},
+      Gene = #{gene,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      ExonicFunc = #{exonicfunc,jdbcType=VARCHAR},
+      AAChange = #{aachange,jdbcType=VARCHAR},
+      maf_gnomAD = #{mafGnomad,jdbcType=VARCHAR},
+      variant_phenotype = #{variantPhenotype,jdbcType=VARCHAR},
+      variant_source = #{variantSource,jdbcType=VARCHAR},
+      variant_PMID = #{variantPmid,jdbcType=VARCHAR},
+      variant_Inheritance = #{variantInheritance,jdbcType=VARCHAR},
+      gene_phenotype = #{genePhenotype,jdbcType=VARCHAR},
+      gene_source = #{geneSource,jdbcType=VARCHAR},
+      gene_PMID = #{genePmid,jdbcType=VARCHAR},
+      gene_Inheritance = #{geneInheritance,jdbcType=VARCHAR},
+      N_change = #{nChange,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
