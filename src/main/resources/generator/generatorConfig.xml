@@ -143,7 +143,21 @@
 <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
 <!--        </table>-->
 
-        <table tableName="variation_message" domainObjectName="VariationMessage" enableCountByExample="true"
+<!--        <table tableName="variation_message" domainObjectName="VariationMessage" enableCountByExample="true"-->
+<!--               enableSelectByPrimaryKey="true"-->
+<!--               enableUpdateByPrimaryKey="true"-->
+<!--               enableDeleteByPrimaryKey="true"-->
+<!--               enableUpdateByExample="true"-->
+<!--               enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            <property name="PositionReport" value="false"/>-->
+<!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
+<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+<!--        </table>-->
+
+        <table tableName="disease_omim" domainObjectName="DiseaseOmim" enableCountByExample="true"
                enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true"

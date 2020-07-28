@@ -2,7 +2,10 @@ package com.platform.service.impl;
 
 import com.platform.common.RestResponse;
 import com.platform.common.ResultUtil;
+import com.platform.dao.DiseaseOmimMapper;
 import com.platform.dao.VariationMessageMapper;
+import com.platform.model.DiseaseOmim;
+import com.platform.model.DiseaseOmimExample;
 import com.platform.model.VariationMessage;
 import com.platform.model.VariationMessageExample;
 import com.platform.service.VariationService;
@@ -21,7 +24,11 @@ import java.util.List;
 public class VariationServiceImpl implements VariationService {
     @Autowired
     VariationMessageMapper variationMessageMapper;
+    @Autowired
+    DiseaseOmimMapper diseaseOmimMapper;
     public static String paths = "/home/ec2-user/grakn_data/variants/vcf_annotation4.txt";
+
+    public static String paths2 = "C:\\Users\\shidun\\Desktop\\disease_id_disease_name.txt";
 
     /**
      * 通过变异ID查询
@@ -35,6 +42,14 @@ public class VariationServiceImpl implements VariationService {
         messageExample.createCriteria().andRsEqualTo(rsId);
         List<VariationMessage> variationMessages = variationMessageMapper.selectByExample(messageExample);
         return ResultUtil.success(variationMessages);
+    }
+
+    @Override
+    public RestResponse diseaseName(Integer rsId) {
+        DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+        diseaseOmimExample.createCriteria().andOmimIdEqualTo(rsId);
+        List<DiseaseOmim> omimList = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+        return ResultUtil.success(omimList);
     }
 
     private void daoru() {
@@ -69,6 +84,33 @@ public class VariationServiceImpl implements VariationService {
                     txt.setGeneInheritance(arr[18]);
                     txt.setnChange(arr[19]);
                     variationMessageMapper.insert(txt);
+                }
+                count++;
+
+            }
+            br.close();
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void daoru1() {
+        StringBuffer sb = new StringBuffer();
+        try {
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(paths2));
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String line;
+            int count = 0;
+            while ((line = br.readLine()) != null) {
+                DiseaseOmim txt = new DiseaseOmim();
+                String[] arr = line.split("\t");
+                if (arr.length > 1) {
+                    txt.setOmimId(Integer.valueOf(arr[0]));
+                    txt.setDiseaseName(arr[1]);
+
+                    diseaseOmimMapper.insert(txt);
                 }
                 count++;
 
