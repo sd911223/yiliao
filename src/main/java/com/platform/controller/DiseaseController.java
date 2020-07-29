@@ -29,10 +29,24 @@ public class DiseaseController {
      * @return
      */
     @ApiOperation("根据疾病id查询疾病的详细信息")
-    @GetMapping("/diseaseInformation")
+        @GetMapping("/diseaseInformation")
     public RestResponse diseaseInformation(@ApiParam("疾病ID") @RequestParam(value = "OMIM_id", required = true) String OMIMId) {
 
-        return diseaseService.disease(OMIMId);
+        return diseaseService.disease(OMIMId,"1");
+
+    }
+
+    /**
+     * 根据疾病name(英文)查询疾病的详细信息
+     *
+     * @param diseaseName
+     * @return
+     */
+    @ApiOperation("根据疾病name(英文)查询疾病的详细信息")
+    @GetMapping("/diseaseInfoByName")
+    public RestResponse diseaseInfoByName(@ApiParam("疾病名称") @RequestParam(value = "disease_name", required = true) String diseaseName) {
+
+        return diseaseService.disease(diseaseName,"2");
 
     }
 

@@ -14,7 +14,7 @@ public interface DiseaseDao {
      * @param OMIMId
      * @return
      */
-	Map<String, String> disease(String OMIMId);
+	Map<String, String> disease(String OMIMId,String type);
 	/**
 	 * 通过一组症状名称，查询疾病id
 	 * @param symptoms

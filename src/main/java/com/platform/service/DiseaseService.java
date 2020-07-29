@@ -15,7 +15,7 @@ public interface DiseaseService {
      * @param omimId
      * @return
      */
-    RestResponse disease(String omimId);
+    RestResponse disease(String omimId,String type);
 
     /**
      * 根据多个症状查询对应的疾病列表
