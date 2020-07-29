@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
                     andUserNameEqualTo(registeredReq.getUserName()).
                     andIsAvailableEqualTo(0);
 
-            UserInfoExample mailExample = new UserInfoExample();
+            UserInfoExample mailExample =  new UserInfoExample();
             mailExample.createCriteria().
                     andEMailEqualTo(registeredReq.getEMail()).
                     andIsAvailableEqualTo(0);
