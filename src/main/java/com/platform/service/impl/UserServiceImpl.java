@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
                     andIsAvailableEqualTo(0);
 
             UserInfoExample mailExample = new UserInfoExample();
-            infoExample.createCriteria().
+            mailExample.createCriteria().
                     andEMailEqualTo(registeredReq.getEMail()).
                     andIsAvailableEqualTo(0);
             List<UserInfo> userInfos = userInfoMapper.selectByExample(infoExample);
