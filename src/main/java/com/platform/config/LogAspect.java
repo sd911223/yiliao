@@ -43,6 +43,7 @@ public class LogAspect {
         startTime.set(System.currentTimeMillis());
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
+
         //打印当前的请求路径
         Map params = new HashMap();
         // 获取请求的url
@@ -56,10 +57,11 @@ public class LogAspect {
         // 获取类方法
         params.put("classMethod", joinPoint.getSignature().getName());
         // 请求参数
-        params.put("args", joinPoint.getArgs());
-
-
-
+        if ("exportVcf".equals(joinPoint.getSignature().getName())) {
+            params.put("args", "resp不做解析");
+        } else {
+            params.put("args", joinPoint.getArgs());
+        }
         //这里是从token中获取用户信息，打印当前的访问用户，代码不通用
 /*        String token = request.getHeader(JwtUtils.TOKEN_HEADER);
         if (token != null && token.startsWith(JwtUtils.TOKEN_PREFIX)) {

@@ -62,4 +62,11 @@ public interface VcfService {
      */
     RestResponse vcfDelete(Integer vcfId, String patientId);
 
+    /**
+     * vcf导出
+     *
+     * @param id
+     * @param response
+     */
+    void exportPdf(String id, HttpServletResponse response);
 }

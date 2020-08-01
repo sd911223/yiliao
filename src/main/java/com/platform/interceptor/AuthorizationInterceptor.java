@@ -5,6 +5,7 @@ import com.platform.exception.BusinessException;
 import com.platform.util.JwtUtils;
 import com.platform.util.RedisUtil;
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -21,13 +22,14 @@ import javax.servlet.http.HttpServletResponse;
  * @author shitou
  */
 @Component
+@Slf4j
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     JwtUtils jwtUtils;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-
+        log.info("==================================进入拦截器=======================");
         IgnoreAuth annotation;
         if (handler instanceof HandlerMethod) {
             annotation = ((HandlerMethod) handler).getMethodAnnotation(IgnoreAuth.class);
