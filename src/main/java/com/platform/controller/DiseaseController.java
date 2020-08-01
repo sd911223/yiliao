@@ -57,8 +57,8 @@ public class DiseaseController {
      * @return
      */
     @ApiOperation("根据多个症状查询对应的疾病列表")
-    @PostMapping("/symptom2disease")
-    public RestResponse symptom2disease(@RequestParam(value = "symptoms", required = true) String symptoms) {
+    @GetMapping("/symptom/byDisease")
+    public RestResponse byDisease(@ApiParam("症状") @RequestParam(value = "symptoms", required = true) String symptoms) {
         //此时前台传来的是一个数组的字符串,去掉中括号，生成数组
         String[] symptomArray = symptoms.substring(1, symptoms.length() - 1).split(",");
         List<Map<String, String>> result = diseaseService.listDisease(symptomArray);

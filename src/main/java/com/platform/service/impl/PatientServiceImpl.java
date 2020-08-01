@@ -121,5 +121,22 @@ public class PatientServiceImpl implements PatientService {
         return ResultUtil.success(patientInfo);
     }
 
+    @Override
+    public RestResponse updatePatient(PatientAddReq patientAddReq) {
+        PatientInfo patientInfo = patientInfoMapper.selectByPrimaryKey(patientAddReq.getPatientId());
+        if (null == patientInfo) {
+            log.error("患者详情,无效ID{}", patientAddReq.getPatientId());
+            throw new BusinessException(ResultEnum.ID_NOT_EXISTS.getStatus(), ResultEnum.ID_NOT_EXISTS.getMsg());
+        }
+        if (StringUtils.isNotBlank(patientAddReq.getSymptom())) {
+            patientInfo.setSymptom(patientAddReq.getSymptom());
+        }
+        if (StringUtils.isNotBlank(patientAddReq.getFamilyMedicalHistory())) {
+            patientInfo.setFamilyMedicalHistory(patientAddReq.getFamilyMedicalHistory());
+        }
+        patientInfoMapper.updateByPrimaryKey(patientInfo);
+        return ResultUtil.success("修改患者信息成功!");
+    }
+
 
 }

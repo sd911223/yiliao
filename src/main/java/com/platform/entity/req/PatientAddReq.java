@@ -17,6 +17,8 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @ApiModel("新建患者请求实体")
 public class PatientAddReq {
+    @ApiModelProperty(value = "患者ID")
+    private Integer patientId;
     /**
      * 患者名字
      */

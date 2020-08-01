@@ -44,8 +44,7 @@ public class VcfServiceImpl implements VcfService {
     VcfFileMapper vcfFileMapper;
     @Autowired
     ShellUtil shellUtil;
-    @Autowired
-    PdfUtil pu;
+
     @Value("${vcf.file.path}")
     private String path;
 
@@ -236,25 +235,5 @@ public class VcfServiceImpl implements VcfService {
         return ResultUtil.success("删除VCF成功!");
     }
 
-    @Override
-    public void exportPdf(String id, HttpServletResponse response) {
-//查询vcf解析详情
-        VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(Integer.valueOf(id));
-        String jsonResult = vcfFile.getJsonResult();
-        //转化成json对象
-        JSONObject json = (JSONObject) JSONObject.parse(jsonResult);
-        //响应中写入pdf输出流
-        try {
-            //清除缓存
-            response.reset();
-            // 指定下载的文件名
-            response.setHeader("Content-Disposition",
-                    "attachment;filename=vc_report_" + new Date() + ".pdf");
-            OutputStream out = response.getOutputStream();
-            pu.createPDF(json, out);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

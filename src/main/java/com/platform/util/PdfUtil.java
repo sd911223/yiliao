@@ -5,6 +5,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
@@ -17,6 +18,7 @@ import java.io.OutputStream;
  * @author zhuchaojie
  */
 @Component
+@Slf4j
 public class PdfUtil {
     /**
      * 生成pdf文件
@@ -29,7 +31,7 @@ public class PdfUtil {
         BaseFont bf;
         Font font2 = null;
         try {
-
+            log.info("===================== 设置字体 ========================");
             bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H",
                     BaseFont.NOT_EMBEDDED);//创建字体
             font2 = new Font(bf, 12, Font.BOLD);//标题

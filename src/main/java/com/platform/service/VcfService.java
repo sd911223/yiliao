@@ -62,11 +62,4 @@ public interface VcfService {
      */
     RestResponse vcfDelete(Integer vcfId, String patientId);
 
-    /**
-     * 导出解析报告pdf
-     *
-     * @param id
-     * @param response
-     */
-    void exportPdf(String id, HttpServletResponse response);
 }

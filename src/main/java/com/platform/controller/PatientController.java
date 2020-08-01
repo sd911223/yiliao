@@ -34,7 +34,20 @@ public class PatientController {
     @PostMapping("/patient/add")
     public RestResponse addPatient(@LoginUser UserInfo userInfo, @RequestBody @Valid PatientAddReq patientAddReq) {
 
-        return patientService.addPatient(userInfo,patientAddReq);
+        return patientService.addPatient(userInfo, patientAddReq);
+    }
+
+    /**
+     * 修改患者信息
+     *
+     * @param patientAddReq
+     * @return
+     */
+    @ApiOperation("修改患者信息")
+    @PostMapping("/patient/update")
+    public RestResponse updatePatient(@RequestBody @Valid PatientAddReq patientAddReq) {
+
+        return patientService.updatePatient(patientAddReq);
     }
 
     /**

@@ -16,7 +16,7 @@ public interface PatientService {
      * @param patientAddReq
      * @return
      */
-    RestResponse addPatient(UserInfo userInfo,PatientAddReq patientAddReq);
+    RestResponse addPatient(UserInfo userInfo, PatientAddReq patientAddReq);
 
     /**
      * 患者列表
@@ -41,4 +41,12 @@ public interface PatientService {
      * @return
      */
     RestResponse detailedPatient(Integer patientId);
+
+    /**
+     * 修改患者信息
+     *
+     * @param patientAddReq
+     * @return
+     */
+    RestResponse updatePatient(PatientAddReq patientAddReq);
 }
