@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.platform.common.RestResponse;
 import com.platform.common.ResultEnum;
 import com.platform.common.ResultUtil;
+import com.platform.config.PDFExportConfig;
 import com.platform.dao.PatientInfoMapper;
 import com.platform.dao.VcfFileMapper;
 import com.platform.entity.resp.VcfCountResp;
@@ -14,25 +15,30 @@ import com.platform.model.PatientInfoExample;
 import com.platform.model.UserInfo;
 import com.platform.model.VcfFile;
 import com.platform.service.VcfService;
-import com.platform.util.PdfUtil;
+import com.platform.util.PDFUtil;
 import com.platform.util.ShellUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 /**
  * VCF管理
  */
@@ -40,13 +46,13 @@ import java.util.Date;
 @Slf4j
 public class VcfServiceImpl implements VcfService {
     @Autowired
+    PDFExportConfig pdfExportConfig;
+    @Autowired
     PatientInfoMapper patientInfoMapper;
     @Autowired
     VcfFileMapper vcfFileMapper;
     @Autowired
     ShellUtil shellUtil;
-    @Autowired
-    PdfUtil pdfUtil;
     @Value("${vcf.file.path}")
     private String path;
 
@@ -238,31 +244,27 @@ public class VcfServiceImpl implements VcfService {
     }
 
     @Override
-    public void exportPdf(String id, HttpServletResponse response) {
-        log.info("================= 通过vcf id查询内容{}", id);
-        //查询vcf解析详情
-        VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(Integer.valueOf(id));
-        if (null == vcfFile) {
-            log.error("VCFid{},查询数据为空", id);
-            throw new BusinessException(ResultEnum.ID_NOT_EXISTS.getStatus(), ResultEnum.ID_NOT_EXISTS.getMsg());
+    public ResponseEntity<?> exportPdf() {
+        HttpHeaders headers = new HttpHeaders();
+
+        /**
+         * 数据导出(PDF 格式)
+         */
+        Map<String, Object> dataMap = new HashMap<>(16);
+        dataMap.put("statisticalTime",new Date().toString());
+
+        String htmlStr = PDFUtil.freemarkerRender(dataMap, pdfExportConfig.getEmployeeKpiFtl());
+        byte[] pdfBytes = PDFUtil.createPDF(htmlStr, pdfExportConfig.getFontSimsun());
+        if (pdfBytes != null && pdfBytes.length > 0) {
+            String fileName = System.currentTimeMillis() + (int) (Math.random() * 90000 + 10000) + ".pdf";
+            headers.setContentDispositionFormData("attachment", fileName);
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            return new ResponseEntity<byte[]>(pdfBytes, headers, HttpStatus.OK);
         }
-        String jsonResult = vcfFile.getJsonResult();
-        //转化成json对象
-        log.info("================= 将结果转成json====================");
-        JSONObject json = (JSONObject) JSON.parse(jsonResult);
-        //响应中写入pdf输出流
-        try {
-            log.info("================= 响应中写入pdf输出流====================");
-            //清除缓存
-            response.reset();
-            // 指定下载的文件名
-            response.setHeader("Content-Disposition",
-                    "attachment;filename=vc_report_" + new Date() + ".pdf");
-            OutputStream out = response.getOutputStream();
-            pdfUtil.createPDF(json, out);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        return new ResponseEntity<String>("{ \"code\" : \"404\", \"message\" : \"not found\" }",
+                headers, HttpStatus.NOT_FOUND);
     }
 
 

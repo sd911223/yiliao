@@ -38,7 +38,7 @@ public class GeneDaoImpl implements GeneDao {
         StringBuffer gql2 = new StringBuffer("get");
         //String gql = "match $disease (traveler: $per) isa disease, has disease_id '"+diseaseId+"';get";
         //显示所有字段(除了id)
-        for (int i = 1; i < keyArray.length; i++) {
+        for (int i = 0; i < keyArray.length; i++) {
             if (i != keyArray.length - 1) {
                 gql1.append(",has " + keyArray[i] + " $" + keyArray[i]);
                 gql2.append(" $" + keyArray[i] + ",");

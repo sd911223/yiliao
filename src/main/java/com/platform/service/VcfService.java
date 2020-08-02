@@ -4,9 +4,8 @@ import com.platform.common.RestResponse;
 import com.platform.entity.resp.VcfCountResp;
 import com.platform.model.UserInfo;
 import com.platform.model.VcfFile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * VCF管理
@@ -64,9 +63,7 @@ public interface VcfService {
 
     /**
      * vcf导出
-     *
-     * @param id
-     * @param response
      */
-    void exportPdf(String id, HttpServletResponse response);
+    ResponseEntity<?> exportPdf();
+
 }

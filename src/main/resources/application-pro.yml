@@ -81,3 +81,8 @@ vcf:
 grakn:
   server:
     address: 52.82.15.67:48555
+
+## pdf export config
+pdfExport:
+  fontSimsun: static/simsun.ttc
+  employeeKpiFtl: templates/pdf_export_employee_kpi.ftl

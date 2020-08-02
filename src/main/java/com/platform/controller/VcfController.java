@@ -11,6 +11,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -102,12 +106,21 @@ public class VcfController {
     /**
      * 导出解析报告pdf
      *
-     * @param vcfId
      * @return
      */
     @ApiOperation("导出解析报告pdf")
-    @GetMapping("/vcf/export")
-    public void exportVcf(@ApiParam("VCF id") @RequestParam(value = "vcfId") String vcfId, HttpServletResponse response) {
-        vcfService.exportPdf(vcfId, response);
+    @PostMapping(value = "/vcf/export", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> exportVcf() {
+        try {
+            ResponseEntity<?> responseEntity = vcfService.exportPdf();
+            return responseEntity;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        return new ResponseEntity<String>("{ \"code\" : \"404\", \"message\" : \"not found\" }",
+                headers, HttpStatus.NOT_FOUND);
     }
 }
