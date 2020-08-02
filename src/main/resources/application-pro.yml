@@ -11,7 +11,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://52.82.15.67:3306/mt-platform?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/mt-platform?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: yl123456
     db-type: com.alibaba.druid.pool.DruidDataSource
@@ -29,7 +29,7 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
   redis:
     host: 127.0.0.1
-    password: sd123456
+ #   password: sd123456
     port: 6379
     jedis:
       pool:
@@ -72,7 +72,7 @@ redis:
   token: token_uid_
 #图片路径
 img:
-  location: /home/img/
+  location: /home/ec2-user/web/img
 #vcf4路径
 vcf:
   file:
@@ -80,7 +80,7 @@ vcf:
 #grakn路径
 grakn:
   server:
-    address: 52.82.15.67:48555
+    address: 127.0.0.1:48555
 
 ## pdf export config
 pdfExport:

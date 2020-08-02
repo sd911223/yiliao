@@ -58,9 +58,9 @@ public class PatientController {
      */
     @ApiOperation("患者列表")
     @PostMapping("/patient/list")
-    public RestResponse listPatient(@RequestBody @Valid PatientListReq patientListReq) {
+    public RestResponse listPatient(@LoginUser UserInfo userInfo, @RequestBody @Valid PatientListReq patientListReq) {
 
-        return patientService.listPatient(patientListReq);
+        return patientService.listPatient(patientListReq,userInfo);
     }
 
     /**

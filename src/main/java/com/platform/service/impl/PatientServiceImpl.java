@@ -65,11 +65,12 @@ public class PatientServiceImpl implements PatientService {
      * @return
      */
     @Override
-    public RestResponse listPatient(PatientListReq patientListReq) {
+    public RestResponse listPatient(PatientListReq patientListReq, UserInfo userInfo) {
         PageHelper.startPage(patientListReq.getPageNum(), 10);
         PatientInfoExample patientInfoExample = new PatientInfoExample();
         PatientInfoExample.Criteria criteria = patientInfoExample.createCriteria();
         criteria.andIsEffectiveEqualTo(1);
+        criteria.andDoctorIdEqualTo(userInfo.getUserId());
         if (!StringUtils.isBlank(patientListReq.getPatientName())) {
             criteria.andPatientNameLike("%" + patientListReq.getPatientName() + "%");
         }
@@ -128,11 +129,11 @@ public class PatientServiceImpl implements PatientService {
             log.error("患者详情,无效ID{}", patientAddReq.getPatientId());
             throw new BusinessException(ResultEnum.ID_NOT_EXISTS.getStatus(), ResultEnum.ID_NOT_EXISTS.getMsg());
         }
-        BeanUtils.copyProperties(patientAddReq,patientInfo);
-        if (patientAddReq.getSex().equals("GIRL")){
+        BeanUtils.copyProperties(patientAddReq, patientInfo);
+        if (patientAddReq.getSex().equals("GIRL")) {
             patientInfo.setSex(2);
         }
-        if (patientAddReq.getSex().equals("MAN")){
+        if (patientAddReq.getSex().equals("MAN")) {
             patientInfo.setSex(1);
         }
         if (StringUtils.isNotBlank(patientAddReq.getSymptom())) {

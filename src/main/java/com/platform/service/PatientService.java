@@ -24,7 +24,7 @@ public interface PatientService {
      * @param patientListReq
      * @return
      */
-    RestResponse listPatient(PatientListReq patientListReq);
+    RestResponse listPatient(PatientListReq patientListReq,UserInfo userInfo);
 
     /**
      * 删除患者

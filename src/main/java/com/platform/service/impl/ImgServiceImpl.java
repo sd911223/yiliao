@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -43,8 +44,9 @@ public class ImgServiceImpl implements ImgService {
             throw new BusinessException("图片格式错误!");
         }
 
-        String fileName = file.getOriginalFilename();
-        fileName = new SimpleDateFormat(DATE_FORMAT).format(new Date()) + "_" + fileName;
+        String fileName = "";
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+        fileName = new SimpleDateFormat(DATE_FORMAT).format(new Date()) + "_" + UUID.randomUUID() + "." + suffix;
 
         log.info("上传图片:name={},type={}", fileName, contentType);
         String file_name = null;
@@ -62,6 +64,7 @@ public class ImgServiceImpl implements ImgService {
             // 由于是读取本机的文件，file是一定要加上的， path是在application配置文件中的路径
             log.info("showPhotos:" + location + fileName);
             return ResponseEntity.ok(resourceLoader.getResource("file:" + location + fileName));
+//            return ResponseEntity.ok(resourceLoader.getResource(location + fileName));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
