@@ -44,14 +44,12 @@ public class PatientAddReq {
      * 身份证号
      */
     @ApiModelProperty(value = "身份证号", required = true)
-    @NotBlank(message = "身份证号不能为空")
     @Pattern(regexp = "^(\\d{18,18}|\\d{15,15}|(\\d{17,17}[x|X]))$", message = "身份证格式错误")
     private String idCard;
     /**
      * 症状
      */
     @ApiModelProperty(value = "症状", required = true)
-    @NotBlank(message = "症状不能为空")
     private String symptom;
     /**
      * 家族病史

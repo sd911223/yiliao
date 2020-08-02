@@ -52,112 +52,112 @@
         </javaClientGenerator>
 
         <!-- 设置数据库的表名和实体类名 -->
-<!--                <table tableName="user_info" domainObjectName="UserInfo" enableCountByExample="true"-->
-<!--                       enableSelectByPrimaryKey="true"-->
-<!--                       enableUpdateByPrimaryKey="true"-->
-<!--                       enableDeleteByPrimaryKey="true"-->
-<!--                       enableUpdateByExample="true"-->
-<!--                       enableDeleteByExample="true"-->
-<!--                       enableSelectByExample="true"-->
-<!--                       selectByExampleQueryId="true">-->
-<!--                    <property name="useActualColumnNames" value="false"/>-->
-<!--                    <property name="PositionReport" value="false"/>-->
-<!--                    &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
-<!--                    <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-<!--                    <columnOverride column="is_available" javaType="Integer"/>-->
-<!--                </table>-->
+        <!--                <table tableName="user_info" domainObjectName="UserInfo" enableCountByExample="true"-->
+        <!--                       enableSelectByPrimaryKey="true"-->
+        <!--                       enableUpdateByPrimaryKey="true"-->
+        <!--                       enableDeleteByPrimaryKey="true"-->
+        <!--                       enableUpdateByExample="true"-->
+        <!--                       enableDeleteByExample="true"-->
+        <!--                       enableSelectByExample="true"-->
+        <!--                       selectByExampleQueryId="true">-->
+        <!--                    <property name="useActualColumnNames" value="false"/>-->
+        <!--                    <property name="PositionReport" value="false"/>-->
+        <!--                    &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
+        <!--                    <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--                    <columnOverride column="is_available" javaType="Integer"/>-->
+        <!--                </table>-->
 
-<!--        <table tableName="patient_info" domainObjectName="PatientInfo" enableCountByExample="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true">-->
-<!--            <property name="useActualColumnNames" value="false"/>-->
-<!--            <property name="PositionReport" value="false"/>-->
-<!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
-<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-<!--            <columnOverride column="sex" javaType="Integer"/>-->
-<!--            <columnOverride column="is_resolve" javaType="Integer"/>-->
-<!--            <columnOverride column="age" javaType="Integer"/>-->
-<!--            <columnOverride column="is_effective" javaType="Integer"/>-->
-<!--        </table>-->
-<!--        <table tableName="mail_manage" domainObjectName="MailManage" enableCountByExample="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true">-->
-<!--            <property name="useActualColumnNames" value="false"/>-->
-<!--            <property name="PositionReport" value="false"/>-->
-<!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
-<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-<!--            <columnOverride column="mail_type" javaType="Integer"/>-->
-<!--        </table>-->
+        <!--        <table tableName="patient_info" domainObjectName="PatientInfo" enableCountByExample="true"-->
+        <!--               enableSelectByPrimaryKey="true"-->
+        <!--               enableUpdateByPrimaryKey="true"-->
+        <!--               enableDeleteByPrimaryKey="true"-->
+        <!--               enableUpdateByExample="true"-->
+        <!--               enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true"-->
+        <!--               selectByExampleQueryId="true">-->
+        <!--            <property name="useActualColumnNames" value="false"/>-->
+        <!--            <property name="PositionReport" value="false"/>-->
+        <!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
+        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--            <columnOverride column="sex" javaType="Integer"/>-->
+        <!--            <columnOverride column="is_resolve" javaType="Integer"/>-->
+        <!--            <columnOverride column="age" javaType="Integer"/>-->
+        <!--            <columnOverride column="is_effective" javaType="Integer"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="mail_manage" domainObjectName="MailManage" enableCountByExample="true"-->
+        <!--               enableSelectByPrimaryKey="true"-->
+        <!--               enableUpdateByPrimaryKey="true"-->
+        <!--               enableDeleteByPrimaryKey="true"-->
+        <!--               enableUpdateByExample="true"-->
+        <!--               enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true"-->
+        <!--               selectByExampleQueryId="true">-->
+        <!--            <property name="useActualColumnNames" value="false"/>-->
+        <!--            <property name="PositionReport" value="false"/>-->
+        <!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
+        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--            <columnOverride column="mail_type" javaType="Integer"/>-->
+        <!--        </table>-->
 
-<!--        <table tableName="vcf_file" domainObjectName="VcfFile" enableCountByExample="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true">-->
-<!--            <property name="useActualColumnNames" value="false"/>-->
-<!--            <property name="PositionReport" value="false"/>-->
-<!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
-<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-<!--            <columnOverride column="is_effective" javaType="Integer"/>-->
-<!--            <columnOverride column="json_result" javaType="String"/>-->
-<!--        </table>-->
+        <!--        <table tableName="vcf_file" domainObjectName="VcfFile" enableCountByExample="true"-->
+        <!--               enableSelectByPrimaryKey="true"-->
+        <!--               enableUpdateByPrimaryKey="true"-->
+        <!--               enableDeleteByPrimaryKey="true"-->
+        <!--               enableUpdateByExample="true"-->
+        <!--               enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true"-->
+        <!--               selectByExampleQueryId="true">-->
+        <!--            <property name="useActualColumnNames" value="false"/>-->
+        <!--            <property name="PositionReport" value="false"/>-->
+        <!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
+        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--            <columnOverride column="is_effective" javaType="Integer"/>-->
+        <!--            <columnOverride column="json_result" javaType="String"/>-->
+        <!--        </table>-->
 
-<!--        <table tableName="symptom_type" domainObjectName="SymptomType" enableCountByExample="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true">-->
-<!--            <property name="useActualColumnNames" value="false"/>-->
-<!--            <property name="PositionReport" value="false"/>-->
-<!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
-<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-<!--        </table>-->
+        <!--        <table tableName="symptom_type" domainObjectName="SymptomType" enableCountByExample="true"-->
+        <!--               enableSelectByPrimaryKey="true"-->
+        <!--               enableUpdateByPrimaryKey="true"-->
+        <!--               enableDeleteByPrimaryKey="true"-->
+        <!--               enableUpdateByExample="true"-->
+        <!--               enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true"-->
+        <!--               selectByExampleQueryId="true">-->
+        <!--            <property name="useActualColumnNames" value="false"/>-->
+        <!--            <property name="PositionReport" value="false"/>-->
+        <!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
+        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--        </table>-->
 
-<!--        <table tableName="symptom" domainObjectName="Symptom" enableCountByExample="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true">-->
-<!--            <property name="useActualColumnNames" value="false"/>-->
-<!--            <property name="PositionReport" value="false"/>-->
-<!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
-<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-<!--        </table>-->
+        <!--        <table tableName="symptom" domainObjectName="Symptom" enableCountByExample="true"-->
+        <!--               enableSelectByPrimaryKey="true"-->
+        <!--               enableUpdateByPrimaryKey="true"-->
+        <!--               enableDeleteByPrimaryKey="true"-->
+        <!--               enableUpdateByExample="true"-->
+        <!--               enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true"-->
+        <!--               selectByExampleQueryId="true">-->
+        <!--            <property name="useActualColumnNames" value="false"/>-->
+        <!--            <property name="PositionReport" value="false"/>-->
+        <!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
+        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--        </table>-->
 
-<!--        <table tableName="variation_message" domainObjectName="VariationMessage" enableCountByExample="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true">-->
-<!--            <property name="useActualColumnNames" value="false"/>-->
-<!--            <property name="PositionReport" value="false"/>-->
-<!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
-<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-<!--        </table>-->
+        <!--        <table tableName="variation_message" domainObjectName="VariationMessage" enableCountByExample="true"-->
+        <!--               enableSelectByPrimaryKey="true"-->
+        <!--               enableUpdateByPrimaryKey="true"-->
+        <!--               enableDeleteByPrimaryKey="true"-->
+        <!--               enableUpdateByExample="true"-->
+        <!--               enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true"-->
+        <!--               selectByExampleQueryId="true">-->
+        <!--            <property name="useActualColumnNames" value="false"/>-->
+        <!--            <property name="PositionReport" value="false"/>-->
+        <!--            &lt;!&ndash; generatedKey用于生成生成主键的方法 &ndash;&gt;-->
+        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--        </table>-->
 
-        <table tableName="collect_info" domainObjectName="CollectInfo" enableCountByExample="true"
+        <table tableName="leave_message" domainObjectName="LeaveMessage" enableCountByExample="true"
                enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true"
@@ -169,7 +169,6 @@
             <property name="PositionReport" value="false"/>
             <!-- generatedKey用于生成生成主键的方法 -->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-            <columnOverride column="type" javaType="Integer"/>
             <columnOverride column="is_effective" javaType="Integer"/>
         </table>
     </context>

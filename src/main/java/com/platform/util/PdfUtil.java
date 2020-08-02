@@ -31,7 +31,7 @@ public class PdfUtil {
         BaseFont bf;
         Font font2 = null;
         try {
-            log.info("===================== 设置字体 ========================");
+
             bf = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H",
                     BaseFont.NOT_EMBEDDED);//创建字体
             font2 = new Font(bf, 12, Font.BOLD);//标题
@@ -45,7 +45,7 @@ public class PdfUtil {
             document.open();
 
             //遍历json
-            for (String key : json.keySet()) {
+            for (String key: json.keySet()) {
                 //标题
                 document.add(new Paragraph(key, font2));
                 //生成表格

@@ -19,12 +19,18 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
 public class MailServiceImpl implements MailService {
+    @Value("${img.location}")
+    private String imgLocation;
     @Autowired
     UserInfoMapper userInfoMapper;
 
@@ -81,30 +87,71 @@ public class MailServiceImpl implements MailService {
      * @param to      发送目标邮箱
      * @param subject 邮件标题
      * @param content 邮件内容
-     * @param imgPath 图片路径
-     * @param imgId   图片id，在img标签里使用
+     * @param imgList 图片路径
      * @throws MessagingException the messaging exception
      * @author: ***
      */
     @Override
-    public void sendImageMail(String to, String subject, String content, String[] imgPath, String[] imgId) {
+    public void sendImageMail(String to, String subject, String content, List<String> imgList) {
         //创建message
         MimeMessage message = mailSender.createMimeMessage();
         try {
+            log.info("======================== 进入发送邮箱图片==========================");
             MimeMessageHelper helper = new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
             //发件人
-            helper.setFrom(to);
+            helper.setFrom(from);
             //收件人
-            helper.setTo(from);
+            helper.setTo(to);
             //标题
             helper.setSubject(subject);
+
+            StringBuffer sb = new StringBuffer();
+            sb.append("<p>");
+            sb.append(content);
+            sb.append("</p><br/>");
+            Map<String, String> imgMap = new HashMap<>();
+            if (!imgList.isEmpty()) {
+                if (imgList.size() == 1) {
+                    imgMap.put("img01", imgLocation+imgList.get(0));
+                    sb.append("<img src=\\\"cid:img01\\\" />");
+                }
+                if (imgList.size() == 2) {
+                    imgMap.put("img01", imgLocation+imgList.get(0));
+                    imgMap.put("img02", imgLocation+imgList.get(1));
+                    sb.append("<img src=\\\"cid:img01\\\" />");
+                    sb.append("<img src=\\\"cid:img02\\\" />");
+                }
+                if (imgList.size() == 3) {
+                    imgMap.put("img01", imgLocation+imgList.get(0));
+                    imgMap.put("img02", imgLocation+imgList.get(1));
+                    imgMap.put("img03", imgLocation+imgList.get(2));
+                    sb.append("<img src=\\\"cid:img01\\\" />");
+                    sb.append("<img src=\\\"cid:img02\\\" />");
+                    sb.append("<img src=\\\"cid:img03\\\" />");
+                }
+                if (imgList.size() == 4) {
+                    imgMap.put("img01", imgLocation+imgList.get(0));
+                    imgMap.put("img02", imgLocation+imgList.get(1));
+                    imgMap.put("img03", imgLocation+imgList.get(2));
+                    imgMap.put("img04", imgLocation+imgList.get(3));
+                    sb.append("<img src=\\\"cid:img01\\\" />");
+                    sb.append("<img src=\\\"cid:img02\\\" />");
+                    sb.append("<img src=\\\"cid:img03\\\" />");
+                    sb.append("<img src=\\\"cid:img04\\\" />");
+                }
+            }
             //内容
-            helper.setText(content, true);
-            // 设置 html 中内联的图片
-            for (int i = 0; i < imgId.length; i++) {
-                FileSystemResource file = new FileSystemResource(imgPath[i]);
-                // addInline() 方法 cid 需要 html 中的 cid (Content ID) 对应，才能设置图片成功，
-                helper.addInline(imgId[i], file);
+            log.info("发送内容为:{}", sb.toString());
+            helper.setText(sb.toString(), true);
+            // 添加图片
+            if (imgMap.size() > 0) {
+                for (Map.Entry<String, String> entry : imgMap.entrySet()) {
+                    FileSystemResource fileResource = new FileSystemResource(new File(entry.getValue()));
+                    if (fileResource.exists()) {
+                        String filename = fileResource.getFilename();
+                        helper.addInline(entry.getKey(), fileResource);
+                    }
+                }
             }
         } catch (MessagingException e) {
             log.info("发送邮件带图片发送异常{}", e.getMessage());
@@ -135,7 +182,7 @@ public class MailServiceImpl implements MailService {
         if ("FORGET_PASSWORD".equals(type)) {
             mailManage.setMailType(2);
         }
-        if (StringUtils.isBlank(type)){
+        if (StringUtils.isBlank(type)) {
             mailManage.setMailType(3);
         }
         mailManageMapper.insert(mailManage);

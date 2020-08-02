@@ -17,6 +17,7 @@ public enum ResultEnum {
     VCF_FORMAT_ERROR(10, "vcf格式错误"),
     FILE_TYPE_CHANGE_ERROR(11, "文件类型转换错误"),
     IDCAR_IS_EXIST(12, "患者已将存在"),
+    COLLECT_IS_EXIST(14, "收藏已将存在"),
     PRIMEVAL_PASSWORD_ERROR(13, "原始密码错误"),
     EMAIL_NOT_EXISTS(7, "邮箱不存在"),
     PASSWORD_NOT_IDENTICAL(4, "密码不一致"),

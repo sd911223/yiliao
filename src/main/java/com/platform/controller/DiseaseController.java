@@ -7,7 +7,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -29,10 +32,10 @@ public class DiseaseController {
      * @return
      */
     @ApiOperation("根据疾病id查询疾病的详细信息")
-        @GetMapping("/diseaseInformation")
+    @GetMapping("/diseaseInformation")
     public RestResponse diseaseInformation(@ApiParam("疾病ID") @RequestParam(value = "OMIM_id", required = true) String OMIMId) {
 
-        return diseaseService.disease(OMIMId,"1");
+        return diseaseService.disease(OMIMId, "1");
 
     }
 
@@ -46,7 +49,7 @@ public class DiseaseController {
     @GetMapping("/diseaseInfoByName")
     public RestResponse diseaseInfoByName(@ApiParam("疾病名称") @RequestParam(value = "disease_name", required = true) String diseaseName) {
 
-        return diseaseService.disease(diseaseName,"2");
+        return diseaseService.disease(diseaseName, "2");
 
     }
 
@@ -60,6 +63,11 @@ public class DiseaseController {
     @GetMapping("/symptom/byDisease")
     public RestResponse byDisease(@ApiParam("症状") @RequestParam(value = "symptoms", required = true) String symptoms) {
         //此时前台传来的是一个数组的字符串,去掉中括号，生成数组
+        StringBuffer sb = new StringBuffer();
+        sb.append("[");
+        sb.append(symptoms);
+        sb.append("]");
+        symptoms=sb.toString();
         String[] symptomArray = symptoms.substring(1, symptoms.length() - 1).split(",");
         List<Map<String, String>> result = diseaseService.listDisease(symptomArray);
         return ResultUtil.success(result);

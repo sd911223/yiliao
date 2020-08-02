@@ -2,14 +2,17 @@ package com.platform.service.impl;
 
 import com.platform.common.RestResponse;
 import com.platform.common.ResultUtil;
+import com.platform.dao.LeaveMessageMapper;
 import com.platform.dao.UserInfoMapper;
 import com.platform.entity.req.LeaveAMessageReq;
+import com.platform.model.LeaveMessage;
 import com.platform.model.UserInfo;
 import com.platform.service.LeaveAMessageService;
-import com.platform.service.MailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * 留言板
@@ -20,7 +23,7 @@ public class LeaveAMessageServiceImpl implements LeaveAMessageService {
     @Autowired
     UserInfoMapper userInfoMapper;
     @Autowired
-    MailService mailService;
+    LeaveMessageMapper leaveMessageMapper;
 
     /**
      * 创建留言
@@ -31,10 +34,14 @@ public class LeaveAMessageServiceImpl implements LeaveAMessageService {
      */
     @Override
     public RestResponse addLeaveMessage(UserInfo userInfo, LeaveAMessageReq leaveAMessageReq) {
-        UserInfo byIdUserInfo = userInfoMapper.selectByPrimaryKey(userInfo.getUserId());
-        String[] imgList = leaveAMessageReq.getImgList().toArray(new String[leaveAMessageReq.getImgList().size()]);
-        String[] imgIdList = leaveAMessageReq.getImgId().toArray(new String[leaveAMessageReq.getImgId().size()]);
-        mailService.sendImageMail(byIdUserInfo.geteMail(), leaveAMessageReq.getTitle(), leaveAMessageReq.getContent(), imgList, imgIdList);
-        return ResultUtil.success("发送邮件带图片成功!");
+        LeaveMessage leaveMessage = new LeaveMessage();
+        leaveMessage.setUserId(userInfo.getUserId());
+        leaveMessage.setCreateTime(new Date());
+        leaveMessage.setImgList(leaveAMessageReq.getImgList());
+        leaveMessage.setIsEffective(1);
+        leaveMessage.setTitle(leaveAMessageReq.getTitle());
+        leaveMessage.setContent(leaveAMessageReq.getContent());
+        leaveMessageMapper.insertSelective(leaveMessage);
+        return ResultUtil.success("创建留言成功!");
     }
 }

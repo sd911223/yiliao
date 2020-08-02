@@ -22,7 +22,7 @@ public interface CollectService {
      * @param userInfo
      * @return
      */
-    RestResponse listCollect(UserInfo userInfo);
+    RestResponse listCollect(UserInfo userInfo,String  nameAsc,String timeAsc);
 
     /**
      * 删除收藏
@@ -31,4 +31,12 @@ public interface CollectService {
      * @return
      */
     RestResponse deleteCollect(Integer id);
+
+    /**
+     * 修改备注
+     * @param valueOf
+     * @param remark
+     * @return
+     */
+    RestResponse updateCollect(Integer valueOf, String remark);
 }

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: pro
 #日志
 logging:
   level:

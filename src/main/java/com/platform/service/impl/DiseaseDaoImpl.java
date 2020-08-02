@@ -9,6 +9,7 @@ import grakn.client.answer.ConceptMap;
 import graql.lang.Graql;
 import graql.lang.query.GraqlGet;
 import graql.lang.statement.Variable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +21,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Repository
+@Slf4j
 public class DiseaseDaoImpl implements DiseaseDao {
 
     @Autowired
@@ -87,7 +89,8 @@ public class DiseaseDaoImpl implements DiseaseDao {
         List<Map<String, String>> result = new LinkedList<Map<String, String>>();
         for (int i = 0; i < symptoms.length; i++) {
             String gql = "match $ds (has-disease: $dis, has-symptom: $sym) isa disease-symptom-has; "
-                    + "$dis has disease_name $name;$dis has OMIM_id $id; $sym has name " + symptoms[i] + "; get $name,$id;";
+                    + "$dis has disease_name $name;$dis has OMIM_id $id; $sym has name \""+ symptoms[i] +"\"; get $name,$id;";
+            log.info("通过症状查询疾病:gql====={}",gql);
             //查询
             List<ConceptMap> answers = readTransaction.execute((GraqlGet) Graql.parse(gql));
             //对结果进行抽取

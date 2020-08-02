@@ -102,13 +102,12 @@ public class VcfController {
     /**
      * 导出解析报告pdf
      *
-     * @param id
+     * @param vcfId
      * @return
      */
     @ApiOperation("导出解析报告pdf")
     @GetMapping("/vcf/export")
-    public RestResponse exportVcf(@ApiParam("VCF id") @RequestParam(value = "id") String id, HttpServletResponse response) {
-        vcfService.exportPdf(id, response);
-        return ResultUtil.success();
+    public void exportVcf(@ApiParam("VCF id") @RequestParam(value = "vcfId") String vcfId, HttpServletResponse response) {
+        vcfService.exportPdf(vcfId, response);
     }
 }

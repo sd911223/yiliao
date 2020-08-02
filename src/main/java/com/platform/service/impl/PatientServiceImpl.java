@@ -128,6 +128,13 @@ public class PatientServiceImpl implements PatientService {
             log.error("患者详情,无效ID{}", patientAddReq.getPatientId());
             throw new BusinessException(ResultEnum.ID_NOT_EXISTS.getStatus(), ResultEnum.ID_NOT_EXISTS.getMsg());
         }
+        BeanUtils.copyProperties(patientAddReq,patientInfo);
+        if (patientAddReq.getSex().equals("GIRL")){
+            patientInfo.setSex(2);
+        }
+        if (patientAddReq.getSex().equals("MAN")){
+            patientInfo.setSex(1);
+        }
         if (StringUtils.isNotBlank(patientAddReq.getSymptom())) {
             patientInfo.setSymptom(patientAddReq.getSymptom());
         }

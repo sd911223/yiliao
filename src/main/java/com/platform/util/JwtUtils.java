@@ -1,5 +1,6 @@
 package com.platform.util;
 
+import com.alibaba.fastjson.JSON;
 import com.platform.model.UserInfo;
 import com.platform.service.UserService;
 import io.jsonwebtoken.Claims;
@@ -14,7 +15,7 @@ import java.util.Date;
 
 /**
  * jwt工具类
- *
+ * <p>
  * 2020-03-16 13:28
  */
 @Slf4j
@@ -45,14 +46,14 @@ public class JwtUtils {
     /**
      * 生成jwt token
      */
-    public String generateToken(Integer userId) {
+    public String generateToken(UserInfo userInfo) {
         Date nowDate = new Date();
         //过期时间
         Date expireDate = new Date(nowDate.getTime() + expire * 1000);
 
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                .setSubject(String.valueOf(userId))
+                .setSubject(JSON.toJSONString(userInfo))
                 .setIssuedAt(nowDate)
                 .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
@@ -78,7 +79,8 @@ public class JwtUtils {
                     .parseClaimsJws(token)
                     .getBody();
             String userId = body.getSubject();
-            return userService.findByUserId(Integer.valueOf(userId));
+            UserInfo userInfo = JSON.parseObject(userId, UserInfo.class);
+            return userService.findByUserId(userInfo.getUserId());
         } catch (Exception e) {
             log.debug("validate is token error ", e);
             return null;

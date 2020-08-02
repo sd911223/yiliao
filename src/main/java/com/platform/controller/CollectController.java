@@ -7,6 +7,7 @@ import com.platform.model.UserInfo;
 import com.platform.service.CollectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,9 +41,11 @@ public class CollectController {
      */
     @ApiOperation("用户收藏信息")
     @PostMapping("/collect/list")
-    public RestResponse listCollect(@LoginUser UserInfo userInfo) {
+    public RestResponse listCollect(@LoginUser UserInfo userInfo,
+                                    @ApiParam("名字排序") @RequestParam(value = "nameAsc",required = false)String nameAsc,
+                                    @ApiParam("时间排序") @RequestParam(value = "timeAsc",required = false)String timeAsc) {
 
-        return collectService.listCollect(userInfo);
+        return collectService.listCollect(userInfo,nameAsc,timeAsc);
 
     }
 
@@ -50,14 +53,28 @@ public class CollectController {
     /**
      * 删除收藏
      *
-     * @param id
+     * @param collectId
      * @return
      */
     @ApiOperation("删除收藏")
-    @PostMapping("/collect/delete")
-    public RestResponse deleteCollect(@RequestParam(value = "id") Integer id) {
+    @GetMapping("/collect/delete")
+    public RestResponse deleteCollect(@ApiParam("收藏ID") @RequestParam(value = "collectId") String collectId) {
 
-        return collectService.deleteCollect(id);
+        return collectService.deleteCollect(Integer.valueOf(collectId));
+
+    }
+
+    /**
+     * 修改备注
+     *
+     * @param collectId
+     * @return
+     */
+    @ApiOperation("修改备注")
+    @GetMapping("/collect/update")
+    public RestResponse updateCollect(@ApiParam("收藏ID") @RequestParam(value = "collectId") String collectId, @ApiParam("备注") @RequestParam(value = "remark") String remark) {
+
+        return collectService.updateCollect(Integer.valueOf(collectId),remark);
 
     }
 }

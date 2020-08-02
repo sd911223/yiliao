@@ -1,6 +1,5 @@
 package com.platform.service.impl;
 
-import cn.hutool.core.util.EscapeUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;

@@ -142,7 +142,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(ResultEnum.USER_NOT_EXIST.getStatus(), ResultEnum.USER_NOT_EXIST.getMsg());
         }
         //存在的话生成token
-        String token = jwtUtils.generateToken(infoList.get(0).getUserId());
+        String token = jwtUtils.generateToken(infoList.get(0));
 
         return ResultUtil.success(token);
     }
