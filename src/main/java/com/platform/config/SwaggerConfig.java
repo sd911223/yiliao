@@ -18,7 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@Profile({"pro","dev"})
+@Profile({"pro","dev","test"})
 @EnableSwaggerBootstrapUI
 public class SwaggerConfig {
     @Bean

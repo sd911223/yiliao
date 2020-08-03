@@ -99,7 +99,6 @@ public class GeneDaoImpl implements GeneDao {
         //String gql = "match $disease (traveler: $per) isa disease, has disease_id '"+diseaseId+"';get";
         //显示所有字段(除了entrez_id)
         for (int i = 0; i < keyArray.length; i++) {
-            if (!keyArray[i].equals("entrez_id")) {
                 if (i != keyArray.length - 1) {
                     gql1.append(",has " + keyArray[i] + " $" + keyArray[i]);
                     gql2.append(" $" + keyArray[i] + ",");
@@ -107,9 +106,6 @@ public class GeneDaoImpl implements GeneDao {
                     gql1.append(",has " + keyArray[i] + " $" + keyArray[i] + ";");
                     gql2.append(" $" + keyArray[i] + ";");
                 }
-
-            }
-
         }
         List<ConceptMap> answers = readTransaction.execute((GraqlGet) Graql.parse(gql1.toString() + gql2.toString()));
         Map<String, String> result = new HashMap<String, String>(29);
@@ -143,6 +139,7 @@ public class GeneDaoImpl implements GeneDao {
 
         // Read the person using a READ only transaction
         GraknClient.Transaction readTransaction = session.transaction().read();
+
         StringBuffer gql1 = new StringBuffer("match $gene isa gene, has gene_symbol '" + geneSymbol + "'");
         StringBuffer gql2 = new StringBuffer("get");
         //String gql = "match $disease (traveler: $per) isa disease, has disease_id '"+diseaseId+"';get";

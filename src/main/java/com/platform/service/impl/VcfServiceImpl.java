@@ -1,7 +1,5 @@
 package com.platform.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.platform.common.RestResponse;
 import com.platform.common.ResultEnum;
 import com.platform.common.ResultUtil;
@@ -22,6 +20,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
@@ -33,12 +33,11 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 /**
  * VCF管理
  */
@@ -78,10 +77,13 @@ public class VcfServiceImpl implements VcfService {
                 .andDoctorIdEqualTo(userInfo.getUserId());
         long complete = patientInfoMapper.countByExample(patientInfoExample);
         //未完成
+        ArrayList<Integer> integers = new ArrayList<>();
+        integers.add(2);
+        integers.add(null);
         PatientInfoExample noInfoExample = new PatientInfoExample();
         noInfoExample.createCriteria()
                 .andIsEffectiveEqualTo(1)
-                .andIsResolveEqualTo(2)
+                .andIsResolveIn(integers)
                 .andDoctorIdEqualTo(userInfo.getUserId());
         long not = patientInfoMapper.countByExample(patientInfoExample);
         VcfCountResp vcfCountResp = VcfCountResp.builder().totalTask(total).completeTask(complete).NotTask(not).build();
@@ -251,7 +253,7 @@ public class VcfServiceImpl implements VcfService {
          * 数据导出(PDF 格式)
          */
         Map<String, Object> dataMap = new HashMap<>(16);
-        dataMap.put("statisticalTime",new Date().toString());
+        dataMap.put("statisticalTime", new Date().toString());
 
         String htmlStr = PDFUtil.freemarkerRender(dataMap, pdfExportConfig.getEmployeeKpiFtl());
         byte[] pdfBytes = PDFUtil.createPDF(htmlStr, pdfExportConfig.getFontSimsun());
