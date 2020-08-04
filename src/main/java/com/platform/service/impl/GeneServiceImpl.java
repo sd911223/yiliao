@@ -49,6 +49,11 @@ public class GeneServiceImpl implements GeneService {
         return cleanResult;
     }
 
+    /**
+     * 先查询是否有别名/没有的话直接查询,有的话按照别名查询
+     * @param geneSymbol
+     * @return
+     */
     @Override
     public Map<String, Object> getGeneByGeneSymbol(String geneSymbol) {
         EntrezAnotherExample entrezAnotherExample = new EntrezAnotherExample();
