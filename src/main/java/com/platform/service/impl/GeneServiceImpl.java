@@ -3,13 +3,19 @@ package com.platform.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.platform.dao.EntrezAnotherMapper;
+import com.platform.model.EntrezAnother;
+import com.platform.model.EntrezAnotherExample;
 import com.platform.service.GeneDao;
 import com.platform.service.GeneService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +26,10 @@ import java.util.Map;
 public class GeneServiceImpl implements GeneService {
     @Autowired
     private GeneDao geneDao;
+    @Autowired
+    EntrezAnotherMapper entrezAnotherMapper;
+
+    public static String paths2 = "C:\\Users\\shidun\\Desktop\\correspondence.txt";
 
     @Override
     public Map<String, Object> getGeneByOmimId(String omimId) {
@@ -41,11 +51,83 @@ public class GeneServiceImpl implements GeneService {
 
     @Override
     public Map<String, Object> getGeneByGeneSymbol(String geneSymbol) {
+        EntrezAnotherExample entrezAnotherExample = new EntrezAnotherExample();
+        entrezAnotherExample.createCriteria().andAnotherNameLike("%" + geneSymbol + "%");
+        String hg38 = "";
+        List<EntrezAnother> entrezAnotherList = entrezAnotherMapper.selectByExample(entrezAnotherExample);
+        if (entrezAnotherList.isEmpty()) {
+            Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
+            //把结果符合json格式
+            Map<String, Object> cleanResult = this.getJsonResult(result);
+            return cleanResult;
+        } else {
+            for (EntrezAnother entrezAnother : entrezAnotherList) {
+                String anotherName = entrezAnother.getAnotherName();
+                String[] split = anotherName.split(",");
+                List<String> another = Arrays.asList(split);
+                for (String name : another) {
+                    if (name.equals(geneSymbol)) {
+                        geneSymbol = entrezAnother.getEntrezName();
+                        hg38 = entrezAnother.getHg38Location();
+                        break;
+                    }
+                }
+            }
+            Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
+            //把结果符合json格式
+            Map<String, Object> cleanResult = this.getJsonResult(result);
+            cleanResult.put("HG38", hg38);
+            return cleanResult;
+        }
+//        daoru();
         // TODO Auto-generated method stub
-        Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
-        //把结果符合json格式
-        Map<String, Object> cleanResult = this.getJsonResult(result);
-        return cleanResult;
+//        Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
+//        //把结果符合json格式
+//        Map<String, Object> cleanResult = this.getJsonResult(result);
+    }
+
+    private void daoru() {
+        StringBuffer sb = new StringBuffer();
+        try {
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(paths2));
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String line;
+            int count = 0;
+            while ((line = br.readLine()) != null) {
+                EntrezAnother txt = new EntrezAnother();
+                String[] arr = line.split("\t");
+                log.info("数组长度{}", arr.length);
+//                log.info("第一个数字:{}===第2个数字:{}===第三个数字:{}====第4个数字:{}",arr[0],arr[1],arr[2],arr[3]);
+                if (arr.length == 1) {
+                    txt.setEntrezId(Integer.valueOf(arr[0]));
+                    entrezAnotherMapper.insert(txt);
+                }
+                if (arr.length == 2) {
+                    txt.setEntrezId(Integer.valueOf(arr[0]));
+                    txt.setEntrezName(arr[1]);
+                    entrezAnotherMapper.insert(txt);
+                }
+                if (arr.length == 3) {
+                    txt.setEntrezId(Integer.valueOf(arr[0]));
+                    txt.setEntrezName(arr[1]);
+                    txt.setAnotherName(arr[2]);
+                    entrezAnotherMapper.insert(txt);
+                }
+                if (arr.length == 4) {
+                    txt.setEntrezId(Integer.valueOf(arr[0]));
+                    txt.setEntrezName(arr[1]);
+                    txt.setAnotherName(arr[2]);
+                    txt.setHg38Location(arr[3]);
+                    entrezAnotherMapper.insert(txt);
+                }
+                count++;
+
+            }
+            br.close();
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

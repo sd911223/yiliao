@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.dao.EntrezAnotherMapper">
+  <resultMap id="BaseResultMap" type="com.platform.model.EntrezAnother">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="entrez_id" jdbcType="INTEGER" property="entrezId" />
+    <result column="entrez_name" jdbcType="VARCHAR" property="entrezName" />
+    <result column="another_name" jdbcType="VARCHAR" property="anotherName" />
+    <result column="hg38_location" jdbcType="VARCHAR" property="hg38Location" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, entrez_id, entrez_name, another_name, hg38_location
+  </sql>
+  <select id="selectByExample" parameterType="com.platform.model.EntrezAnotherExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from entrez_another
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from entrez_another
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from entrez_another
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.platform.model.EntrezAnotherExample">
+    delete from entrez_another
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.platform.model.EntrezAnother">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into entrez_another (entrez_id, entrez_name, another_name, 
+      hg38_location)
+    values (#{entrezId,jdbcType=INTEGER}, #{entrezName,jdbcType=VARCHAR}, #{anotherName,jdbcType=VARCHAR}, 
+      #{hg38Location,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.platform.model.EntrezAnother">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into entrez_another
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="entrezId != null">
+        entrez_id,
+      </if>
+      <if test="entrezName != null">
+        entrez_name,
+      </if>
+      <if test="anotherName != null">
+        another_name,
+      </if>
+      <if test="hg38Location != null">
+        hg38_location,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="entrezId != null">
+        #{entrezId,jdbcType=INTEGER},
+      </if>
+      <if test="entrezName != null">
+        #{entrezName,jdbcType=VARCHAR},
+      </if>
+      <if test="anotherName != null">
+        #{anotherName,jdbcType=VARCHAR},
+      </if>
+      <if test="hg38Location != null">
+        #{hg38Location,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.platform.model.EntrezAnotherExample" resultType="java.lang.Long">
+    select count(*) from entrez_another
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update entrez_another
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.entrezId != null">
+        entrez_id = #{record.entrezId,jdbcType=INTEGER},
+      </if>
+      <if test="record.entrezName != null">
+        entrez_name = #{record.entrezName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.anotherName != null">
+        another_name = #{record.anotherName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hg38Location != null">
+        hg38_location = #{record.hg38Location,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update entrez_another
+    set id = #{record.id,jdbcType=INTEGER},
+      entrez_id = #{record.entrezId,jdbcType=INTEGER},
+      entrez_name = #{record.entrezName,jdbcType=VARCHAR},
+      another_name = #{record.anotherName,jdbcType=VARCHAR},
+      hg38_location = #{record.hg38Location,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.platform.model.EntrezAnother">
+    update entrez_another
+    <set>
+      <if test="entrezId != null">
+        entrez_id = #{entrezId,jdbcType=INTEGER},
+      </if>
+      <if test="entrezName != null">
+        entrez_name = #{entrezName,jdbcType=VARCHAR},
+      </if>
+      <if test="anotherName != null">
+        another_name = #{anotherName,jdbcType=VARCHAR},
+      </if>
+      <if test="hg38Location != null">
+        hg38_location = #{hg38Location,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.platform.model.EntrezAnother">
+    update entrez_another
+    set entrez_id = #{entrezId,jdbcType=INTEGER},
+      entrez_name = #{entrezName,jdbcType=VARCHAR},
+      another_name = #{anotherName,jdbcType=VARCHAR},
+      hg38_location = #{hg38Location,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

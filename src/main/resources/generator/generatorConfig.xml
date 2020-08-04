@@ -157,7 +157,7 @@
         <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
         <!--        </table>-->
 
-        <table tableName="leave_message" domainObjectName="LeaveMessage" enableCountByExample="true"
+        <table tableName="entrez_another" domainObjectName="EntrezAnother" enableCountByExample="true"
                enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true"
@@ -169,7 +169,6 @@
             <property name="PositionReport" value="false"/>
             <!-- generatedKey用于生成生成主键的方法 -->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-            <columnOverride column="is_effective" javaType="Integer"/>
         </table>
     </context>
 
