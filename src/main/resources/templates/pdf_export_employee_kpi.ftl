@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Title</title>
   <style>
     @page {
@@ -322,7 +322,7 @@
   <div class="main">
     <div class="box query-details">
       <div class="top">
-        <h3><i class="logo"></i>张三的全外解读报告</h3>
+        <h3><i class="logo"></i>${patientName}的全外解读报告</h3>
         <p class="doctor">
           <span>解读医生：李医生</span>
           <span>时间：2020/04/24</span>
@@ -331,19 +331,19 @@
       <div class="block block1">
         <p class="title"><em>患者基本信息</em></p>
         <ul class="base-info">
-          <li><span>姓名：</span><p>张三</p></li>
-          <li><span>性别：</span><p>女</p></li>
-          <li><span>年龄：</span><p>20</p></li>
-          <li><span>症状：</span><p>脚疼；头疼</p></li>
-          <li><span>家族遗传病史：</span><p>无</p></li>
+          <li><span>姓名：</span><p>${patientName}</p></li>
+          <li><span>性别：</span><p>${sex}</p></li>
+          <li><span>年龄：</span><p>${age}</p></li>
+          <li><span>症状：</span><p>${symptom}</p></li>
+          <li><span>家族遗传病史：</span><p>${homeDisease}</p></li>
         </ul>
       </div>
       <div class="block block2">
         <p class="title"><em>检测结果</em></p>
         <p class="result">
-          <span><i class="danger"></i>检测到3个高度关注的突变。突变Chr15:48487333 C>G 极有可能会导致色盲。</span>
-          <span>检测到4个中度关注的突变。突变Chr2 8888 A>C 可能导致耳聋。</span>
-          <span>检测到5个低度关注的突变。突变Chr3 8888 A>C 可能导致地贫。</span>
+          <span><i class="danger"></i>检测到${heighList}个高度关注的突变。突变${heighResult} 极有可能会导致${heighDisease}。</span>
+          <span>检测到${moderateList}个中度关注的突变。突变${moderateResult} 可能导致${moderateDisease}。</span>
+          <span>检测到${lowList}个低度关注的突变。突变${lowResult} 可能导致${lowDisease}。</span>
         </p>
       </div>
       <div class="block block3">

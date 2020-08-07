@@ -64,6 +64,6 @@ public interface VcfService {
     /**
      * vcf导出
      */
-    ResponseEntity<?> exportPdf();
+    ResponseEntity<?> exportPdf(String patientId);
 
 }

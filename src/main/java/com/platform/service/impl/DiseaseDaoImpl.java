@@ -45,7 +45,7 @@ public class DiseaseDaoImpl implements DiseaseDao {
         if ("1".equals(type)){
             gql1 = new StringBuffer("match $disease isa disease, has OMIM_id '" + OMIMId + "'");
         }else {
-            gql1 = new StringBuffer("match $disease isa disease, has disease_name '" + OMIMId + "'");
+            gql1 = new StringBuffer("match $disease isa disease, contains disease_name '" + OMIMId + "'");
         }
 
         StringBuffer gql2 = new StringBuffer("get");

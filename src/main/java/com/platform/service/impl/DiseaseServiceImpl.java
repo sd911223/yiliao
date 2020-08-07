@@ -23,12 +23,12 @@ public class DiseaseServiceImpl implements DiseaseService {
     DiseaseDao diseaseDao;
 
     @Override
-    public RestResponse disease(String omimId,String type) {
+    public  Map<String, Object> disease(String omimId,String type) {
         // TODO Auto-generated method stub
         Map<String, String> result = diseaseDao.disease(omimId,type);
         //把结果符合json格式
         Map<String, Object> cleanResult = this.getJsonResult(result);
-        return ResultUtil.success(cleanResult);
+        return cleanResult;
     }
 
     @Override

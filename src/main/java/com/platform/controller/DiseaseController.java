@@ -35,7 +35,7 @@ public class DiseaseController {
     @GetMapping("/diseaseInformation")
     public RestResponse diseaseInformation(@ApiParam("疾病ID") @RequestParam(value = "OMIM_id", required = true) String OMIMId) {
 
-        return diseaseService.disease(OMIMId, "1");
+        return ResultUtil.success(diseaseService.disease(OMIMId, "1"));
 
     }
 
@@ -49,7 +49,7 @@ public class DiseaseController {
     @GetMapping("/diseaseInfoByName")
     public RestResponse diseaseInfoByName(@ApiParam("疾病名称") @RequestParam(value = "disease_name", required = true) String diseaseName) {
 
-        return diseaseService.disease(diseaseName, "2");
+        return ResultUtil.success(diseaseService.disease(diseaseName, "2"));
 
     }
 

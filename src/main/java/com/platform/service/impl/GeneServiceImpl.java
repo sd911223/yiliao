@@ -9,6 +9,7 @@ import com.platform.model.EntrezAnotherExample;
 import com.platform.service.GeneDao;
 import com.platform.service.GeneService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,14 @@ public class GeneServiceImpl implements GeneService {
     public Map<String, Object> getGeneByOmimId(String omimId) {
         // TODO Auto-generated method stub
         Map<String, String> result = geneDao.getGeneByOmimId(omimId);
+        if (StringUtils.isNotBlank(result.get("gene_symbol"))){
+            EntrezAnotherExample entrezAnotherExample = new EntrezAnotherExample();
+            entrezAnotherExample.createCriteria().andEntrezNameEqualTo(result.get("gene_symbol"));
+            List<EntrezAnother> anotherList = entrezAnotherMapper.selectByExample(entrezAnotherExample);
+            if (!anotherList.isEmpty() && anotherList.get(0).getHg38Location() != null) {
+                result.put("HG38", anotherList.get(0).getHg38Location());
+            }
+        }
         //把结果符合json格式
         Map<String, Object> cleanResult = this.getJsonResult(result);
         return cleanResult;
@@ -44,6 +53,14 @@ public class GeneServiceImpl implements GeneService {
     public Map<String, Object> getGeneByEntrezId(String EntrezId) {
         // TODO Auto-generated method stub
         Map<String, String> result = geneDao.getGeneByEntrezId(EntrezId);
+        if (StringUtils.isNotBlank(result.get("entrez_id"))) {
+            EntrezAnotherExample entrezAnotherExample = new EntrezAnotherExample();
+            entrezAnotherExample.createCriteria().andEntrezIdEqualTo(Integer.valueOf(result.get("entrez_id")));
+            List<EntrezAnother> anotherList = entrezAnotherMapper.selectByExample(entrezAnotherExample);
+            if (!anotherList.isEmpty() && anotherList.get(0).getHg38Location() != null) {
+                result.put("HG38", anotherList.get(0).getHg38Location());
+            }
+        }
         //把结果符合json格式
         Map<String, Object> cleanResult = this.getJsonResult(result);
         return cleanResult;
@@ -51,6 +68,7 @@ public class GeneServiceImpl implements GeneService {
 
     /**
      * 先查询是否有别名/没有的话直接查询,有的话按照别名查询
+     *
      * @param geneSymbol
      * @return
      */

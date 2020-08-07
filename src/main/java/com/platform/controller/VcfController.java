@@ -18,8 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
-
 
 /**
  * VCF管理
@@ -110,9 +108,9 @@ public class VcfController {
      */
     @ApiOperation("导出解析报告pdf")
     @PostMapping(value = "/vcf/export", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> exportVcf() {
+    public ResponseEntity<?> exportVcf(@ApiParam("患者ID") @RequestParam(value = "patientId") String patientId) {
         try {
-            ResponseEntity<?> responseEntity = vcfService.exportPdf();
+            ResponseEntity<?> responseEntity = vcfService.exportPdf(patientId);
             return responseEntity;
         } catch (Exception e) {
             e.printStackTrace();

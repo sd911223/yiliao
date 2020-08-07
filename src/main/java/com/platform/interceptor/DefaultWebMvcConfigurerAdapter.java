@@ -36,7 +36,7 @@ public class DefaultWebMvcConfigurerAdapter implements WebMvcConfigurer {
                         "/mtApi/send/captcha",
                         "/mtApi/user/forgetPassword",
                         "/mtApi/symptom/byDisease",
-                        "/mtApi/vcf/export","/mtApi/gene/byOmId","/mtApi/gene/**");
+                        "/mtApi/vcf/export","/mtApi/diseaseInformation","/mtApi/gene/**");
     }
 
     @Override

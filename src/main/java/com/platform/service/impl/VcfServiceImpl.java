@@ -1,17 +1,18 @@
 package com.platform.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.platform.common.RestResponse;
 import com.platform.common.ResultEnum;
 import com.platform.common.ResultUtil;
 import com.platform.config.PDFExportConfig;
+import com.platform.dao.DiseaseOmimMapper;
 import com.platform.dao.PatientInfoMapper;
 import com.platform.dao.VcfFileMapper;
 import com.platform.entity.resp.VcfCountResp;
 import com.platform.exception.BusinessException;
-import com.platform.model.PatientInfo;
-import com.platform.model.PatientInfoExample;
-import com.platform.model.UserInfo;
-import com.platform.model.VcfFile;
+import com.platform.model.*;
+import com.platform.service.DiseaseService;
 import com.platform.service.VcfService;
 import com.platform.util.PDFUtil;
 import com.platform.util.ShellUtil;
@@ -33,10 +34,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * VCF管理
@@ -54,6 +52,10 @@ public class VcfServiceImpl implements VcfService {
     ShellUtil shellUtil;
     @Value("${vcf.file.path}")
     private String path;
+    @Autowired
+    DiseaseOmimMapper diseaseOmimMapper;
+    @Autowired
+    DiseaseService diseaseService;
 
     /**
      * VCF统计
@@ -246,14 +248,69 @@ public class VcfServiceImpl implements VcfService {
     }
 
     @Override
-    public ResponseEntity<?> exportPdf() {
+    public ResponseEntity<?> exportPdf(String patientId) {
         HttpHeaders headers = new HttpHeaders();
+        PatientInfo patientInfo = patientInfoMapper.selectByPrimaryKey(Integer.valueOf(patientId));
+        VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(patientInfo.getJobId());
+        JSONObject json = JSONObject.parseObject(vcfFile.getJsonResult());
+        HashMap<String, String> map = new HashMap<>();
+        StringBuffer literature = new StringBuffer();
+        //计算有几个高度关注
+        HashMap heighList = new HashMap<String, String>();
+        String heighResult = "";
+        String heighDisease = "";
+        if (null != json.get("高度关注") && StringUtils.isNotBlank(json.get("高度关注").toString())) {
+            heighList = JSON.parseObject(json.get("高度关注").toString(), HashMap.class);
+            heighResult = getMutation(json, "高度关注");
+            HashMap<String, Object> hashMap = getDiseaseName(json, "高度关注");
+            heighDisease = hashMap.get("disease").toString();
+            List<HashMap> hashMaps = (List<HashMap>) hashMap.get("emphasis");
+            map = getHashMap(hashMaps);
 
+        }
+        //计算有几个中度关注
+        HashMap moderateList = new HashMap<String, String>();
+        String moderateResult = "";
+        String moderateDisease = "";
+        if (null != json.get("中度关注") && StringUtils.isNotBlank(json.get("中度关注").toString())) {
+            moderateList = JSON.parseObject(json.get("中度关注").toString(), HashMap.class);
+            moderateResult = getMutation(json, "中度关注");
+            HashMap<String, Object> hashMap = getDiseaseName(json, "中度关注");
+            moderateDisease = hashMap.get("disease").toString();
+        }
+        HashMap lowList = new HashMap<String, String>();
+        String lowResult = "";
+        String lowDisease = "";
+        if (null != json.get("低度关注") && StringUtils.isNotBlank(json.get("低度关注").toString())) {
+            lowList = JSON.parseObject(json.get("低度关注").toString(), HashMap.class);
+            lowResult = getMutation(json, "低度关注");
+            HashMap<String, Object> hashMap = getDiseaseName(json, "低度关注");
+            lowDisease = hashMap.get("disease").toString();
+        }
         /**
          * 数据导出(PDF 格式)
          */
         Map<String, Object> dataMap = new HashMap<>(16);
         dataMap.put("statisticalTime", new Date().toString());
+        dataMap.put("doctor", "userInfo.getUserName()");
+        dataMap.put("patientName", patientInfo.getPatientName());
+        dataMap.put("sex", patientInfo.getSex() == 1 ? "男" : "女");
+        dataMap.put("age", patientInfo.getAge());
+        dataMap.put("symptom", patientInfo.getSymptom());
+        dataMap.put("homeDisease", patientInfo.getSymptom());
+        dataMap.put("heighList", heighList.size());
+        dataMap.put("moderateList", moderateList.size());
+        dataMap.put("lowList", lowList.size());
+        dataMap.put("heighResult", heighResult);
+        dataMap.put("moderateResult", moderateResult);
+        dataMap.put("lowResult", lowResult);
+        dataMap.put("heighDisease", heighDisease);
+        dataMap.put("moderateDisease", moderateDisease);
+        dataMap.put("lowDisease", lowDisease);
+        dataMap.put("maps", map);
+        dataMap.put("heighData", heighList);
+        dataMap.put("moderateData", moderateList);
+        dataMap.put("lowData", lowList);
 
         String htmlStr = PDFUtil.freemarkerRender(dataMap, pdfExportConfig.getEmployeeKpiFtl());
         byte[] pdfBytes = PDFUtil.createPDF(htmlStr, pdfExportConfig.getFontSimsun());
@@ -269,5 +326,111 @@ public class VcfServiceImpl implements VcfService {
                 headers, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * 通过OMID 查询疾病名称
+     *
+     * @return
+     */
+    private HashMap<String, Object> getDiseaseName(JSONObject json, String attention) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        JSONObject o = JSONObject.parseObject(json.get(attention).toString());
+        JSONObject jsonObject = JSONObject.parseObject(o.get("0").toString());
+        String disease = jsonObject.get("相关疾病").toString();
+        String[] split = disease.substring(1, disease.length() - 1).split(",");
+        StringBuffer sb = new StringBuffer();
+        List<String> list = Arrays.asList(split);
+        List<Map> mapArrayList = new ArrayList<>();
+        for (String e : list) {
+            log.info("疾病ID{}", e);
+            String substring = e.substring(1, e.length() - 1);
+            if ("高度关注".equals(attention)) {
+                Map<String, Object> disease1 = diseaseService.disease(substring, "1");
+                mapArrayList.add(disease1);
+            }
+            DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+            diseaseOmimExample.createCriteria().andOmimIdEqualTo(Integer.valueOf(substring));
+            List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+            if (!diseaseOmims.isEmpty()){
+                sb.append(diseaseOmims.get(0).getDiseaseName());
+                if (list.size() > 1) {
+                    sb.append(",");
+                }
+            }
+        }
+        hashMap.put("disease", sb.toString());
+        hashMap.put("emphasis", mapArrayList);
+        return hashMap;
+    }
 
+    /**
+     * 拼装突变
+     *
+     * @param json
+     * @param disease
+     * @return
+     */
+    private String getMutation(JSONObject json, String disease) {
+        StringBuffer sb = new StringBuffer();
+        JSONObject o = JSONObject.parseObject(json.get(disease).toString());
+        JSONObject jsonObject = JSONObject.parseObject(o.get("0").toString());
+        sb.append(jsonObject.get("染色体位置"));
+        sb.append(jsonObject.get("Ref"));
+        sb.append(jsonObject.get(">"));
+        sb.append(jsonObject.get("Alt"));
+        return sb.toString();
+    }
+
+    /**
+     * 重度疾病
+     *
+     * @param list
+     * @return
+     */
+    private HashMap<String, String> getHashMap(List<HashMap> list) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        StringBuffer disease_name = new StringBuffer();
+        StringBuffer age_of_onset_orp = new StringBuffer();
+        StringBuffer inheritance_orp = new StringBuffer();
+        StringBuffer prevalence_orp = new StringBuffer();
+        for (int i = 0; i < list.size(); i++) {
+            HashMap map = list.get(i);
+            disease_name.append(map.get("disease_name"));
+            age_of_onset_orp.append(map.get("Age_of_onset_orp"));
+            inheritance_orp.append(map.get("Inheritance_orp"));
+            prevalence_orp.append(map.get("Prevalence_orp"));
+            if (list.size() > 1 && i < list.size()) {
+                disease_name.append(",");
+                age_of_onset_orp.append(",");
+                inheritance_orp.append(",");
+                prevalence_orp.append(",");
+            }
+        }
+        hashMap.put("disease_name", disease_name.toString());
+        hashMap.put("age_of_onset_orp", age_of_onset_orp.toString());
+        hashMap.put("inheritance_orp", inheritance_orp.toString());
+        hashMap.put("prevalence_orp", prevalence_orp.toString());
+        return hashMap;
+    }
+
+    /**
+     * 获取文献
+     *
+     * @param hashMap
+     * @return
+     */
+    private String getLiterature(HashMap<String, String> hashMap) {
+        StringBuffer sb = new StringBuffer();
+        int count = 0;
+        if (hashMap.size() > 0) {
+            for (int i = 0; i < hashMap.size(); i++) {
+                JSONObject jsonObject = JSONObject.parseObject(hashMap.get(String.valueOf(count)));
+                String literature = jsonObject.get("文献").toString();
+                sb.append(literature);
+
+                count++;
+            }
+
+        }
+        return sb.toString();
+    }
 }
