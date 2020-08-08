@@ -84,5 +84,5 @@ grakn:
 
 ## pdf export config
 pdfExport:
-  fontSimsun: static/simsun.ttc
-  employeeKpiFtl: templates/pdf_export_employee_kpi.ftl
+  fontSimsun: /home/ec2-user/web/pdf/static/simsun.ttc
+  employeeKpiFtl: /home/ec2-user/web/pdf/pdf_export_employee_kpi.ftl

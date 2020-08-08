@@ -5,22 +5,24 @@ import com.alibaba.fastjson.JSONObject;
 import com.platform.common.RestResponse;
 import com.platform.common.ResultEnum;
 import com.platform.common.ResultUtil;
-import com.platform.config.PDFExportConfig;
 import com.platform.dao.DiseaseOmimMapper;
 import com.platform.dao.PatientInfoMapper;
 import com.platform.dao.VcfFileMapper;
+import com.platform.entity.resp.HeightAttentionResp;
 import com.platform.entity.resp.VcfCountResp;
 import com.platform.exception.BusinessException;
 import com.platform.model.*;
 import com.platform.service.DiseaseService;
 import com.platform.service.VcfService;
 import com.platform.util.PDFUtil;
+import com.platform.util.PdfUtilTest;
 import com.platform.util.ShellUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,10 +32,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.*;
+import java.net.URLEncoder;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -42,8 +49,7 @@ import java.util.*;
 @Service
 @Slf4j
 public class VcfServiceImpl implements VcfService {
-    @Autowired
-    PDFExportConfig pdfExportConfig;
+
     @Autowired
     PatientInfoMapper patientInfoMapper;
     @Autowired
@@ -56,6 +62,11 @@ public class VcfServiceImpl implements VcfService {
     DiseaseOmimMapper diseaseOmimMapper;
     @Autowired
     DiseaseService diseaseService;
+
+    @Value("${pdfExport.employeeKpiFtl}")
+    private String employeeKpiFtl;
+    @Value("${pdfExport.fontSimsun}")
+    private String fontSimsun;
 
     /**
      * VCF统计
@@ -311,9 +322,14 @@ public class VcfServiceImpl implements VcfService {
         dataMap.put("heighData", heighList);
         dataMap.put("moderateData", moderateList);
         dataMap.put("lowData", lowList);
-
-        String htmlStr = PDFUtil.freemarkerRender(dataMap, pdfExportConfig.getEmployeeKpiFtl());
-        byte[] pdfBytes = PDFUtil.createPDF(htmlStr, pdfExportConfig.getFontSimsun());
+        ClassPathResource resource = new ClassPathResource("application.yml");
+        try {
+            InputStream inputStream = resource.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String htmlStr = PDFUtil.freemarkerRender(dataMap, employeeKpiFtl);
+        byte[] pdfBytes = PDFUtil.createPDF(htmlStr, fontSimsun);
         if (pdfBytes != null && pdfBytes.length > 0) {
             String fileName = System.currentTimeMillis() + (int) (Math.random() * 90000 + 10000) + ".pdf";
             headers.setContentDispositionFormData("attachment", fileName);
@@ -326,6 +342,136 @@ public class VcfServiceImpl implements VcfService {
                 headers, HttpStatus.NOT_FOUND);
     }
 
+    @Override
+    public void download(String patientId, HttpServletResponse response) throws Exception {
+        ByteArrayOutputStream baos = null;
+        OutputStream out = null;
+        try {
+            PatientInfo patientInfo = patientInfoMapper.selectByPrimaryKey(Integer.valueOf(patientId));
+            VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(patientInfo.getJobId());
+            JSONObject json = JSONObject.parseObject(vcfFile.getJsonResult());
+            HashMap<String, String> map = new HashMap<>();
+            StringBuffer literature = new StringBuffer();
+            //高度关注列表
+            List<HeightAttentionResp> ListHeightData=new ArrayList<HeightAttentionResp>();
+            //高度关注列表
+            List<HeightAttentionResp> ListModerateData=new ArrayList<HeightAttentionResp>();
+            //高度关注列表
+            List<HeightAttentionResp> ListLowData=new ArrayList<HeightAttentionResp>();
+            //计算有几个高度关注
+            HashMap heighList = new HashMap<String, String>();
+            String heighResult = "";
+            String heighDisease = "";
+            if (null != json.get("高度关注") && StringUtils.isNotBlank(json.get("高度关注").toString())) {
+                heighList = JSON.parseObject(json.get("高度关注").toString(), HashMap.class);
+                heighResult = getMutation(json, "高度关注");
+                HashMap<String, Object> hashMap = getDiseaseName(json, "高度关注");
+                heighDisease = hashMap.get("disease").toString();
+                List<HashMap> hashMaps = (List<HashMap>) hashMap.get("emphasis");
+                map = getHashMap(hashMaps);
+                ListHeightData=getListMap(heighList);
+            }
+            //计算有几个中度关注
+            HashMap moderateList = new HashMap<String, String>();
+            String moderateResult = "";
+            String moderateDisease = "";
+            if (null != json.get("中度关注") && StringUtils.isNotBlank(json.get("中度关注").toString())) {
+                moderateList = JSON.parseObject(json.get("中度关注").toString(), HashMap.class);
+                moderateResult = getMutation(json, "中度关注");
+                HashMap<String, Object> hashMap = getDiseaseName(json, "中度关注");
+                moderateDisease = hashMap.get("disease").toString();
+                ListModerateData=getListMap(heighList);
+            }
+            HashMap lowList = new HashMap<String, String>();
+            String lowResult = "";
+            String lowDisease = "";
+            if (null != json.get("低度关注") && StringUtils.isNotBlank(json.get("低度关注").toString())) {
+                lowList = JSON.parseObject(json.get("低度关注").toString(), HashMap.class);
+                lowResult = getMutation(json, "低度关注");
+                HashMap<String, Object> hashMap = getDiseaseName(json, "低度关注");
+                lowDisease = hashMap.get("disease").toString();
+                ListLowData=getListMap(heighList);
+            }
+            // 模板中的数据，实际运用从数据库中查询
+            Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("statisticalTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            dataMap.put("doctor", "userInfo.getUserName()");
+            dataMap.put("patientName", patientInfo.getPatientName());
+            dataMap.put("sex", patientInfo.getSex() == 1 ? "男" : "女");
+            dataMap.put("age", patientInfo.getAge());
+            dataMap.put("symptom", patientInfo.getSymptom());
+            dataMap.put("homeDisease", patientInfo.getFamilyMedicalHistory());
+            dataMap.put("heighList", heighList.size());
+            dataMap.put("moderateList", moderateList.size());
+            dataMap.put("lowList", lowList.size());
+            dataMap.put("heighResult", heighResult);
+            dataMap.put("moderateResult", moderateResult);
+            dataMap.put("lowResult", lowResult);
+            dataMap.put("heighDisease", heighDisease);
+            dataMap.put("moderateDisease", moderateDisease);
+            dataMap.put("lowDisease", lowDisease);
+            dataMap.put("maps", map);
+            dataMap.put("heighData", ListHeightData);
+            dataMap.put("moderateData", ListModerateData);
+            dataMap.put("lowData", ListLowData);
+            baos = PdfUtilTest.createPDF(dataMap, "pdfPage.ftl");
+            ;
+            // 设置响应消息头，告诉浏览器当前响应是一个下载文件
+            response.setContentType("application/x-msdownload");
+            // 告诉浏览器，当前响应数据要求用户干预保存到文件中，以及文件名是什么 如果文件名有中文，必须URL编码
+            String fileName = URLEncoder.encode(patientInfo.getPatientName() + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".pdf", "UTF-8");
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+            out = response.getOutputStream();
+            baos.writeTo(out);
+            baos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("导出失败：" + e.getMessage());
+        } finally {
+            if (baos != null) {
+                baos.close();
+            }
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
+
+    /**
+     * 关注列表
+     * @param map
+     * @return
+     */
+    private List<HeightAttentionResp> getListMap(HashMap<String, Object> map) {
+        List<HeightAttentionResp> list = new ArrayList<>();
+        int cont = 0;
+        if (map.size() > 0) {
+            for (int i = 0; i < map.size(); i++) {
+                Object o = map.get(String.valueOf(cont));
+                HeightAttentionResp heightAttentionResp = new HeightAttentionResp();
+                JSONObject parse = JSONObject.parseObject(o.toString());
+                heightAttentionResp.setVariation(parse.get("变异").toString());
+                heightAttentionResp.setChromosomePosition(parse.get("染色体位置").toString());
+                heightAttentionResp.setRef(parse.get("Ref").toString());
+                heightAttentionResp.setAlt(parse.get("Alt").toString());
+                heightAttentionResp.setGeneShape(parse.get("基因型").toString());
+                heightAttentionResp.setMaf(parse.get("MAF(亚洲)").toString());
+                heightAttentionResp.setGene(parse.get("基因").toString());
+                heightAttentionResp.setPathogenicPoints(parse.get("致病分值").toString());
+                heightAttentionResp.setMutationType(parse.get("突变类型").toString());
+                heightAttentionResp.setProteinChange(parse.get("蛋白变化").toString());
+                heightAttentionResp.setRelatedDisease(parse.get("相关疾病").toString());
+                heightAttentionResp.setSource(parse.get("来源").toString());
+                heightAttentionResp.setLiterature(parse.get("文献").toString());
+                list.add(heightAttentionResp);
+                cont++;
+            }
+
+        }
+
+        return list;
+    }
+
     /**
      * 通过OMID 查询疾病名称
      *
@@ -336,13 +482,23 @@ public class VcfServiceImpl implements VcfService {
         JSONObject o = JSONObject.parseObject(json.get(attention).toString());
         JSONObject jsonObject = JSONObject.parseObject(o.get("0").toString());
         String disease = jsonObject.get("相关疾病").toString();
-        String[] split = disease.substring(1, disease.length() - 1).split(",");
+        String[] split = null;
+        if (disease.contains("[") && disease.contains(",") && disease.contains("]")) {
+            split = disease.substring(1, disease.length() - 1).split(",");
+        } else if (disease.contains(",") && !disease.contains("[") && !disease.contains("]")) {
+            split = disease.split(",");
+        }
         StringBuffer sb = new StringBuffer();
-        List<String> list = Arrays.asList(split);
+
         List<Map> mapArrayList = new ArrayList<>();
-        for (String e : list) {
-            log.info("疾病ID{}", e);
-            String substring = e.substring(1, e.length() - 1);
+        if (split == null) {
+            log.info("疾病ID{}", disease);
+            String substring = "";
+            if (disease.contains("[]")) {
+                substring = disease.substring(1, disease.length() - 1);
+            } else {
+                substring = disease;
+            }
             if ("高度关注".equals(attention)) {
                 Map<String, Object> disease1 = diseaseService.disease(substring, "1");
                 mapArrayList.add(disease1);
@@ -350,10 +506,34 @@ public class VcfServiceImpl implements VcfService {
             DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
             diseaseOmimExample.createCriteria().andOmimIdEqualTo(Integer.valueOf(substring));
             List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
-            if (!diseaseOmims.isEmpty()){
-                sb.append(diseaseOmims.get(0).getDiseaseName());
-                if (list.size() > 1) {
-                    sb.append(",");
+            sb.append(diseaseOmims.get(0).getDiseaseName());
+        } else {
+            List<String> list = Arrays.asList(split);
+            for (String e : list) {
+                if (StringUtils.isBlank(e)) {
+                    continue;
+                }
+                log.info("疾病ID{}", e);
+                String substring = "";
+                if (e.contains("[]")) {
+                    substring = e.substring(1, e.length() - 1);
+                } else {
+                    substring = e.replaceAll("\"", "");
+                }
+                if ("高度关注".equals(attention)) {
+                    Map<String, Object> disease1 = diseaseService.disease(substring, "1");
+                    mapArrayList.add(disease1);
+                }
+                DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+                diseaseOmimExample.createCriteria().andOmimIdEqualTo(Integer.valueOf(substring));
+                List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+                if (!diseaseOmims.isEmpty()) {
+                    int cont = 0;
+                    sb.append(diseaseOmims.get(0).getDiseaseName());
+                    if (list.size() > 1 && cont < list.size()) {
+                        sb.append(",");
+                        cont++;
+                    }
                 }
             }
         }

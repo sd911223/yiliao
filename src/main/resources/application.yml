@@ -1,6 +1,14 @@
 spring:
   profiles:
     active: test
+
+  thymeleaf:
+    prefix: classpath:/templates
+    suffix: .html
+    mode: HTML
+    encoding: utf-8
+    servlet.content-type: text/html
+    cache: false
 #日志
 logging:
   level:
@@ -41,3 +49,4 @@ jwt:
     # token有效时长，1天，单位秒
     expire: 3600
     header: token
+

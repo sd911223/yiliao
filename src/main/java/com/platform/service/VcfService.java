@@ -7,6 +7,9 @@ import com.platform.model.VcfFile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 /**
  * VCF管理
  */
@@ -66,4 +69,5 @@ public interface VcfService {
      */
     ResponseEntity<?> exportPdf(String patientId);
 
+    void download(String patientId, HttpServletResponse response) throws Exception;
 }
