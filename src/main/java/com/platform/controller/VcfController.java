@@ -117,50 +117,11 @@ public class VcfController {
      *
      * @return
      */
-//    @ApiOperation("导出解析报告pdf")
-//    @GetMapping(value = "/vcf/export", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity<?> exportVcf(@ApiParam("患者ID") @RequestParam(value = "patientId") String patientId) {
-//        try {
-//            ResponseEntity<?> responseEntity = vcfService.exportPdf(patientId);
-//            return responseEntity;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-//        return new ResponseEntity<String>("{ \"code\" : \"404\", \"message\" : \"not found\" }",
-//                headers, HttpStatus.NOT_FOUND);
-//    }
     @ApiOperation("导出解析报告pdf")
-    @GetMapping(value = "/vcf/export", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void exportVcf(@ApiParam("患者ID") @RequestParam(value = "patientId") String patientId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        vcfService.download(patientId,response);
-//        ByteArrayOutputStream baos = null;
-//        OutputStream out = null;
-//        try {
-//            // 模板中的数据，实际运用从数据库中查询
-//            Map<String,Object> data = new HashMap<>();
-//            data.put("name", "李逍遥");
-//            baos = PdfUtilTest.createPDF(data, "pdfPage.ftl");;
-//            // 设置响应消息头，告诉浏览器当前响应是一个下载文件
-//            response.setContentType( "application/x-msdownload");
-//            // 告诉浏览器，当前响应数据要求用户干预保存到文件中，以及文件名是什么 如果文件名有中文，必须URL编码
-//            String fileName = URLEncoder.encode("获奖证书.pdf", "UTF-8");
-//            response.setHeader( "Content-Disposition", "attachment;filename=" + fileName);
-//            out = response.getOutputStream();
-//            baos.writeTo(out);
-//            baos.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            throw new Exception("导出失败：" + e.getMessage());
-//        } finally{
-//            if(baos != null){
-//                baos.close();
-//            }
-//            if(out != null){
-//                out.close();
-//            }
-//        }
+    @PostMapping(value = "/vcf/export", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void exportVcf(@ApiParam("患者ID") @RequestParam(value = "patientId") String patientId,
+                          HttpServletRequest request,
+                          HttpServletResponse response,@LoginUser UserInfo userInfo) throws Exception {
+        vcfService.download(patientId,response,userInfo);
     }
 }

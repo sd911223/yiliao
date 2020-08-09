@@ -343,12 +343,16 @@ public class VcfServiceImpl implements VcfService {
     }
 
     @Override
-    public void download(String patientId, HttpServletResponse response) throws Exception {
+    public void download(String patientId, HttpServletResponse response,UserInfo userInfo) throws Exception {
         ByteArrayOutputStream baos = null;
         OutputStream out = null;
         try {
             PatientInfo patientInfo = patientInfoMapper.selectByPrimaryKey(Integer.valueOf(patientId));
             VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(patientInfo.getJobId());
+            if (vcfFile==null||vcfFile.getJsonResult()==null){
+                log.error("导出PDF没有VCF结果,患者ID{}", patientId);
+                throw new BusinessException(ResultEnum.VCF_IS_EXIST.getStatus(), ResultEnum.VCF_IS_EXIST.getMsg());
+            }
             JSONObject json = JSONObject.parseObject(vcfFile.getJsonResult());
             HashMap<String, String> map = new HashMap<>();
             //文献
@@ -403,7 +407,7 @@ public class VcfServiceImpl implements VcfService {
             // 模板中的数据，实际运用从数据库中查询
             Map<String, Object> dataMap = new HashMap<>();
             dataMap.put("statisticalTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            dataMap.put("doctor", "shitoudandan");
+            dataMap.put("doctor", userInfo.getUserName());
             dataMap.put("patientName", patientInfo.getPatientName());
             dataMap.put("sex", patientInfo.getSex() == 1 ? "男" : "女");
             dataMap.put("age", patientInfo.getAge());

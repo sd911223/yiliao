@@ -69,5 +69,5 @@ public interface VcfService {
      */
     ResponseEntity<?> exportPdf(String patientId);
 
-    void download(String patientId, HttpServletResponse response) throws Exception;
+    void download(String patientId, HttpServletResponse response,UserInfo userInfo) throws Exception;
 }

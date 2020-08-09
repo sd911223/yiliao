@@ -86,7 +86,9 @@ public class GeneServiceImpl implements GeneService {
                     List<String> another = Arrays.asList(split);
                     for (String name : another) {
                         if (name.equals(geneSymbol)) {
+                            log.info("查询基因ID别名{}",name);
                             geneSymbol = entrezAnother.getEntrezName();
+                            log.info("查询基因ID别名{}",geneSymbol);
                             hg38 = entrezAnother.getHg38Location();
                             Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
                             //把结果符合json格式
