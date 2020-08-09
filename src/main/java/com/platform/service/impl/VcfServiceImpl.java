@@ -82,23 +82,23 @@ public class VcfServiceImpl implements VcfService {
                 .andIsEffectiveEqualTo(1)
                 .andDoctorIdEqualTo(userInfo.getUserId());
         long total = patientInfoMapper.countByExample(patientInfoExample);
+        log.info("統計vcf解讀=====總條數{}", total);
         //已完成
         PatientInfoExample completeInfoExample = new PatientInfoExample();
         completeInfoExample.createCriteria()
                 .andIsEffectiveEqualTo(1)
                 .andIsResolveEqualTo(1)
                 .andDoctorIdEqualTo(userInfo.getUserId());
-        long complete = patientInfoMapper.countByExample(patientInfoExample);
+        long complete = patientInfoMapper.countByExample(completeInfoExample);
+        log.info("統計vcf解讀=====已經完成{}", complete);
         //未完成
-        ArrayList<Integer> integers = new ArrayList<>();
-        integers.add(2);
-        integers.add(null);
         PatientInfoExample noInfoExample = new PatientInfoExample();
         noInfoExample.createCriteria()
                 .andIsEffectiveEqualTo(1)
-                .andIsResolveIn(integers)
+                .andIsResolveEqualTo(2)
                 .andDoctorIdEqualTo(userInfo.getUserId());
-        long not = patientInfoMapper.countByExample(patientInfoExample);
+        long not = patientInfoMapper.countByExample(noInfoExample);
+        log.info("統計vcf解讀=====未完成{}", not);
         VcfCountResp vcfCountResp = VcfCountResp.builder().totalTask(total).completeTask(complete).NotTask(not).build();
         return ResultUtil.success(vcfCountResp);
     }
@@ -351,13 +351,14 @@ public class VcfServiceImpl implements VcfService {
             VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(patientInfo.getJobId());
             JSONObject json = JSONObject.parseObject(vcfFile.getJsonResult());
             HashMap<String, String> map = new HashMap<>();
+            //文献
             StringBuffer literature = new StringBuffer();
             //高度关注列表
-            List<HeightAttentionResp> ListHeightData=new ArrayList<HeightAttentionResp>();
+            List<HeightAttentionResp> ListHeightData = new ArrayList<HeightAttentionResp>();
             //高度关注列表
-            List<HeightAttentionResp> ListModerateData=new ArrayList<HeightAttentionResp>();
+            List<HeightAttentionResp> ListModerateData = new ArrayList<HeightAttentionResp>();
             //高度关注列表
-            List<HeightAttentionResp> ListLowData=new ArrayList<HeightAttentionResp>();
+            List<HeightAttentionResp> ListLowData = new ArrayList<HeightAttentionResp>();
             //计算有几个高度关注
             HashMap heighList = new HashMap<String, String>();
             String heighResult = "";
@@ -369,7 +370,9 @@ public class VcfServiceImpl implements VcfService {
                 heighDisease = hashMap.get("disease").toString();
                 List<HashMap> hashMaps = (List<HashMap>) hashMap.get("emphasis");
                 map = getHashMap(hashMaps);
-                ListHeightData=getListMap(heighList);
+                ListHeightData = getListMap(heighList);
+                String wenxian = getLiterature(heighList);
+                literature.append(wenxian);
             }
             //计算有几个中度关注
             HashMap moderateList = new HashMap<String, String>();
@@ -380,22 +383,27 @@ public class VcfServiceImpl implements VcfService {
                 moderateResult = getMutation(json, "中度关注");
                 HashMap<String, Object> hashMap = getDiseaseName(json, "中度关注");
                 moderateDisease = hashMap.get("disease").toString();
-                ListModerateData=getListMap(heighList);
+                ListModerateData = getListMap(moderateList);
+                String wenxian = getLiterature(moderateList);
+                literature.append(wenxian);
             }
+            //计算其他个数
             HashMap lowList = new HashMap<String, String>();
             String lowResult = "";
             String lowDisease = "";
-            if (null != json.get("低度关注") && StringUtils.isNotBlank(json.get("低度关注").toString())) {
-                lowList = JSON.parseObject(json.get("低度关注").toString(), HashMap.class);
-                lowResult = getMutation(json, "低度关注");
-                HashMap<String, Object> hashMap = getDiseaseName(json, "低度关注");
-                lowDisease = hashMap.get("disease").toString();
-                ListLowData=getListMap(heighList);
+            if (null != json.get("其他") && StringUtils.isNotBlank(json.get("其他").toString())) {
+                lowList = JSON.parseObject(json.get("其他").toString(), HashMap.class);
+                lowResult = getMutation(json, "其他");
+                HashMap<String, Object> hashMap = getDiseaseName(json, "其他");
+                if (hashMap.size() > 0) {
+                    lowDisease = hashMap.get("disease").toString();
+                }
+                ListLowData = getListMap(lowList);
             }
             // 模板中的数据，实际运用从数据库中查询
             Map<String, Object> dataMap = new HashMap<>();
-            dataMap.put("statisticalTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            dataMap.put("doctor", "userInfo.getUserName()");
+            dataMap.put("statisticalTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            dataMap.put("doctor", "shitoudandan");
             dataMap.put("patientName", patientInfo.getPatientName());
             dataMap.put("sex", patientInfo.getSex() == 1 ? "男" : "女");
             dataMap.put("age", patientInfo.getAge());
@@ -414,6 +422,7 @@ public class VcfServiceImpl implements VcfService {
             dataMap.put("heighData", ListHeightData);
             dataMap.put("moderateData", ListModerateData);
             dataMap.put("lowData", ListLowData);
+            dataMap.put("literature", literature);
             baos = PdfUtilTest.createPDF(dataMap, "pdfPage.ftl");
             ;
             // 设置响应消息头，告诉浏览器当前响应是一个下载文件
@@ -439,6 +448,7 @@ public class VcfServiceImpl implements VcfService {
 
     /**
      * 关注列表
+     *
      * @param map
      * @return
      */
@@ -460,9 +470,15 @@ public class VcfServiceImpl implements VcfService {
                 heightAttentionResp.setPathogenicPoints(parse.get("致病分值").toString());
                 heightAttentionResp.setMutationType(parse.get("突变类型").toString());
                 heightAttentionResp.setProteinChange(parse.get("蛋白变化").toString());
-                heightAttentionResp.setRelatedDisease(parse.get("相关疾病").toString());
-                heightAttentionResp.setSource(parse.get("来源").toString());
-                heightAttentionResp.setLiterature(parse.get("文献").toString());
+                if (null != parse.get("相关疾病")) {
+                    heightAttentionResp.setRelatedDisease(parse.get("相关疾病").toString());
+                }
+                if (null != parse.get("来源")) {
+                    heightAttentionResp.setSource(parse.get("来源").toString());
+                }
+                if (null != parse.get("文献")) {
+                    heightAttentionResp.setLiterature(parse.get("文献").toString());
+                }
                 list.add(heightAttentionResp);
                 cont++;
             }
@@ -481,44 +497,24 @@ public class VcfServiceImpl implements VcfService {
         HashMap<String, Object> hashMap = new HashMap<>();
         JSONObject o = JSONObject.parseObject(json.get(attention).toString());
         JSONObject jsonObject = JSONObject.parseObject(o.get("0").toString());
-        String disease = jsonObject.get("相关疾病").toString();
-        String[] split = null;
-        if (disease.contains("[") && disease.contains(",") && disease.contains("]")) {
-            split = disease.substring(1, disease.length() - 1).split(",");
-        } else if (disease.contains(",") && !disease.contains("[") && !disease.contains("]")) {
-            split = disease.split(",");
-        }
-        StringBuffer sb = new StringBuffer();
+        if (null != jsonObject.get("相关疾病")) {
+            String disease = jsonObject.get("相关疾病").toString();
+            String[] split = null;
+            if (disease.contains("[") && disease.contains(",") && disease.contains("]")) {
+                split = disease.substring(1, disease.length() - 1).split(",");
+            } else if (disease.contains(",") && !disease.contains("[") && !disease.contains("]")) {
+                split = disease.split(",");
+            }
+            StringBuffer sb = new StringBuffer();
 
-        List<Map> mapArrayList = new ArrayList<>();
-        if (split == null) {
-            log.info("疾病ID{}", disease);
-            String substring = "";
-            if (disease.contains("[]")) {
-                substring = disease.substring(1, disease.length() - 1);
-            } else {
-                substring = disease;
-            }
-            if ("高度关注".equals(attention)) {
-                Map<String, Object> disease1 = diseaseService.disease(substring, "1");
-                mapArrayList.add(disease1);
-            }
-            DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
-            diseaseOmimExample.createCriteria().andOmimIdEqualTo(Integer.valueOf(substring));
-            List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
-            sb.append(diseaseOmims.get(0).getDiseaseName());
-        } else {
-            List<String> list = Arrays.asList(split);
-            for (String e : list) {
-                if (StringUtils.isBlank(e)) {
-                    continue;
-                }
-                log.info("疾病ID{}", e);
+            List<Map> mapArrayList = new ArrayList<>();
+            if (split == null) {
+                log.info("疾病ID{}", disease);
                 String substring = "";
-                if (e.contains("[]")) {
-                    substring = e.substring(1, e.length() - 1);
+                if (disease.contains("[]")) {
+                    substring = disease.substring(1, disease.length() - 1);
                 } else {
-                    substring = e.replaceAll("\"", "");
+                    substring = disease;
                 }
                 if ("高度关注".equals(attention)) {
                     Map<String, Object> disease1 = diseaseService.disease(substring, "1");
@@ -527,18 +523,42 @@ public class VcfServiceImpl implements VcfService {
                 DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
                 diseaseOmimExample.createCriteria().andOmimIdEqualTo(Integer.valueOf(substring));
                 List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
-                if (!diseaseOmims.isEmpty()) {
-                    int cont = 0;
-                    sb.append(diseaseOmims.get(0).getDiseaseName());
-                    if (list.size() > 1 && cont < list.size()) {
-                        sb.append(",");
-                        cont++;
+                sb.append(diseaseOmims.get(0).getDiseaseName());
+            } else {
+                List<String> list = Arrays.asList(split);
+                for (String e : list) {
+                    if (StringUtils.isBlank(e)) {
+                        continue;
+                    }
+                    log.info("疾病ID{}", e);
+                    String substring = "";
+                    if (e.contains("[]")) {
+                        substring = e.substring(1, e.length() - 1);
+                    } else {
+                        substring = e.replaceAll("\"", "");
+                    }
+                    if ("高度关注".equals(attention)) {
+                        Map<String, Object> disease1 = diseaseService.disease(substring, "1");
+                        mapArrayList.add(disease1);
+                    }
+                    DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+                    diseaseOmimExample.createCriteria().andOmimIdEqualTo(Integer.valueOf(substring));
+                    List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+                    if (!diseaseOmims.isEmpty()) {
+                        int cont = 0;
+                        sb.append(diseaseOmims.get(0).getDiseaseName());
+                        if (list.size() > 1 && cont < list.size()) {
+                            sb.append(",");
+                            cont++;
+                        }
                     }
                 }
             }
+
+            hashMap.put("disease", sb.toString());
+            hashMap.put("emphasis", mapArrayList);
         }
-        hashMap.put("disease", sb.toString());
-        hashMap.put("emphasis", mapArrayList);
+
         return hashMap;
     }
 
@@ -595,18 +615,19 @@ public class VcfServiceImpl implements VcfService {
     /**
      * 获取文献
      *
-     * @param hashMap
+     * @param map
      * @return
      */
-    private String getLiterature(HashMap<String, String> hashMap) {
+    private String getLiterature(HashMap<String, Object> map) {
         StringBuffer sb = new StringBuffer();
         int count = 0;
-        if (hashMap.size() > 0) {
-            for (int i = 0; i < hashMap.size(); i++) {
-                JSONObject jsonObject = JSONObject.parseObject(hashMap.get(String.valueOf(count)));
+        if (map.size() > 0) {
+            for (int i = 0; i < map.size(); i++) {
+                Object o = map.get(String.valueOf(count));
+                JSONObject jsonObject = JSONObject.parseObject(o.toString());
                 String literature = jsonObject.get("文献").toString();
                 sb.append(literature);
-
+                sb.append(",");
                 count++;
             }
 

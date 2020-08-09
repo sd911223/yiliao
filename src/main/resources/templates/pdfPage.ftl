@@ -44,7 +44,7 @@
             position: relative;
             padding: 40px 100px;
             font-weight: normal;
-            font-size: 28px;
+            font-size: 24px;
             letter-spacing: 2px;
             color: #3f3f3f;
         }
@@ -63,16 +63,15 @@
         .box .top .doctor {
             position: absolute;
             top: 0;
-            right: -33px;
+            right: 0;
             width: 100%;
             text-align: right;
-            font-size: 20px;
+            font-size: 18px;
             color: #656565;
         }
 
         .box .top .doctor span {
-            display: inline-block;
-            margin-left: 10px;
+            display: block;
         }
 
         /*  */
@@ -86,10 +85,10 @@
             display: block;
             width: 100%;
             line-height: 40px;
-            padding: 30px;
+            padding: 50px 30px 30px;
             box-sizing: border-box;
             text-align: center;
-            font-size: 36px;
+            font-size: 32px;
             color: #3f3f3f;
         }
 
@@ -138,7 +137,7 @@
             padding-top: 10px;
             text-align: center;
             font-weight: normal;
-            font-size: 20px;
+            font-size: 18px;
             color: #606060;
         }
 
@@ -159,7 +158,7 @@
             display: inline-block;
             letter-spacing: 2px;
             font-style: normal;
-            font-size: 28px;
+            font-size: 24px;
         }
 
         .query-details .block .title span {
@@ -167,7 +166,7 @@
             margin-left: 20px;
             padding-left: 20px;
             letter-spacing: 2px;
-            font-size: 20px;
+            font-size: 18px;
             vertical-align: middle;
         }
 
@@ -187,7 +186,7 @@
         }
 
         .block .title em {
-            font-size: 26px;
+            font-size: 22px;
         }
 
         .block1 .base-info {
@@ -201,7 +200,7 @@
             display: block;
             min-height: 40px;
             padding: 10px 20px;
-            font-size: 20px;
+            font-size: 18px;
             color: #656565;
         }
 
@@ -235,7 +234,7 @@
         .block2 .result {
             position: relative;
             width: 100%;
-            font-size: 20px;
+            font-size: 18px;
             color: #656565;
         }
 
@@ -281,7 +280,7 @@
             height: 40px;
             line-height: 40px;
             text-align: center;
-            font-size: 20px;
+            font-size: 18px;
             color: #fff;
         }
 
@@ -302,31 +301,31 @@
         .diseases-info {
             position: relative;
             width: 100%;
-            margin: 56px auto 120px;
+            margin: 56px auto;
             list-style: none;
         }
 
-        .diseases-info li {
+        .diseases-info p {
             position: relative;
             display: block;
             width: 100%;
-            height: 68px;
+            height: 60px;
             border-top-left-radius: 70px;
             border-bottom-left-radius: 10px;
             border-top-right-radius: 10px;
             border-bottom-right-radius: 70px;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             background-color: #ebeff2;
         }
 
-        .diseases-info li i {
+        .diseases-info p i {
             position: absolute;
             top: 0;
             left: 0;
             display: block;
-            width: 318px;
-            height: 68px;
-            line-height: 68px;
+            width: 200px;
+            height: 60px;
+            line-height: 60px;
             border-top-left-radius: 70px;
             border-bottom-left-radius: 10px;
             border-top-right-radius: 10px;
@@ -337,42 +336,45 @@
             color: #fff;
         }
 
-        .diseases-info li span {
+        .diseases-info p span {
             display: inline-block;
             width: 100%;
-            line-height: 68px;
-            padding-left: 386px;
+            line-height: 60px;
+            padding-left: 220px;
             padding-right: 70px;
             box-sizing: border-box;
-            font-size: 20px;
+            font-size: 16px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        .block4 .diseases-info li:nth-of-type(1) i {
+        .block4 .diseases-info p:nth-of-type(1) i {
             background-color: #3bcaff;
         }
 
-        .block4 .diseases-info li:nth-of-type(2) i {
+        .block4 .diseases-info p:nth-of-type(2) i {
             background-color: #3bbcff;
         }
 
-        .block4 .diseases-info li:nth-of-type(3) i {
+        .block4 .diseases-info p:nth-of-type(3) i {
             background-color: #3ba5ff;
         }
 
-        .block4 .diseases-info li:nth-of-type(4) i {
+        .block4 .diseases-info p:nth-of-type(4) i {
             background-color: #3b8eff;
         }
 
-        .block7 .description {
+        .description {
+            display: block;
             width: 100%;
             line-height: 30px;
             padding-bottom: 40px;
             text-indent: 25px;
-            font-size: 20px;
+            font-size: 18px;
             color: #000;
+            word-wrap: break-word;
+            word-break: break-all;
         }
 
         .gray {
@@ -386,7 +388,7 @@
         <div class="top">
             <h3><i class="logo"></i>${patientName}的全外解读报告</h3>
             <p class="doctor">
-                <span>解读医生：李医生</span>
+                <span>解读医生：${doctor}</span>
                 <span>时间：${statisticalTime}</span>
             </p>
         </div>
@@ -445,9 +447,9 @@
                     <span>基因</span>
                     <span>致病分值</span>
                 </dt>
-                <dd>
-                    <#if heighData?exists>
-                        <#list heighData as map>
+                <#if heighData?exists>
+                    <#list heighData as map>
+                        <dd>
                             <span>${map.variation}</span>
                             <span>${map.chromosomePosition}</span>
                             <span>${map.ref}</span>
@@ -456,41 +458,21 @@
                             <span>${map.maf}</span>
                             <span>${map.gene}</span>
                             <span>${map.pathogenicPoints}</span>
-                        </#list>
-                    </#if>
-                </dd>
+                        </dd>
+                    </#list>
+                </#if>
             </dl>
-            <!-- <dl class="table">
-              <dt>
-                <span>RS</span>
-                <span>染色体位置</span>
-                <span>Ref</span>
-                <span>Alt</span>
-                <span>基因型</span>
-                <span>MAF</span>
-                <span>基因</span>
-                <span>致病分值</span>
-              </dt>
-              <dd>
-                <span>rs140598</span>
-                <span>15:48487333</span>
-                <span>C</span>
-                <span>G</span>
-                <span>0/1</span>
-                <span>0.05</span>
-                <span>CHRNB1</span>
-                <span>0.85</span>
-              </dd>
-            </dl> -->
         </div>
         <div class="block block4">
             <p class="title"><em>重点关注疾病</em></p>
-            <ul class="diseases-info">
-                <li><i style="background-color:#3bcaff">疾病名</i><span>DIGEORGE SYNDROME; DGS</span></li>
-                <li><i style="background-color:#3bbcff">发病年龄</i><span>Neonata</span></li>
-                <li><i style="background-color:#3ba5ff">遗传方式</i><span>Autosomal dominant</span></li>
-                <li><i style="background-color:#3b8eff">发病率</i><span>1-5 / 10 000</span></li>
-            </ul>
+            <#if maps??>
+                <div class="diseases-info">
+                    <p><i style="background-color:#3bcaff">疾病名</i><span>${maps['disease_name']}</span></p>
+                    <p><i style="background-color:#3bbcff">发病年龄</i><span>${maps['age_of_onset_orp']}</span></p>
+                    <p><i style="background-color:#3ba5ff">遗传方式</i><span>${maps['inheritance_orp']}</span></p>
+                    <p><i style="background-color:#3b8eff">发病率</i><span>${maps['prevalence_orp']?html}</span></p>
+                </div>
+            </#if>
         </div>
         <div class="block block5">
             <p class="title"><em>中度关注</em></p>
@@ -505,16 +487,20 @@
                     <span>基因</span>
                     <span>致病分值</span>
                 </dt>
-                <dd>
-                    <span>rs140598</span>
-                    <span>15:48487333</span>
-                    <span>C</span>
-                    <span>G</span>
-                    <span>0/1</span>
-                    <span>0.05</span>
-                    <span>CHRNB1</span>
-                    <span>0.85</span>
-                </dd>
+                <#if moderateData?exists>
+                    <#list moderateData as map>
+                        <dd>
+                            <span>${map.variation}</span>
+                            <span>${map.chromosomePosition}</span>
+                            <span>${map.ref}</span>
+                            <span>${map.alt}</span>
+                            <span>${map.geneShape}</span>
+                            <span>${map.maf}</span>
+                            <span>${map.gene}</span>
+                            <span>${map.pathogenicPoints}</span>
+                        </dd>
+                    </#list>
+                </#if>
             </dl>
         </div>
         <div class="block block6">
@@ -530,23 +516,26 @@
                     <span>基因</span>
                     <span>致病分值</span>
                 </dt>
-                <dd>
-                    <span>rs140598</span>
-                    <span>15:48487333</span>
-                    <span>C</span>
-                    <span>G</span>
-                    <span>0/1</span>
-                    <span>0.05</span>
-                    <span>CHRNB1</span>
-                    <span>0.85</span>
-                </dd>
+                <#if lowData?exists>
+                    <#list lowData as map>
+                        <dd>
+                            <span>${map.variation}</span>
+                            <span>${map.chromosomePosition}</span>
+                            <span>${map.ref}</span>
+                            <span>${map.alt}</span>
+                            <span>${map.geneShape}</span>
+                            <span>${map.maf}</span>
+                            <span>${map.gene}</span>
+                            <span>${map.pathogenicPoints}</span>
+                        </dd>
+                    </#list>
+                </#if>
             </dl>
         </div>
         <div class="block block7">
             <p class="title"><em>参考文献</em></p>
-            <p class="description">
-                [1] Ammann, A. J., Wara, D. W., Cowan, M. J., Barrett, D. J., Stiehm, E. R. The DiGeorge syndrome and
-                the fetal alcohol syndrome. Am. J. Dis. Child. 136: 906-908, 1982.
+            <p class="description" style="word-wrap: break-word !important; word-break: break-all !important;">
+               ${literature}
             </p>
         </div>
     </div>

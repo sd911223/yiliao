@@ -36,7 +36,7 @@ public class GeneServiceImpl implements GeneService {
     public Map<String, Object> getGeneByOmimId(String omimId) {
         // TODO Auto-generated method stub
         Map<String, String> result = geneDao.getGeneByOmimId(omimId);
-        if (StringUtils.isNotBlank(result.get("gene_symbol"))){
+        if (StringUtils.isNotBlank(result.get("gene_symbol"))) {
             EntrezAnotherExample entrezAnotherExample = new EntrezAnotherExample();
             entrezAnotherExample.createCriteria().andEntrezNameEqualTo(result.get("gene_symbol"));
             List<EntrezAnother> anotherList = entrezAnotherMapper.selectByExample(entrezAnotherExample);
@@ -78,24 +78,34 @@ public class GeneServiceImpl implements GeneService {
         entrezAnotherExample.createCriteria().andAnotherNameLike("%" + geneSymbol + "%");
         String hg38 = "";
         List<EntrezAnother> entrezAnotherList = entrezAnotherMapper.selectByExample(entrezAnotherExample);
-        if (entrezAnotherList.isEmpty()) {
-            Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
-            //把结果符合json格式
-            Map<String, Object> cleanResult = this.getJsonResult(result);
-            return cleanResult;
-        } else {
+        if (!entrezAnotherList.isEmpty()) {
             for (EntrezAnother entrezAnother : entrezAnotherList) {
                 String anotherName = entrezAnother.getAnotherName();
-                String[] split = anotherName.split(",");
-                List<String> another = Arrays.asList(split);
-                for (String name : another) {
-                    if (name.equals(geneSymbol)) {
-                        geneSymbol = entrezAnother.getEntrezName();
-                        hg38 = entrezAnother.getHg38Location();
-                        break;
+                if (anotherName.contains(",")) {
+                    String[] split = anotherName.split(",");
+                    List<String> another = Arrays.asList(split);
+                    for (String name : another) {
+                        if (name.equals(geneSymbol)) {
+                            geneSymbol = entrezAnother.getEntrezName();
+                            hg38 = entrezAnother.getHg38Location();
+                            Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
+                            //把结果符合json格式
+                            Map<String, Object> cleanResult = this.getJsonResult(result);
+                            cleanResult.put("HG38", hg38);
+                            return cleanResult;
+                        }
+                    }
+                }else {
+                    if (anotherName.equals(geneSymbol)) {
+                        Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
+                        //把结果符合json格式
+                        Map<String, Object> cleanResult = this.getJsonResult(result);
+                        cleanResult.put("HG38", hg38);
+                        return cleanResult;
                     }
                 }
             }
+        } else {
             Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
             //把结果符合json格式
             Map<String, Object> cleanResult = this.getJsonResult(result);
@@ -103,10 +113,7 @@ public class GeneServiceImpl implements GeneService {
             return cleanResult;
         }
 //        daoru();
-        // TODO Auto-generated method stub
-//        Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
-//        //把结果符合json格式
-//        Map<String, Object> cleanResult = this.getJsonResult(result);
+        return null;
     }
 
     private void daoru() {
