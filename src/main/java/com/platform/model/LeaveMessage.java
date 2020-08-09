@@ -6,7 +6,7 @@ import java.util.Date;
  * 
  *
  * @author shiTou
- * @date   2020/08/02
+ * @date   2020/08/09
  */
 public class LeaveMessage {
     /**
@@ -35,6 +35,11 @@ public class LeaveMessage {
     private String imgList;
 
     /**
+     * 邮箱
+     */
+    private String mail;
+
+    /**
      * 创建时间
      */
     private Date createTime;
@@ -42,7 +47,7 @@ public class LeaveMessage {
     /**
      * 是否有效1:有效2:无效
      */
-    private Integer isEffective;
+    private Byte isEffective;
 
     /**
      * 预留字段
@@ -89,6 +94,14 @@ public class LeaveMessage {
         this.imgList = imgList;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -97,11 +110,11 @@ public class LeaveMessage {
         this.createTime = createTime;
     }
 
-    public Integer getIsEffective() {
+    public Byte getIsEffective() {
         return isEffective;
     }
 
-    public void setIsEffective(Integer isEffective) {
+    public void setIsEffective(Byte isEffective) {
         this.isEffective = isEffective;
     }
 

@@ -4,11 +4,9 @@ import com.platform.common.RestResponse;
 import com.platform.entity.resp.VcfCountResp;
 import com.platform.model.UserInfo;
 import com.platform.model.VcfFile;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * VCF管理
@@ -64,10 +62,9 @@ public interface VcfService {
      */
     RestResponse vcfDelete(Integer vcfId, String patientId);
 
+
     /**
      * vcf导出
      */
-    ResponseEntity<?> exportPdf(String patientId);
-
-    void download(String patientId, HttpServletResponse response,UserInfo userInfo) throws Exception;
+    void download(String patientId, HttpServletResponse response, UserInfo userInfo) throws Exception;
 }

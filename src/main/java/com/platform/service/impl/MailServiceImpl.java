@@ -3,6 +3,7 @@ package com.platform.service.impl;
 import com.platform.dao.MailManageMapper;
 import com.platform.dao.UserInfoMapper;
 import com.platform.entity.req.MailReq;
+import com.platform.entity.req.ReplyMessageReq;
 import com.platform.model.MailManage;
 import com.platform.service.MailService;
 import com.platform.util.RedisUtil;
@@ -112,28 +113,28 @@ public class MailServiceImpl implements MailService {
             Map<String, String> imgMap = new HashMap<>();
             if (!imgList.isEmpty()) {
                 if (imgList.size() == 1) {
-                    imgMap.put("img01", imgLocation+imgList.get(0));
+                    imgMap.put("img01", imgLocation + imgList.get(0));
                     sb.append("<img src=\\\"cid:img01\\\" />");
                 }
                 if (imgList.size() == 2) {
-                    imgMap.put("img01", imgLocation+imgList.get(0));
-                    imgMap.put("img02", imgLocation+imgList.get(1));
+                    imgMap.put("img01", imgLocation + imgList.get(0));
+                    imgMap.put("img02", imgLocation + imgList.get(1));
                     sb.append("<img src=\\\"cid:img01\\\" />");
                     sb.append("<img src=\\\"cid:img02\\\" />");
                 }
                 if (imgList.size() == 3) {
-                    imgMap.put("img01", imgLocation+imgList.get(0));
-                    imgMap.put("img02", imgLocation+imgList.get(1));
-                    imgMap.put("img03", imgLocation+imgList.get(2));
+                    imgMap.put("img01", imgLocation + imgList.get(0));
+                    imgMap.put("img02", imgLocation + imgList.get(1));
+                    imgMap.put("img03", imgLocation + imgList.get(2));
                     sb.append("<img src=\\\"cid:img01\\\" />");
                     sb.append("<img src=\\\"cid:img02\\\" />");
                     sb.append("<img src=\\\"cid:img03\\\" />");
                 }
                 if (imgList.size() == 4) {
-                    imgMap.put("img01", imgLocation+imgList.get(0));
-                    imgMap.put("img02", imgLocation+imgList.get(1));
-                    imgMap.put("img03", imgLocation+imgList.get(2));
-                    imgMap.put("img04", imgLocation+imgList.get(3));
+                    imgMap.put("img01", imgLocation + imgList.get(0));
+                    imgMap.put("img02", imgLocation + imgList.get(1));
+                    imgMap.put("img03", imgLocation + imgList.get(2));
+                    imgMap.put("img04", imgLocation + imgList.get(3));
                     sb.append("<img src=\\\"cid:img01\\\" />");
                     sb.append("<img src=\\\"cid:img02\\\" />");
                     sb.append("<img src=\\\"cid:img03\\\" />");
@@ -161,6 +162,27 @@ public class MailServiceImpl implements MailService {
         //发送邮件
         mailSender.send(message);
         addMailManage(to, from, title, content, "");
+    }
+
+    @Override
+    public void sendMail(ReplyMessageReq replyMessageReq, String toMail) {
+        // 纯文本邮件对象
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(from);
+        //发送目标
+        message.setTo(toMail);
+        //发送标题
+        message.setSubject(replyMessageReq.getTitle());
+
+        //发送内容
+        message.setText(replyMessageReq.getContent());
+        try {
+            mailSender.send(message);
+            addMailManage(from, toMail, replyMessageReq.getTitle(), replyMessageReq.getContent(), "4");
+            log.info("验证码邮件已经发送。");
+        } catch (Exception e) {
+            log.error("发送验证码邮件时发生异常！", e);
+        }
     }
 
     @Async

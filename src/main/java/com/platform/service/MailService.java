@@ -1,6 +1,7 @@
 package com.platform.service;
 
 import com.platform.entity.req.MailReq;
+import com.platform.entity.req.ReplyMessageReq;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public interface MailService {
      * @throws javax.mail.MessagingException
      */
     void sendImageMail(String to, String subject, String content, List<String> imgList);
+
+
+    void sendMail(ReplyMessageReq replyMessageReq,String toMail);
 }

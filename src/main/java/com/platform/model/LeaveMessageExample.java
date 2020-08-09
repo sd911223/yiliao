@@ -435,6 +435,76 @@ public class LeaveMessageExample {
             return (Criteria) this;
         }
 
+        public Criteria andMailIsNull() {
+            addCriterion("mail is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailIsNotNull() {
+            addCriterion("mail is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailEqualTo(String value) {
+            addCriterion("mail =", value, "mail");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailNotEqualTo(String value) {
+            addCriterion("mail <>", value, "mail");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailGreaterThan(String value) {
+            addCriterion("mail >", value, "mail");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailGreaterThanOrEqualTo(String value) {
+            addCriterion("mail >=", value, "mail");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailLessThan(String value) {
+            addCriterion("mail <", value, "mail");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailLessThanOrEqualTo(String value) {
+            addCriterion("mail <=", value, "mail");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailLike(String value) {
+            addCriterion("mail like", value, "mail");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailNotLike(String value) {
+            addCriterion("mail not like", value, "mail");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailIn(List<String> values) {
+            addCriterion("mail in", values, "mail");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailNotIn(List<String> values) {
+            addCriterion("mail not in", values, "mail");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailBetween(String value1, String value2) {
+            addCriterion("mail between", value1, value2, "mail");
+            return (Criteria) this;
+        }
+
+        public Criteria andMailNotBetween(String value1, String value2) {
+            addCriterion("mail not between", value1, value2, "mail");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -505,52 +575,52 @@ public class LeaveMessageExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsEffectiveEqualTo(Integer value) {
+        public Criteria andIsEffectiveEqualTo(Byte value) {
             addCriterion("is_effective =", value, "isEffective");
             return (Criteria) this;
         }
 
-        public Criteria andIsEffectiveNotEqualTo(Integer value) {
+        public Criteria andIsEffectiveNotEqualTo(Byte value) {
             addCriterion("is_effective <>", value, "isEffective");
             return (Criteria) this;
         }
 
-        public Criteria andIsEffectiveGreaterThan(Integer value) {
+        public Criteria andIsEffectiveGreaterThan(Byte value) {
             addCriterion("is_effective >", value, "isEffective");
             return (Criteria) this;
         }
 
-        public Criteria andIsEffectiveGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIsEffectiveGreaterThanOrEqualTo(Byte value) {
             addCriterion("is_effective >=", value, "isEffective");
             return (Criteria) this;
         }
 
-        public Criteria andIsEffectiveLessThan(Integer value) {
+        public Criteria andIsEffectiveLessThan(Byte value) {
             addCriterion("is_effective <", value, "isEffective");
             return (Criteria) this;
         }
 
-        public Criteria andIsEffectiveLessThanOrEqualTo(Integer value) {
+        public Criteria andIsEffectiveLessThanOrEqualTo(Byte value) {
             addCriterion("is_effective <=", value, "isEffective");
             return (Criteria) this;
         }
 
-        public Criteria andIsEffectiveIn(List<Integer> values) {
+        public Criteria andIsEffectiveIn(List<Byte> values) {
             addCriterion("is_effective in", values, "isEffective");
             return (Criteria) this;
         }
 
-        public Criteria andIsEffectiveNotIn(List<Integer> values) {
+        public Criteria andIsEffectiveNotIn(List<Byte> values) {
             addCriterion("is_effective not in", values, "isEffective");
             return (Criteria) this;
         }
 
-        public Criteria andIsEffectiveBetween(Integer value1, Integer value2) {
+        public Criteria andIsEffectiveBetween(Byte value1, Byte value2) {
             addCriterion("is_effective between", value1, value2, "isEffective");
             return (Criteria) this;
         }
 
-        public Criteria andIsEffectiveNotBetween(Integer value1, Integer value2) {
+        public Criteria andIsEffectiveNotBetween(Byte value1, Byte value2) {
             addCriterion("is_effective not between", value1, value2, "isEffective");
             return (Criteria) this;
         }

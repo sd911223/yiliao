@@ -14,7 +14,6 @@ import com.platform.exception.BusinessException;
 import com.platform.model.*;
 import com.platform.service.DiseaseService;
 import com.platform.service.VcfService;
-import com.platform.util.PDFUtil;
 import com.platform.util.PdfUtilTest;
 import com.platform.util.ShellUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -258,89 +257,6 @@ public class VcfServiceImpl implements VcfService {
         return ResultUtil.success("删除VCF成功!");
     }
 
-    @Override
-    public ResponseEntity<?> exportPdf(String patientId) {
-        HttpHeaders headers = new HttpHeaders();
-        PatientInfo patientInfo = patientInfoMapper.selectByPrimaryKey(Integer.valueOf(patientId));
-        VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(patientInfo.getJobId());
-        JSONObject json = JSONObject.parseObject(vcfFile.getJsonResult());
-        HashMap<String, String> map = new HashMap<>();
-        StringBuffer literature = new StringBuffer();
-        //计算有几个高度关注
-        HashMap heighList = new HashMap<String, String>();
-        String heighResult = "";
-        String heighDisease = "";
-        if (null != json.get("高度关注") && StringUtils.isNotBlank(json.get("高度关注").toString())) {
-            heighList = JSON.parseObject(json.get("高度关注").toString(), HashMap.class);
-            heighResult = getMutation(json, "高度关注");
-            HashMap<String, Object> hashMap = getDiseaseName(json, "高度关注");
-            heighDisease = hashMap.get("disease").toString();
-            List<HashMap> hashMaps = (List<HashMap>) hashMap.get("emphasis");
-            map = getHashMap(hashMaps);
-
-        }
-        //计算有几个中度关注
-        HashMap moderateList = new HashMap<String, String>();
-        String moderateResult = "";
-        String moderateDisease = "";
-        if (null != json.get("中度关注") && StringUtils.isNotBlank(json.get("中度关注").toString())) {
-            moderateList = JSON.parseObject(json.get("中度关注").toString(), HashMap.class);
-            moderateResult = getMutation(json, "中度关注");
-            HashMap<String, Object> hashMap = getDiseaseName(json, "中度关注");
-            moderateDisease = hashMap.get("disease").toString();
-        }
-        HashMap lowList = new HashMap<String, String>();
-        String lowResult = "";
-        String lowDisease = "";
-        if (null != json.get("低度关注") && StringUtils.isNotBlank(json.get("低度关注").toString())) {
-            lowList = JSON.parseObject(json.get("低度关注").toString(), HashMap.class);
-            lowResult = getMutation(json, "低度关注");
-            HashMap<String, Object> hashMap = getDiseaseName(json, "低度关注");
-            lowDisease = hashMap.get("disease").toString();
-        }
-        /**
-         * 数据导出(PDF 格式)
-         */
-        Map<String, Object> dataMap = new HashMap<>(16);
-        dataMap.put("statisticalTime", new Date().toString());
-        dataMap.put("doctor", "userInfo.getUserName()");
-        dataMap.put("patientName", patientInfo.getPatientName());
-        dataMap.put("sex", patientInfo.getSex() == 1 ? "男" : "女");
-        dataMap.put("age", patientInfo.getAge());
-        dataMap.put("symptom", patientInfo.getSymptom());
-        dataMap.put("homeDisease", patientInfo.getSymptom());
-        dataMap.put("heighList", heighList.size());
-        dataMap.put("moderateList", moderateList.size());
-        dataMap.put("lowList", lowList.size());
-        dataMap.put("heighResult", heighResult);
-        dataMap.put("moderateResult", moderateResult);
-        dataMap.put("lowResult", lowResult);
-        dataMap.put("heighDisease", heighDisease);
-        dataMap.put("moderateDisease", moderateDisease);
-        dataMap.put("lowDisease", lowDisease);
-        dataMap.put("maps", map);
-        dataMap.put("heighData", heighList);
-        dataMap.put("moderateData", moderateList);
-        dataMap.put("lowData", lowList);
-        ClassPathResource resource = new ClassPathResource("application.yml");
-        try {
-            InputStream inputStream = resource.getInputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String htmlStr = PDFUtil.freemarkerRender(dataMap, employeeKpiFtl);
-        byte[] pdfBytes = PDFUtil.createPDF(htmlStr, fontSimsun);
-        if (pdfBytes != null && pdfBytes.length > 0) {
-            String fileName = System.currentTimeMillis() + (int) (Math.random() * 90000 + 10000) + ".pdf";
-            headers.setContentDispositionFormData("attachment", fileName);
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            return new ResponseEntity<byte[]>(pdfBytes, headers, HttpStatus.OK);
-        }
-
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        return new ResponseEntity<String>("{ \"code\" : \"404\", \"message\" : \"not found\" }",
-                headers, HttpStatus.NOT_FOUND);
-    }
 
     @Override
     public void download(String patientId, HttpServletResponse response,UserInfo userInfo) throws Exception {

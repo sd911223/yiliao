@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://52.82.15.67:3306/mt-platform?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
-    password: yl123456
+    password: sd123456
     db-type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 5
     minIdle: 5
@@ -71,7 +71,7 @@ redis:
   token: token_uid_
 #图片路径
 img:
-  location: /home/ec2-user/web/img
+  location: /home/ec2-user/web/img/
 #vcf4路径
 vcf:
   file:
