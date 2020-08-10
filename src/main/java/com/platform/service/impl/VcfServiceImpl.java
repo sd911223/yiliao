@@ -62,11 +62,6 @@ public class VcfServiceImpl implements VcfService {
     @Autowired
     DiseaseService diseaseService;
 
-    @Value("${pdfExport.employeeKpiFtl}")
-    private String employeeKpiFtl;
-    @Value("${pdfExport.fontSimsun}")
-    private String fontSimsun;
-
     /**
      * VCF统计
      *

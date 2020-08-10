@@ -5,9 +5,9 @@ spring:
       #是否启用文件上传功能
       enabled: true
       #指定上传文件大小， 默认1M
-      max-file-size: 500MB
+      max-file-size: 1024MB
       #指定multipart / form-data请求允许的最大大小， 默认10M
-      max-request-size: 1000MB
+      max-request-size: 1024MB
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -72,7 +72,7 @@ redis:
   token: token_uid_
 #图片路径
 img:
-  location: /home/ec2-user/web/img
+  location: /home/ec2-user/web/img/
 #vcf4路径
 vcf:
   file:
@@ -82,7 +82,3 @@ grakn:
   server:
     address: 127.0.0.1:48555
 
-## pdf export config
-pdfExport:
-  fontSimsun: /home/ec2-user/web/pdf/static/simsun.ttc
-  employeeKpiFtl: /home/ec2-user/web/pdf/pdf_export_employee_kpi.ftl
