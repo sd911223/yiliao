@@ -11,6 +11,7 @@ import com.platform.util.PdfUtilTest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,7 @@ import java.util.Map;
 @Api(tags = "VCF管理")
 @RestController
 @RequestMapping("mtApi/")
+@Slf4j
 public class VcfController {
     @Autowired
     VcfService vcfService;
@@ -77,6 +79,7 @@ public class VcfController {
         VcfFile vcf = vcfService.addVcf(vcfFile, jobName, geneType, omimId, patientId, symptomType, symptom);
 
         //调用vcf解析
+        log.info("=====================调用vcf解析===================");
         vcfService.vcfDecode(vcfFile, geneType, omimId, patientId, vcf);
         //返回分析结果
         return ResultUtil.success();

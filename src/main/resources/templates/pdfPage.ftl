@@ -446,6 +446,11 @@
                     <span>MAF</span>
                     <span>基因</span>
                     <span>致病分值</span>
+                    <span>突变类型</span>
+                    <span>蛋白变化</span>
+                    <span>相关疾病</span>
+                    <span>来源</span>
+                    <span>文献</span>
                 </dt>
                 <#if heighData?exists>
                     <#list heighData as map>
@@ -458,6 +463,11 @@
                             <span>${map.maf}</span>
                             <span>${map.gene}</span>
                             <span>${map.pathogenicPoints}</span>
+                            <span>${map.mutationType}</span>
+                            <span>${map.proteinChange}</span>
+                            <span>${map.relatedDisease}</span>
+                            <span>${map.source}</span>
+                            <span>${map.literature}</span>
                         </dd>
                     </#list>
                 </#if>
@@ -486,6 +496,11 @@
                     <span>MAF</span>
                     <span>基因</span>
                     <span>致病分值</span>
+                    <span>突变类型</span>
+                    <span>蛋白变化</span>
+                    <span>相关疾病</span>
+                    <span>来源</span>
+                    <span>文献</span>
                 </dt>
                 <#if moderateData?exists>
                     <#list moderateData as map>
@@ -498,6 +513,11 @@
                             <span>${map.maf}</span>
                             <span>${map.gene}</span>
                             <span>${map.pathogenicPoints}</span>
+                            <span>${map.mutationType}</span>
+                            <span>${map.proteinChange}</span>
+                            <span>${map.relatedDisease}</span>
+                            <span>${map.source}</span>
+                            <span>${map.literature}</span>
                         </dd>
                     </#list>
                 </#if>
@@ -515,6 +535,11 @@
                     <span>MAF</span>
                     <span>基因</span>
                     <span>致病分值</span>
+                    <span>突变类型</span>
+                    <span>蛋白变化</span>
+                    <span>相关疾病</span>
+                    <span>来源</span>
+                    <span>文献</span>
                 </dt>
                 <#if lowData?exists>
                     <#list lowData as map>
@@ -527,6 +552,11 @@
                             <span>${map.maf}</span>
                             <span>${map.gene}</span>
                             <span>${map.pathogenicPoints}</span>
+                            <span>${map.mutationType}</span>
+                            <span>${map.proteinChange}</span>
+                            <span>${map.relatedDisease}</span>
+                            <span>${map.source}</span>
+                            <span>${map.literature}</span>
                         </dd>
                     </#list>
                 </#if>

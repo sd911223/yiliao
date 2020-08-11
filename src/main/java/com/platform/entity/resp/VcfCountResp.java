@@ -28,4 +28,10 @@ public class VcfCountResp {
      */
     @ApiModelProperty("未完成任务")
     private Long NotTask;
+
+    /**
+     * 正在处理
+     */
+    @ApiModelProperty("未完成任务")
+    private Long processTask;
 }

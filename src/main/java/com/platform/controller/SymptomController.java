@@ -6,7 +6,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 症状类型/症状
@@ -43,4 +46,17 @@ public class SymptomController {
         return symptomService.querySymptom(id);
 
     }
+
+    /**
+     * 模糊查询症状
+     *
+     * @return
+     */
+    @ApiOperation("模糊查询症状")
+    @GetMapping("/symptom/querySymptom")
+    public RestResponse querySymptomType(@ApiParam("症状") @RequestParam(value = "symptom", required = true) String symptom) {
+
+        return symptomService.querySymptomLike(symptom);
+    }
+
 }

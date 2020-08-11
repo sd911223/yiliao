@@ -21,11 +21,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,13 +88,19 @@ public class VcfServiceImpl implements VcfService {
                 .andDoctorIdEqualTo(userInfo.getUserId());
         long not = patientInfoMapper.countByExample(noInfoExample);
         log.info("統計vcf解讀=====未完成{}", not);
-        VcfCountResp vcfCountResp = VcfCountResp.builder().totalTask(total).completeTask(complete).NotTask(not).build();
+        //正在处理
+        PatientInfoExample processExample = new PatientInfoExample();
+        processExample.createCriteria().andIsEffectiveEqualTo(1).andIsResolveEqualTo(3);
+        long patientTotal = patientInfoMapper.countByExample(processExample);
+        log.info("統計vcf解讀=====正在处理{}", patientTotal);
+        VcfCountResp vcfCountResp = VcfCountResp.builder().totalTask(total).completeTask(complete).NotTask(not).processTask(patientTotal).build();
         return ResultUtil.success(vcfCountResp);
     }
 
     @Override
     @Transactional
     public VcfFile addVcf(MultipartFile vcfFile, String jobName, String geneType, String omimId, String patientId, String symptomType, String symptom) {
+        log.info("===================上传VCF=========================");
         if (vcfFile == null) {
             log.error("上传的VCF为空!");
             throw new BusinessException(ResultEnum.VCF_IS_EXISTS.getStatus(), ResultEnum.VCF_IS_EXISTS.getMsg());
@@ -146,7 +147,7 @@ public class VcfServiceImpl implements VcfService {
         vcfFileMapper.insertSelective(vf);
         //添加VCF id
         patientInfo.setJobId(vf.getId());
-
+        patientInfo.setIsResolve(3);
         patientInfoMapper.updateByPrimaryKey(patientInfo);
 
         //把vcf存入文件夹
@@ -156,11 +157,14 @@ public class VcfServiceImpl implements VcfService {
         if (!fileParent.exists()) {
             fileParent.mkdirs();
         }
+        log.info("===================上传VCF   END=========================");
         //储存文件
         try {
             file.createNewFile();
             log.info("文件是否存在：" + file.exists());
             FileUtils.copyInputStreamToFile(vcfFile.getInputStream(), file);
+            patientInfo.setIsResolve(2);
+            patientInfoMapper.updateByPrimaryKey(patientInfo);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -179,6 +183,7 @@ public class VcfServiceImpl implements VcfService {
     @Override
     @Async("taskExecutor")
     public void vcfDecode(MultipartFile vcfFile, String geneType, String omimId, String patientId, VcfFile vcf) {
+        log.info("=================  开始解析VCF star ====================");
         if (StringUtils.isNotBlank(omimId)) {
             StringBuffer sb = new StringBuffer();
             sb.append("[");
@@ -254,13 +259,13 @@ public class VcfServiceImpl implements VcfService {
 
 
     @Override
-    public void download(String patientId, HttpServletResponse response,UserInfo userInfo) throws Exception {
+    public void download(String patientId, HttpServletResponse response, UserInfo userInfo) throws Exception {
         ByteArrayOutputStream baos = null;
         OutputStream out = null;
         try {
             PatientInfo patientInfo = patientInfoMapper.selectByPrimaryKey(Integer.valueOf(patientId));
             VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(patientInfo.getJobId());
-            if (vcfFile==null||vcfFile.getJsonResult()==null){
+            if (vcfFile == null || vcfFile.getJsonResult() == null) {
                 log.error("导出PDF没有VCF结果,患者ID{}", patientId);
                 throw new BusinessException(ResultEnum.VCF_IS_EXIST.getStatus(), ResultEnum.VCF_IS_EXIST.getMsg());
             }
@@ -337,9 +342,20 @@ public class VcfServiceImpl implements VcfService {
             dataMap.put("heighData", ListHeightData);
             dataMap.put("moderateData", ListModerateData);
             dataMap.put("lowData", ListLowData);
-            dataMap.put("literature", literature);
+
+            String literatureStr = literature.toString();
+            //把文献中的,替换为制表符
+            String replace = literatureStr.replace(",", "\t");
+            //把文献中的[],替换为空
+            String replace1 = replace.replace("]", "");
+            String replace2 = replace1.replace("[", "");
+            String replace3 = replace2.replace("-", "");
+            //把文献中的",替换为空
+            String replace4 = replace3.replace("\"", "");
+            String replace5 = replace4.replace("None", "");
+
+            dataMap.put("literature", replace5);
             baos = PdfUtilTest.createPDF(dataMap, "pdfPage.ftl");
-            ;
             // 设置响应消息头，告诉浏览器当前响应是一个下载文件
             response.setContentType("application/x-msdownload");
             // 告诉浏览器，当前响应数据要求用户干预保存到文件中，以及文件名是什么 如果文件名有中文，必须URL编码
@@ -490,7 +506,7 @@ public class VcfServiceImpl implements VcfService {
         JSONObject jsonObject = JSONObject.parseObject(o.get("0").toString());
         sb.append(jsonObject.get("染色体位置"));
         sb.append(jsonObject.get("Ref"));
-        sb.append(jsonObject.get(">"));
+        sb.append(" > ");
         sb.append(jsonObject.get("Alt"));
         return sb.toString();
     }

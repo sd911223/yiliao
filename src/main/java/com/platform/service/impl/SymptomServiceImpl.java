@@ -52,4 +52,18 @@ public class SymptomServiceImpl implements SymptomService {
         List<Symptom> symptomList = symptomMapper.selectByExample(symptomExample);
         return ResultUtil.success(symptomList);
     }
+
+    /**
+     * 模糊查询症状
+     *
+     * @param symptom
+     * @return
+     */
+    @Override
+    public RestResponse querySymptomLike(String symptom) {
+        SymptomExample symptomExample = new SymptomExample();
+        symptomExample.createCriteria().andSymptomLike("%" + symptom + "%");
+        List<Symptom> symptomList = symptomMapper.selectByExample(symptomExample);
+        return ResultUtil.success(symptomList);
+    }
 }
