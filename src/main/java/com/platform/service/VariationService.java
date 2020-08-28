@@ -18,4 +18,6 @@ public interface VariationService {
      * @return
      */
     RestResponse diseaseName(Integer rsId);
+
+    void DeImport();
 }

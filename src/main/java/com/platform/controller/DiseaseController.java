@@ -2,6 +2,7 @@ package com.platform.controller;
 
 import com.platform.common.RestResponse;
 import com.platform.common.ResultUtil;
+import com.platform.model.DiseaseOmim;
 import com.platform.service.DiseaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -67,10 +68,23 @@ public class DiseaseController {
         sb.append("[");
         sb.append(symptoms);
         sb.append("]");
-        symptoms=sb.toString();
+        symptoms = sb.toString();
         String[] symptomArray = symptoms.substring(1, symptoms.length() - 1).split(",");
         List<Map<String, String>> result = diseaseService.listDisease(symptomArray);
         return ResultUtil.success(result);
     }
 
+    /**
+     * 模糊查询疾病名称
+     *
+     * @param diseaseName
+     * @return
+     */
+    @ApiOperation("模糊查询疾病名称")
+    @GetMapping("/symptom/byDiseaseName")
+    public RestResponse byDiseaseName(@ApiParam("疾病名") @RequestParam(value = "diseaseName", required = true) String diseaseName) {
+
+        List<DiseaseOmim> result = diseaseService.byDiseaseName(diseaseName);
+        return ResultUtil.success(result);
+    }
 }

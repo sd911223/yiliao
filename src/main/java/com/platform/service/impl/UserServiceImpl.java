@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
         List<UserInfo> userInfos = userInfoMapper.selectByExample(infoExample);
         if (userInfos.isEmpty()) {
             log.error(email + " 邮箱不存在!");
-            throw new BusinessException(ResultEnum.USER_IS_EXISTS.getStatus(), ResultEnum.USER_IS_EXISTS.getMsg());
+            throw new BusinessException(ResultEnum.EMAIL_NOT_EXISTS.getStatus(), ResultEnum.EMAIL_NOT_EXISTS.getMsg());
         }
         return userInfos.get(0);
     }

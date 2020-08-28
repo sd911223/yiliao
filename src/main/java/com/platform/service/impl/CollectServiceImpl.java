@@ -4,11 +4,10 @@ import com.platform.common.RestResponse;
 import com.platform.common.ResultEnum;
 import com.platform.common.ResultUtil;
 import com.platform.dao.CollectInfoMapper;
+import com.platform.dao.DiseaseOmimMapper;
 import com.platform.entity.req.CollectReq;
 import com.platform.exception.BusinessException;
-import com.platform.model.CollectInfo;
-import com.platform.model.CollectInfoExample;
-import com.platform.model.UserInfo;
+import com.platform.model.*;
 import com.platform.service.CollectService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +23,8 @@ import java.util.List;
 public class CollectServiceImpl implements CollectService {
     @Autowired
     CollectInfoMapper collectInfoMapper;
+    @Autowired
+    DiseaseOmimMapper diseaseOmimMapper;
 
     /**
      * 添加收藏
@@ -67,6 +68,16 @@ public class CollectServiceImpl implements CollectService {
             collectInfoExample.setOrderByClause("create_time DESC");
         }
         List<CollectInfo> collectInfos = collectInfoMapper.selectByExample(collectInfoExample);
+        if (!collectInfos.isEmpty()) {
+            collectInfos.forEach(e -> {
+                DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+                diseaseOmimExample.createCriteria().andOmimIdEqualTo(Integer.valueOf(e.getName()));
+                List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+                if (!diseaseOmims.isEmpty()) {
+                    e.setDiseaseName(diseaseOmims.get(0).getDiseaseName());
+                }
+            });
+        }
         return ResultUtil.success(collectInfos);
     }
 

@@ -28,7 +28,7 @@ public class VariationServiceImpl implements VariationService {
     DiseaseOmimMapper diseaseOmimMapper;
     public static String paths = "/home/ec2-user/grakn_data/variants/vcf_annotation4.txt";
 
-    public static String paths2 = "C:\\Users\\shidun\\Desktop\\disease_id_disease_name.txt";
+    public static String paths2 = "C:\\Users\\shidun\\Desktop\\医疗\\disease_id_disease_name.txt";
 
     /**
      * 通过变异ID查询
@@ -50,6 +50,11 @@ public class VariationServiceImpl implements VariationService {
         diseaseOmimExample.createCriteria().andOmimIdEqualTo(rsId);
         List<DiseaseOmim> omimList = diseaseOmimMapper.selectByExample(diseaseOmimExample);
         return ResultUtil.success(omimList);
+    }
+
+    @Override
+    public void DeImport() {
+        daoru();
     }
 
     private void daoru() {

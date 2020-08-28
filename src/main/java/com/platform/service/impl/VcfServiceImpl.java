@@ -252,6 +252,7 @@ public class VcfServiceImpl implements VcfService {
         vcfFile.setIsEffective(2);
         PatientInfo patientInfo = patientInfoMapper.selectByPrimaryKey(Integer.valueOf(patientId));
         patientInfo.setJobId(null);
+        patientInfo.setIsResolve(2);
         vcfFileMapper.updateByPrimaryKey(vcfFile);
         patientInfoMapper.updateByPrimaryKey(patientInfo);
         return ResultUtil.success("删除VCF成功!");
@@ -259,7 +260,7 @@ public class VcfServiceImpl implements VcfService {
 
 
     @Override
-    public void download(String patientId, HttpServletResponse response, UserInfo userInfo) throws Exception {
+    public void download(String patientId, HttpServletResponse response,UserInfo userInfo) throws Exception {
         ByteArrayOutputStream baos = null;
         OutputStream out = null;
         try {
@@ -345,16 +346,28 @@ public class VcfServiceImpl implements VcfService {
 
             String literatureStr = literature.toString();
             //把文献中的,替换为制表符
-            String replace = literatureStr.replace(",", "\t");
+            String replace = "";
+            if (literatureStr.contains(",")) {
+                replace = literatureStr.replace(",", "\t");
+            }
             //把文献中的[],替换为空
-            String replace1 = replace.replace("]", "");
-            String replace2 = replace1.replace("[", "");
-            String replace3 = replace2.replace("-", "");
+            if (replace.contains("]")) {
+                replace = replace.replace("]", "");
+            }
+            if (replace.contains("[")) {
+                replace = replace.replace("[", "");
+            }
+            if (replace.contains("-")) {
+                replace = replace.replace("-", "");
+            }
             //把文献中的",替换为空
-            String replace4 = replace3.replace("\"", "");
-            String replace5 = replace4.replace("None", "");
-
-            dataMap.put("literature", replace5);
+            if (replace.contains("\"")) {
+                replace = replace.replace("\"", "");
+            }
+            if (replace.contains("None")) {
+                replace = replace.replace("None", "");
+            }
+            dataMap.put("literature", replace);
             baos = PdfUtilTest.createPDF(dataMap, "pdfPage.ftl");
             // 设置响应消息头，告诉浏览器当前响应是一个下载文件
             response.setContentType("application/x-msdownload");
@@ -402,13 +415,70 @@ public class VcfServiceImpl implements VcfService {
                 heightAttentionResp.setMutationType(parse.get("突变类型").toString());
                 heightAttentionResp.setProteinChange(parse.get("蛋白变化").toString());
                 if (null != parse.get("相关疾病")) {
-                    heightAttentionResp.setRelatedDisease(parse.get("相关疾病").toString());
+                    String disease = parse.get("相关疾病").toString();
+                    if (disease.contains("[")) {
+                        disease = disease.replace("[", "");
+                    }
+                    if (disease.contains("]")) {
+                        disease = disease.replace("]", "");
+                    }
+                    if (disease.contains("\"")) {
+                        disease = disease.replace("\"", "");
+                    }
+                    if (disease.contains("None")) {
+                        disease = disease.replace("None", "");
+                    }
+                    if (disease.contains(",")) {
+                        disease = disease.replace(",", "\t");
+                    }
+                    if (disease.contains("-")) {
+                        disease = disease.replace("-", "");
+                    }
+                    heightAttentionResp.setRelatedDisease(disease);
                 }
                 if (null != parse.get("来源")) {
-                    heightAttentionResp.setSource(parse.get("来源").toString());
+                    String source = parse.get("来源").toString();
+                    if (source.contains("[")) {
+                        source = source.replace("[", "");
+                    }
+                    if (source.contains("]")) {
+                        source = source.replace("]", "");
+                    }
+                    if (source.contains("\"")) {
+                        source = source.replace("\"", "");
+                    }
+                    if (source.contains("None")) {
+                        source = source.replace("None", "");
+                    }
+                    if (source.contains(",")) {
+                        source = source.replace(",", "\t");
+                    }
+                    if (source.contains("-")) {
+                        source = source.replace("-", "");
+                    }
+                    heightAttentionResp.setSource(source);
                 }
                 if (null != parse.get("文献")) {
-                    heightAttentionResp.setLiterature(parse.get("文献").toString());
+                    String literature = parse.get("文献").toString();
+                    if (literature.contains("[")) {
+                        literature = literature.replace("[", "");
+                    }
+                    if (literature.contains("]")) {
+                        literature = literature.replace("]", "");
+                    }
+                    if (literature.contains("\"")) {
+                        literature = literature.replace("\"", "");
+                    }
+                    if (literature.contains("None")) {
+                        literature = literature.replace("None", "");
+                    }
+                    if (literature.contains("-")) {
+                        literature = literature.replace("-", "");
+                    }
+                    if (literature.contains(",")) {
+                        literature = literature.replace(",", "\t");
+                    }
+                    heightAttentionResp.setLiterature(literature);
                 }
                 list.add(heightAttentionResp);
                 cont++;

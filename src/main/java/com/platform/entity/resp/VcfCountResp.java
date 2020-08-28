@@ -32,6 +32,6 @@ public class VcfCountResp {
     /**
      * 正在处理
      */
-    @ApiModelProperty("未完成任务")
+    @ApiModelProperty("正在处理")
     private Long processTask;
 }

@@ -4,16 +4,16 @@ spring:
     multipart:
       #是否启用文件上传功能
       enabled: true
-      #指定上传文件大小， 默认1M
-      max-file-size: 1024MB
-      #指定multipart / form-data请求允许的最大大小， 默认10M
-      max-request-size: 1024MB
+      #指定上传文件大小， 默认2g
+      max-file-size: 5000MB
+      #指定multipart / form-data请求允许的最大大小， 默认2g
+      max-request-size: 5000MB
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/mt-platform?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://39.105.58.173:3306/mt-platform?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
-    password: yl123456
+    password: sd123456
     db-type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 5
     minIdle: 5
@@ -28,8 +28,8 @@ spring:
     poolPreparedStatements: true
     maxPoolPreparedStatementPerConnectionSize: 20
   redis:
-    host: 127.0.0.1
- #   password: sd123456
+    host: 39.105.58.173
+    password: sd123456
     port: 6379
     jedis:
       pool:
@@ -66,7 +66,8 @@ mail:
 #服务端口
 server:
   port: 18081
-
+  tomcat:
+    connection-timeout: 18000000
 redis:
   prefix: njm_
   token: token_uid_

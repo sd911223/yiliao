@@ -145,7 +145,7 @@ public class GeneDaoImpl implements GeneDao {
         //String gql = "match $disease (traveler: $per) isa disease, has disease_id '"+diseaseId+"';get";
         //显示所有字段(除了gene_symbol)
         for (int i = 0; i < keyArray.length; i++) {
-            if (!keyArray[i].equals("gene_symbol")) {
+//            if (!keyArray[i].equals("gene_symbol")) {
                 if (i != keyArray.length - 1) {
                     gql1.append(",has " + keyArray[i] + " $" + keyArray[i]);
                     gql2.append(" $" + keyArray[i] + ",");
@@ -154,7 +154,7 @@ public class GeneDaoImpl implements GeneDao {
                     gql2.append(" $" + keyArray[i] + ";");
                 }
 
-            }
+//            }
 
         }
         List<ConceptMap> answers = readTransaction.execute((GraqlGet) Graql.parse(gql1.toString() + gql2.toString()));

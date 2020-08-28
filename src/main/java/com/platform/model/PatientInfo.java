@@ -48,6 +48,30 @@ public class PatientInfo {
      * vcf:id
      */
     private Integer jobId;
+    /**
+     * jobName
+     */
+    private String jobName;
+    /**
+     * jobName
+     */
+    private String jsonResult;
+
+    public void setJsonResult(String jsonResult) {
+        this.jsonResult = jsonResult;
+    }
+
+    public String getJsonResult() {
+        return jsonResult;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
 
     /**
      * 创建时间

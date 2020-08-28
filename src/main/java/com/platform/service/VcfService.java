@@ -66,5 +66,5 @@ public interface VcfService {
     /**
      * vcf导出
      */
-    void download(String patientId, HttpServletResponse response, UserInfo userInfo) throws Exception;
+    void download(String patientId, HttpServletResponse response,UserInfo userInfo) throws Exception;
 }

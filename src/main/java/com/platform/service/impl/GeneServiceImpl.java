@@ -3,7 +3,11 @@ package com.platform.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.platform.dao.DiseaseOmimMapper;
 import com.platform.dao.EntrezAnotherMapper;
+import com.platform.entity.resp.GeneVariantResp;
+import com.platform.model.DiseaseOmim;
+import com.platform.model.DiseaseOmimExample;
 import com.platform.model.EntrezAnother;
 import com.platform.model.EntrezAnotherExample;
 import com.platform.service.GeneDao;
@@ -14,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author shitou
@@ -29,11 +30,13 @@ public class GeneServiceImpl implements GeneService {
     private GeneDao geneDao;
     @Autowired
     EntrezAnotherMapper entrezAnotherMapper;
-
+    @Autowired
+    DiseaseOmimMapper diseaseOmimMapper;
     public static String paths2 = "C:\\Users\\shidun\\Desktop\\correspondence.txt";
 
     @Override
     public Map<String, Object> getGeneByOmimId(String omimId) {
+        daoru();
         // TODO Auto-generated method stub
         Map<String, String> result = geneDao.getGeneByOmimId(omimId);
         if (StringUtils.isNotBlank(result.get("gene_symbol"))) {
@@ -43,6 +46,22 @@ public class GeneServiceImpl implements GeneService {
             if (!anotherList.isEmpty() && anotherList.get(0).getHg38Location() != null) {
                 result.put("HG38", anotherList.get(0).getHg38Location());
             }
+        }
+        if (StringUtils.isNotBlank(result.get("Gene_variant"))) {
+            ArrayList<GeneVariantResp> list = new ArrayList<>();
+            List<GeneVariantResp> variant = JSONObject.parseArray(result.get("Gene_variant"), GeneVariantResp.class);
+            for (int i = 0; i < variant.size(); i++) {
+                GeneVariantResp geneVariantResp = variant.get(i);
+                DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+                diseaseOmimExample.createCriteria().andDiseaseNameLike("%" + geneVariantResp.getDisease() + "%");
+                List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+                if (!diseaseOmims.isEmpty()) {
+                    geneVariantResp.setOmId(diseaseOmims.get(0).getOmimId().toString());
+                }
+                list.add(geneVariantResp);
+            }
+
+            result.put("Gene_variant", JSON.toJSONString(list));
         }
         //把结果符合json格式
         Map<String, Object> cleanResult = this.getJsonResult(result);
@@ -60,6 +79,22 @@ public class GeneServiceImpl implements GeneService {
             if (!anotherList.isEmpty() && anotherList.get(0).getHg38Location() != null) {
                 result.put("HG38", anotherList.get(0).getHg38Location());
             }
+        }
+        if (StringUtils.isNotBlank(result.get("Gene_variant"))) {
+            ArrayList<GeneVariantResp> list = new ArrayList<>();
+            List<GeneVariantResp> variant = JSONObject.parseArray(result.get("Gene_variant"), GeneVariantResp.class);
+            for (int i = 0; i < variant.size(); i++) {
+                GeneVariantResp geneVariantResp = variant.get(i);
+                DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+                diseaseOmimExample.createCriteria().andDiseaseNameLike("%" + geneVariantResp.getDisease() + "%");
+                List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+                if (!diseaseOmims.isEmpty()) {
+                    geneVariantResp.setOmId(diseaseOmims.get(0).getOmimId().toString());
+                }
+                list.add(geneVariantResp);
+            }
+
+            result.put("Gene_variant", JSON.toJSONString(list));
         }
         //把结果符合json格式
         Map<String, Object> cleanResult = this.getJsonResult(result);
@@ -86,18 +121,34 @@ public class GeneServiceImpl implements GeneService {
                     List<String> another = Arrays.asList(split);
                     for (String name : another) {
                         if (name.equals(geneSymbol)) {
-                            log.info("查询基因ID别名{}",name);
+                            log.info("查询基因ID别名{}", name);
                             geneSymbol = entrezAnother.getEntrezName();
-                            log.info("查询基因ID别名{}",geneSymbol);
+                            log.info("查询基因ID别名{}", geneSymbol);
                             hg38 = entrezAnother.getHg38Location();
                             Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
+                            if (StringUtils.isNotBlank(result.get("Gene_variant"))) {
+                                ArrayList<GeneVariantResp> list = new ArrayList<>();
+                                List<GeneVariantResp> variant = JSONObject.parseArray(result.get("Gene_variant"), GeneVariantResp.class);
+                                for (int i = 0; i < variant.size(); i++) {
+                                    GeneVariantResp geneVariantResp = variant.get(i);
+                                    DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+                                    diseaseOmimExample.createCriteria().andDiseaseNameLike("%" + geneVariantResp.getDisease() + "%");
+                                    List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+                                    if (!diseaseOmims.isEmpty()) {
+                                        geneVariantResp.setOmId(diseaseOmims.get(0).getOmimId().toString());
+                                    }
+                                    list.add(geneVariantResp);
+                                }
+
+                                result.put("Gene_variant", JSON.toJSONString(list));
+                            }
                             //把结果符合json格式
                             Map<String, Object> cleanResult = this.getJsonResult(result);
                             cleanResult.put("HG38", hg38);
                             return cleanResult;
                         }
                     }
-                }else {
+                } else {
                     if (anotherName.equals(geneSymbol)) {
                         Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
                         //把结果符合json格式
@@ -109,13 +160,48 @@ public class GeneServiceImpl implements GeneService {
             }
         } else {
             Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
+            if (StringUtils.isNotBlank(result.get("Gene_variant"))) {
+                ArrayList<GeneVariantResp> list = new ArrayList<>();
+                List<GeneVariantResp> variant = JSONObject.parseArray(result.get("Gene_variant"), GeneVariantResp.class);
+                for (int i = 0; i < variant.size(); i++) {
+                    GeneVariantResp geneVariantResp = variant.get(i);
+                    DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+                    diseaseOmimExample.createCriteria().andDiseaseNameLike("%" + geneVariantResp.getDisease() + "%");
+                    List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+                    if (!diseaseOmims.isEmpty()) {
+                        geneVariantResp.setOmId(diseaseOmims.get(0).getOmimId().toString());
+                    }
+                    list.add(geneVariantResp);
+                }
+
+                result.put("Gene_variant", JSON.toJSONString(list));
+            }
             //把结果符合json格式
             Map<String, Object> cleanResult = this.getJsonResult(result);
             cleanResult.put("HG38", hg38);
             return cleanResult;
         }
-//        daoru();
-        return null;
+        Map<String, String> result = geneDao.getGeneByGeneSymbol(geneSymbol);
+        if (StringUtils.isNotBlank(result.get("Gene_variant"))) {
+            ArrayList<GeneVariantResp> list = new ArrayList<>();
+            List<GeneVariantResp> variant = JSONObject.parseArray(result.get("Gene_variant"), GeneVariantResp.class);
+            for (int i = 0; i < variant.size(); i++) {
+                GeneVariantResp geneVariantResp = variant.get(i);
+                DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+                diseaseOmimExample.createCriteria().andDiseaseNameLike("%" + geneVariantResp.getDisease() + "%");
+                List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+                if (!diseaseOmims.isEmpty()) {
+                    geneVariantResp.setOmId(diseaseOmims.get(0).getOmimId().toString());
+                }
+                list.add(geneVariantResp);
+            }
+
+            result.put("Gene_variant", JSON.toJSONString(list));
+        }
+        //把结果符合json格式
+        Map<String, Object> cleanResult = this.getJsonResult(result);
+        cleanResult.put("HG38", hg38);
+        return cleanResult;
     }
 
     private void daoru() {

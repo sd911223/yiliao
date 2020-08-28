@@ -1,6 +1,7 @@
 package com.platform.service;
 
 import com.platform.common.RestResponse;
+import com.platform.model.DiseaseOmim;
 
 import java.util.List;
 import java.util.Map;
@@ -24,4 +25,11 @@ public interface DiseaseService {
      * @return
      */
     List<Map<String, String>> listDisease(String[] symptomArray);
+
+    /**
+     * 模糊查询疾病名称
+     * @param diseaseName
+     * @return
+     */
+    List<DiseaseOmim> byDiseaseName(String diseaseName);
 }

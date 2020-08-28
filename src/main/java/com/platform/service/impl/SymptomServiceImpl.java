@@ -49,6 +49,7 @@ public class SymptomServiceImpl implements SymptomService {
     public RestResponse querySymptom(Integer id) {
         SymptomExample symptomExample = new SymptomExample();
         symptomExample.createCriteria().andSymptomTypeIdEqualTo(id);
+        symptomExample.setOrderByClause("symptom ASC");
         List<Symptom> symptomList = symptomMapper.selectByExample(symptomExample);
         return ResultUtil.success(symptomList);
     }
@@ -62,7 +63,8 @@ public class SymptomServiceImpl implements SymptomService {
     @Override
     public RestResponse querySymptomLike(String symptom) {
         SymptomExample symptomExample = new SymptomExample();
-        symptomExample.createCriteria().andSymptomLike("%" + symptom + "%");
+        symptomExample.createCriteria().andSymptomLike( symptom + "%");
+        symptomExample.setOrderByClause("symptom ASC");
         List<Symptom> symptomList = symptomMapper.selectByExample(symptomExample);
         return ResultUtil.success(symptomList);
     }

@@ -47,5 +47,16 @@ public class VariationController {
         return variationService.diseaseName(rsId);
     }
 
+    /**
+     * 导入数据库
+     *
+     * @return
+     */
+    @ApiOperation("通过变异ID查询疾病名称")
+    @GetMapping("/variation/DeImport")
+    public void DeImport() {
+        variationService.DeImport();
+    }
+
 
 }

@@ -39,13 +39,13 @@ public class DiseaseDaoImpl implements DiseaseDao {
         //读取key
         String[] diseaseAttrArray = TxtReadUtil.listKey("key/attr_list.txt");
 
-        // Read the person using a READ only transaction
+        // Read the person using a READ only transaction   contains為模糊關鍵字
         GraknClient.Transaction readTransaction = session.transaction().read();
         StringBuffer gql1 = null;
         if ("1".equals(type)){
             gql1 = new StringBuffer("match $disease isa disease, has OMIM_id '" + OMIMId + "'");
         }else {
-            gql1 = new StringBuffer("match $disease isa disease, contains disease_name '" + OMIMId + "'");
+            gql1 = new StringBuffer("match $disease isa disease, has disease_name '" + OMIMId + "'");
         }
 
         StringBuffer gql2 = new StringBuffer("get");
@@ -62,7 +62,7 @@ public class DiseaseDaoImpl implements DiseaseDao {
 
         }
         List<ConceptMap> answers = readTransaction.execute((GraqlGet) Graql.parse(gql1.toString() + gql2.toString()));
-        Map<String, String> result = new HashMap<String, String>(29);
+        Map<String, String> result = new HashMap<String, String>();
         //对answers进行包装
         for (ConceptMap conceptMap : answers) {
             for (Variable key : conceptMap.map().keySet()) {

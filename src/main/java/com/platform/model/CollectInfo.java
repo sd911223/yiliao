@@ -3,10 +3,8 @@ package com.platform.model;
 import java.util.Date;
 
 /**
- * 
- *
  * @author shiTou
- * @date   2020/08/01
+ * @date 2020/08/01
  */
 public class CollectInfo {
     /**
@@ -23,6 +21,17 @@ public class CollectInfo {
      * 名称
      */
     private String name;
+
+
+    private String diseaseName;
+
+    public void setDiseaseName(String diseaseName) {
+        this.diseaseName = diseaseName;
+    }
+
+    public String getDiseaseName() {
+        return diseaseName;
+    }
 
     /**
      * 类型

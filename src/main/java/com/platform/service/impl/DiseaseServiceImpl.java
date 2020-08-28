@@ -3,8 +3,9 @@ package com.platform.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.platform.common.RestResponse;
-import com.platform.common.ResultUtil;
+import com.platform.dao.DiseaseOmimMapper;
+import com.platform.model.DiseaseOmim;
+import com.platform.model.DiseaseOmimExample;
 import com.platform.service.DiseaseDao;
 import com.platform.service.DiseaseService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +22,13 @@ public class DiseaseServiceImpl implements DiseaseService {
 
     @Autowired
     DiseaseDao diseaseDao;
+    @Autowired
+    DiseaseOmimMapper diseaseOmimMapper;
 
     @Override
-    public  Map<String, Object> disease(String omimId,String type) {
+    public Map<String, Object> disease(String omimId, String type) {
         // TODO Auto-generated method stub
-        Map<String, String> result = diseaseDao.disease(omimId,type);
+        Map<String, String> result = diseaseDao.disease(omimId, type);
         //把结果符合json格式
         Map<String, Object> cleanResult = this.getJsonResult(result);
         return cleanResult;
@@ -34,6 +37,14 @@ public class DiseaseServiceImpl implements DiseaseService {
     @Override
     public List<Map<String, String>> listDisease(String[] symptomArray) {
         return diseaseDao.listDisease(symptomArray);
+    }
+
+    @Override
+    public List<DiseaseOmim> byDiseaseName(String diseaseName) {
+        DiseaseOmimExample omimExample = new DiseaseOmimExample();
+        omimExample.createCriteria().andDiseaseNameLike(diseaseName + "%");
+        omimExample.setOrderByClause("disease_name ASC");
+        return diseaseOmimMapper.selectByExample(omimExample);
     }
 
 

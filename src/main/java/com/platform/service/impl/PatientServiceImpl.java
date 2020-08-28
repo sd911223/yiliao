@@ -6,12 +6,14 @@ import com.platform.common.RestResponse;
 import com.platform.common.ResultEnum;
 import com.platform.common.ResultUtil;
 import com.platform.dao.PatientInfoMapper;
+import com.platform.dao.VcfFileMapper;
 import com.platform.entity.req.PatientAddReq;
 import com.platform.entity.req.PatientListReq;
 import com.platform.exception.BusinessException;
 import com.platform.model.PatientInfo;
 import com.platform.model.PatientInfoExample;
 import com.platform.model.UserInfo;
+import com.platform.model.VcfFile;
 import com.platform.service.PatientService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +29,8 @@ import java.util.List;
 public class PatientServiceImpl implements PatientService {
     @Autowired
     PatientInfoMapper patientInfoMapper;
-
+@Autowired
+    VcfFileMapper vcfFileMapper;
     /**
      * 添加患者
      *
@@ -85,7 +88,12 @@ public class PatientServiceImpl implements PatientService {
             patientInfoExample.setOrderByClause("patient_name ASC");
         }
         List<PatientInfo> infoList = patientInfoMapper.selectByExample(patientInfoExample);
-
+        infoList.forEach(e->{
+            if (e.getJobId()!=null){
+                VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(e.getJobId());
+                e.setJobName(vcfFile.getJobName());
+            }
+        });
         return ResultUtil.success(new PageInfo<>(infoList));
     }
 
