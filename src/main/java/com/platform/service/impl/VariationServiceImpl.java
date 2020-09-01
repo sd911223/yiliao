@@ -54,6 +54,7 @@ public class VariationServiceImpl implements VariationService {
 
     @Override
     public void DeImport() {
+//        daoru1();
         daoru();
     }
 

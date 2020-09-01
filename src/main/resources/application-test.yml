@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://39.105.58.173:3306/mt-platform?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
-    password: sd123456
+    password: yl123456
     db-type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 5
     minIdle: 5

@@ -121,7 +121,7 @@ public class VcfController {
      * @return
      */
     @ApiOperation("导出解析报告pdf")
-    @GetMapping(value = "/vcf/export", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/vcf/export", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void exportVcf(@ApiParam("患者ID") @RequestParam(value = "patientId") String patientId,
                           HttpServletRequest request,
                           HttpServletResponse response,@LoginUser UserInfo userInfo) throws Exception {

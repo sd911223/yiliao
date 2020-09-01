@@ -36,7 +36,7 @@ public class GeneServiceImpl implements GeneService {
 
     @Override
     public Map<String, Object> getGeneByOmimId(String omimId) {
-        daoru();
+//        daoru();
         // TODO Auto-generated method stub
         Map<String, String> result = geneDao.getGeneByOmimId(omimId);
         if (StringUtils.isNotBlank(result.get("gene_symbol"))) {
