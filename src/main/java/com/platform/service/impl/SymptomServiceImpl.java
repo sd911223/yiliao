@@ -1,5 +1,6 @@
 package com.platform.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.platform.common.RestResponse;
 import com.platform.common.ResultUtil;
 import com.platform.dao.SymptomMapper;
@@ -9,6 +10,7 @@ import com.platform.model.SymptomExample;
 import com.platform.model.SymptomType;
 import com.platform.model.SymptomTypeExample;
 import com.platform.service.SymptomService;
+import com.platform.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ public class SymptomServiceImpl implements SymptomService {
     SymptomTypeMapper symptomTypeMapper;
     @Autowired
     SymptomMapper symptomMapper;
+    @Autowired
+    RedisUtil redisUtil;
 
     /**
      * 查询症状类型
@@ -62,10 +66,17 @@ public class SymptomServiceImpl implements SymptomService {
      */
     @Override
     public RestResponse querySymptomLike(String symptom) {
-        SymptomExample symptomExample = new SymptomExample();
-        symptomExample.createCriteria().andSymptomLike( symptom + "%");
-        symptomExample.setOrderByClause("symptom ASC");
-        List<Symptom> symptomList = symptomMapper.selectByExample(symptomExample);
-        return ResultUtil.success(symptomList);
+        if (redisUtil.get(symptom) == null) {
+            SymptomExample symptomExample = new SymptomExample();
+            symptomExample.createCriteria().andSymptomLike(symptom + "%");
+            symptomExample.setOrderByClause("symptom ASC");
+            List<Symptom> symptomList = symptomMapper.selectByExample(symptomExample);
+            redisUtil.set(symptom, JSON.toJSONString(symptomList), 60 * 10L);
+            return ResultUtil.success(symptomList);
+        } else {
+            Object o = redisUtil.get(symptom);
+            List<Symptom> symptomList = JSON.parseArray(o.toString(), Symptom.class);
+            return ResultUtil.success(symptomList);
+        }
     }
 }
