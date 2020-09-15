@@ -71,7 +71,9 @@ public class SymptomServiceImpl implements SymptomService {
             symptomExample.createCriteria().andSymptomLike(symptom + "%");
             symptomExample.setOrderByClause("symptom ASC");
             List<Symptom> symptomList = symptomMapper.selectByExample(symptomExample);
-            redisUtil.set(symptom, JSON.toJSONString(symptomList), 60 * 10L);
+            if (!symptomList.isEmpty()) {
+                redisUtil.set(symptom, JSON.toJSONString(symptomList), 60 * 10L);
+            }
             return ResultUtil.success(symptomList);
         } else {
             Object o = redisUtil.get(symptom);
