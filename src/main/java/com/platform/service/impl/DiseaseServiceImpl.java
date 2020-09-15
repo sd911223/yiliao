@@ -8,6 +8,7 @@ import com.platform.model.DiseaseOmim;
 import com.platform.model.DiseaseOmimExample;
 import com.platform.service.DiseaseDao;
 import com.platform.service.DiseaseService;
+import com.platform.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ public class DiseaseServiceImpl implements DiseaseService {
     DiseaseDao diseaseDao;
     @Autowired
     DiseaseOmimMapper diseaseOmimMapper;
+    @Autowired
+    RedisUtil redisUtil;
 
     @Override
     public Map<String, Object> disease(String omimId, String type) {
@@ -41,10 +44,21 @@ public class DiseaseServiceImpl implements DiseaseService {
 
     @Override
     public List<DiseaseOmim> byDiseaseName(String diseaseName) {
-        DiseaseOmimExample omimExample = new DiseaseOmimExample();
-        omimExample.createCriteria().andDiseaseNameLike(diseaseName + "%");
-        omimExample.setOrderByClause("disease_name ASC");
-        return diseaseOmimMapper.selectByExample(omimExample);
+        if (redisUtil.get(diseaseName) == null) {
+            DiseaseOmimExample omimExample = new DiseaseOmimExample();
+            omimExample.createCriteria().andDiseaseNameLike(diseaseName + "%");
+            omimExample.setOrderByClause("disease_name ASC");
+            List<DiseaseOmim> diseaseOmimList = diseaseOmimMapper.selectByExample(omimExample);
+            if (!diseaseOmimList.isEmpty()) {
+                redisUtil.set(diseaseName, JSON.toJSONString(diseaseName), 60 * 10L);
+            }
+            return diseaseOmimList;
+        } else {
+            Object o = redisUtil.get(diseaseName);
+            List<DiseaseOmim> diseaseOmimList = JSON.parseArray(o.toString(), DiseaseOmim.class);
+            return diseaseOmimList;
+        }
+
     }
 
 
