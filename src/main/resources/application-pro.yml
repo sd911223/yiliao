@@ -67,8 +67,7 @@ mail:
 #服务端口
 server:
   port: 18081
-  tomcat:
-    connection-timeout: 18000000
+
 redis:
   prefix: njm_
   token: token_uid_
