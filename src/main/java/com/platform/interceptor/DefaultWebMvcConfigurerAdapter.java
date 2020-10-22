@@ -37,7 +37,8 @@ public class DefaultWebMvcConfigurerAdapter implements WebMvcConfigurer {
                         "/mtApi/file/upload",
                         "/mtApi/file/show",
                         "/mtApi/user/forgetPassword",
-                        "/mtApi/variation/**", "/mtApi/gene/**");
+                        "/mtApi/variation/**",
+                        "/mtApi/gene/**");
     }
 
     @Override

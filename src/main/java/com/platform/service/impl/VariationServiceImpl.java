@@ -3,11 +3,9 @@ package com.platform.service.impl;
 import com.platform.common.RestResponse;
 import com.platform.common.ResultUtil;
 import com.platform.dao.DiseaseOmimMapper;
+import com.platform.dao.LiteratureMaterialMapper;
 import com.platform.dao.VariationMessageMapper;
-import com.platform.model.DiseaseOmim;
-import com.platform.model.DiseaseOmimExample;
-import com.platform.model.VariationMessage;
-import com.platform.model.VariationMessageExample;
+import com.platform.model.*;
 import com.platform.service.VariationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +24,12 @@ public class VariationServiceImpl implements VariationService {
     VariationMessageMapper variationMessageMapper;
     @Autowired
     DiseaseOmimMapper diseaseOmimMapper;
+    @Autowired
+    LiteratureMaterialMapper literatureMaterialMapper;
     public static String paths = "/home/ec2-user/grakn_data/variants/vcf_annotation4.txt";
 
     public static String paths2 = "C:\\Users\\shidun\\Desktop\\医疗\\disease_id_disease_name.txt";
+    public static String paths3 = "C:\\Users\\shidun\\Desktop\\reference_tidy.txt";
 
     /**
      * 通过变异ID查询
@@ -55,7 +56,37 @@ public class VariationServiceImpl implements VariationService {
     @Override
     public void DeImport() {
 //        daoru1();
-        daoru();
+//        daoru();
+        daoru3();
+    }
+
+    private void daoru3() {
+        StringBuffer sb = new StringBuffer();
+        try {
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(paths3));
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String line;
+            int count = 0;
+            while ((line = br.readLine()) != null) {
+                LiteratureMaterial txt = new LiteratureMaterial();
+                String[] arr = line.split("\t");
+                if (arr.length > 0) {
+                    System.out.println(arr[0]);
+                    txt.setLiteratureId(Integer.valueOf(arr[0]));
+                    System.out.println(arr[1]);
+                    txt.setReference(arr[1]);
+                    System.out.println(arr[2]);
+                    txt.setLiteratureData(arr[2]);
+                    literatureMaterialMapper.insert(txt);
+                }
+                count++;
+
+            }
+            br.close();
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void daoru() {

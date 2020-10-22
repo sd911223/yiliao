@@ -39,11 +39,12 @@ spring:
         min-idle: 2
     database: 2
   mail:
-    host: smtp.qq.com
+    host: adam.origenome.com
     # 邮箱账号
-    username: 460475302@qq.com
+    username: mailagent@dhexo.dhtongliang.com
     # 授权码
-    password: qppxntuoppgtcabe
+    password: SVM_1018
+    port: 587
     properties:
       mail:
         smtp:
@@ -52,16 +53,16 @@ spring:
           writetimeout: 5000
           auth: true
           ssl:
-            trust: smtp.qq.com
+            trust: adam.origenome.com
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
-            port: 465
+            port: 587
           starttls:
             enable: true
             required: true
 mail:
   fromMail:
-    addr: 460475302@qq.com
+    addr: mailagent@dhexo.dhtongliang.com
     title: 【DHExo】验证码
 #服务端口
 server:

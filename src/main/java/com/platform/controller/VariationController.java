@@ -52,7 +52,7 @@ public class VariationController {
      *
      * @return
      */
-    @ApiOperation("通过变异ID查询疾病名称")
+    @ApiOperation("导入数据库")
     @GetMapping("/variation/DeImport")
     public void DeImport() {
         variationService.DeImport();
