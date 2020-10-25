@@ -1,5 +1,6 @@
 package com.platform.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.platform.common.RestResponse;
 import com.platform.common.ResultUtil;
 import com.platform.dao.DiseaseOmimMapper;
@@ -7,6 +8,7 @@ import com.platform.dao.LiteratureMaterialMapper;
 import com.platform.dao.VariationMessageMapper;
 import com.platform.model.*;
 import com.platform.service.VariationService;
+import com.platform.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class VariationServiceImpl implements VariationService {
     DiseaseOmimMapper diseaseOmimMapper;
     @Autowired
     LiteratureMaterialMapper literatureMaterialMapper;
+    @Autowired
+    RedisUtil redisUtil;
     public static String paths = "/home/ec2-user/grakn_data/variants/vcf_annotation4.txt";
 
     public static String paths2 = "C:\\Users\\shidun\\Desktop\\医疗\\disease_id_disease_name.txt";
@@ -39,22 +43,30 @@ public class VariationServiceImpl implements VariationService {
      */
     @Override
     public RestResponse variationService(String rsId) {
-        VariationMessageExample messageExample = new VariationMessageExample();
-        messageExample.createCriteria().andRsEqualTo(rsId);
-        List<VariationMessage> variationMessages = variationMessageMapper.selectByExample(messageExample);
-        for (VariationMessage variationMessage : variationMessages) {
-            //处理疾病
-            variationMessage.setVariantPhenotype11(replaceString(variationMessage.getVariantPhenotype()));
-            //处理文献
-            variationMessage.setVariantPmid11(replaceString(variationMessage.getVariantPmid()));
-            //处理遗传方式
-            variationMessage.setVariantSource11(replaceString(variationMessage.getVariantSource()));
+        if (redisUtil.get("variationId:" + rsId) == null) {
+            VariationMessageExample messageExample = new VariationMessageExample();
+            messageExample.createCriteria().andRsEqualTo(rsId);
+            List<VariationMessage> variationMessages = variationMessageMapper.selectByExample(messageExample);
+            for (VariationMessage variationMessage : variationMessages) {
+                //处理疾病
+                variationMessage.setVariantPhenotype11(replaceString(variationMessage.getVariantPhenotype()));
+                //处理文献
+                variationMessage.setVariantPmid11(replaceString(variationMessage.getVariantPmid()));
+                //处理遗传方式
+                variationMessage.setVariantSource11(replaceString(variationMessage.getVariantSource()));
+            }
+            redisUtil.set("variationId:" + rsId, JSON.toJSONString(variationMessages));
+            return ResultUtil.success(variationMessages);
+        } else {
+            Object o = redisUtil.get("variationId:" + rsId);
+            List<VariationMessage> variationMessages = JSON.parseArray(o.toString(), VariationMessage.class);
+            return ResultUtil.success(variationMessages);
         }
-        return ResultUtil.success(variationMessages);
+
     }
 
     private String[] replaceString(String replaceString) {
-        if (replaceString.contains(",")){
+        if (replaceString.contains(",")) {
             if (replaceString.contains("[")) {
                 String replace = replaceString.replace("[", "");
                 if (replace.contains("]")) {
