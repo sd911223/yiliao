@@ -44,17 +44,17 @@ public class DiseaseServiceImpl implements DiseaseService {
 
     @Override
     public List<DiseaseOmim> byDiseaseName(String diseaseName) {
-        if (redisUtil.get(diseaseName) == null) {
+        if (redisUtil.get("byDiseaseName:" + diseaseName) == null) {
             DiseaseOmimExample omimExample = new DiseaseOmimExample();
             omimExample.createCriteria().andDiseaseNameLike(diseaseName + "%");
             omimExample.setOrderByClause("disease_name ASC");
             List<DiseaseOmim> diseaseOmimList = diseaseOmimMapper.selectByExample(omimExample);
             if (!diseaseOmimList.isEmpty()) {
-                redisUtil.set(diseaseName, JSON.toJSONString(diseaseName), 60 * 10L);
+                redisUtil.set("byDiseaseName:" + diseaseName, JSON.toJSONString(diseaseOmimList), 60 * 10L);
             }
             return diseaseOmimList;
         } else {
-            Object o = redisUtil.get(diseaseName);
+            Object o = redisUtil.get("byDiseaseName:" + diseaseName);
             List<DiseaseOmim> diseaseOmimList = JSON.parseArray(o.toString(), DiseaseOmim.class);
             return diseaseOmimList;
         }

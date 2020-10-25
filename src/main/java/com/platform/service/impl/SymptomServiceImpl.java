@@ -66,17 +66,17 @@ public class SymptomServiceImpl implements SymptomService {
      */
     @Override
     public RestResponse querySymptomLike(String symptom) {
-        if (redisUtil.get(symptom) == null) {
+        if (redisUtil.get("symptom:" + symptom) == null) {
             SymptomExample symptomExample = new SymptomExample();
             symptomExample.createCriteria().andSymptomLike(symptom + "%");
             symptomExample.setOrderByClause("symptom ASC");
             List<Symptom> symptomList = symptomMapper.selectByExample(symptomExample);
             if (!symptomList.isEmpty()) {
-                redisUtil.set(symptom, JSON.toJSONString(symptomList), 60 * 10L);
+                redisUtil.set("symptom:" + symptom, JSON.toJSONString(symptomList), 60 * 10L);
             }
             return ResultUtil.success(symptomList);
         } else {
-            Object o = redisUtil.get(symptom);
+            Object o = redisUtil.get("symptom:" + symptom);
             List<Symptom> symptomList = JSON.parseArray(o.toString(), Symptom.class);
             return ResultUtil.success(symptomList);
         }

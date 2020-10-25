@@ -42,8 +42,36 @@ public class VariationServiceImpl implements VariationService {
         VariationMessageExample messageExample = new VariationMessageExample();
         messageExample.createCriteria().andRsEqualTo(rsId);
         List<VariationMessage> variationMessages = variationMessageMapper.selectByExample(messageExample);
+        for (VariationMessage variationMessage : variationMessages) {
+            //处理疾病
+            variationMessage.setVariantPhenotype11(replaceString(variationMessage.getVariantPhenotype()));
+            //处理文献
+            variationMessage.setVariantPmid11(replaceString(variationMessage.getVariantPmid()));
+            //处理遗传方式
+            variationMessage.setVariantSource11(replaceString(variationMessage.getVariantSource()));
+        }
         return ResultUtil.success(variationMessages);
     }
+
+    private String[] replaceString(String replaceString) {
+        if (replaceString.contains(",")){
+            if (replaceString.contains("[")) {
+                String replace = replaceString.replace("[", "");
+                if (replace.contains("]")) {
+                    String replace1 = replace.replace("]", "");
+                    String replace2 = replace1.replace("\"", "");
+                    String replace3 = replace2.replace(" ", "");
+                    String[] split = replace3.split(",");
+                    return split;
+                }
+            } else {
+                return new String[]{replaceString};
+            }
+        }
+
+        return null;
+    }
+
 
     @Override
     public RestResponse diseaseName(Integer rsId) {

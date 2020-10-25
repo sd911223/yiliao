@@ -71,16 +71,45 @@ public class VariationMessage {
      * 
      */
     private String variantPhenotype;
+    private String[] variantPhenotype11;
+
+
 
     /**
      * 
      */
     private String variantSource;
+    private String[] variantSource11;
 
     /**
      * 
      */
     private String variantPmid;
+    private String[] variantPmid11;
+
+    public String[] getVariantPhenotype11() {
+        return variantPhenotype11;
+    }
+
+    public String[] getVariantSource11() {
+        return variantSource11;
+    }
+
+    public String[] getVariantPmid11() {
+        return variantPmid11;
+    }
+
+    public void setVariantPhenotype11(String[] variantPhenotype11) {
+        this.variantPhenotype11 = variantPhenotype11;
+    }
+
+    public void setVariantSource11(String[] variantSource11) {
+        this.variantSource11 = variantSource11;
+    }
+
+    public void setVariantPmid11(String[] variantPmid11) {
+        this.variantPmid11 = variantPmid11;
+    }
 
     /**
      * 

@@ -24,7 +24,7 @@ public class LiteratureController {
      * @param literatureId
      * @return
      */
-    @ApiOperation("变异查询")
+    @ApiOperation("文献查询")
     @GetMapping("/literature/byId")
     public RestResponse literatureQuery(@ApiParam("文献ID") @RequestParam("literatureId") String literatureId) {
 
