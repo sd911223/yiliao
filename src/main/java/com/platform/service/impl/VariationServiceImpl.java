@@ -87,10 +87,17 @@ public class VariationServiceImpl implements VariationService {
 
     @Override
     public RestResponse diseaseName(Integer rsId) {
-        DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
-        diseaseOmimExample.createCriteria().andOmimIdEqualTo(rsId);
-        List<DiseaseOmim> omimList = diseaseOmimMapper.selectByExample(diseaseOmimExample);
-        return ResultUtil.success(omimList);
+        if (redisUtil.get("diseaseNameByRs:" + rsId) == null) {
+            DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+            diseaseOmimExample.createCriteria().andOmimIdEqualTo(rsId);
+            List<DiseaseOmim> omimList = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+            redisUtil.set("diseaseNameByRs:" + rsId, JSON.toJSONString(omimList));
+            return ResultUtil.success(omimList);
+        } else {
+            Object o = redisUtil.get("diseaseNameByRs:" + rsId);
+            List<DiseaseOmim> omimList = JSON.parseArray(o.toString(), DiseaseOmim.class);
+            return ResultUtil.success(omimList);
+        }
     }
 
     @Override
