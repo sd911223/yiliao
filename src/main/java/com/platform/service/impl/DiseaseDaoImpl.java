@@ -42,9 +42,9 @@ public class DiseaseDaoImpl implements DiseaseDao {
         // Read the person using a READ only transaction   contains為模糊關鍵字
         GraknClient.Transaction readTransaction = session.transaction().read();
         StringBuffer gql1 = null;
-        if ("1".equals(type)){
+        if ("1".equals(type)) {
             gql1 = new StringBuffer("match $disease isa disease, has OMIM_id '" + OMIMId + "'");
-        }else {
+        } else {
             gql1 = new StringBuffer("match $disease isa disease, has disease_name '" + OMIMId + "'");
         }
 
@@ -66,7 +66,11 @@ public class DiseaseDaoImpl implements DiseaseDao {
         //对answers进行包装
         for (ConceptMap conceptMap : answers) {
             for (Variable key : conceptMap.map().keySet()) {
-                result.put(key.name(), conceptMap.map().get(key).asAttribute().value().toString());
+                if (key.name().equals("Phenotype_gene_relationship")) {
+                    result.put(key.name(), conceptMap.map().get(key).asAttribute().value().toString().replace("?", ""));
+                } else {
+                    result.put(key.name(), conceptMap.map().get(key).asAttribute().value().toString());
+                }
             }
         }
         //关闭
@@ -89,8 +93,8 @@ public class DiseaseDaoImpl implements DiseaseDao {
         List<Map<String, String>> result = new LinkedList<Map<String, String>>();
         for (int i = 0; i < symptoms.length; i++) {
             String gql = "match $ds (has-disease: $dis, has-symptom: $sym) isa disease-symptom-has; "
-                    + "$dis has disease_name $name;$dis has OMIM_id $id; $sym has name \""+ symptoms[i] +"\"; get $name,$id;";
-            log.info("通过症状查询疾病:gql====={}",gql);
+                    + "$dis has disease_name $name;$dis has OMIM_id $id; $sym has name \"" + symptoms[i] + "\"; get $name,$id;";
+            log.info("通过症状查询疾病:gql====={}", gql);
             //查询
             List<ConceptMap> answers = readTransaction.execute((GraqlGet) Graql.parse(gql));
             //对结果进行抽取
