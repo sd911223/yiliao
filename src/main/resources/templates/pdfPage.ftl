@@ -481,9 +481,45 @@
                         <dd>
                             <span>${map.mutationType}</span>
                             <span>${map.proteinChange}</span>
-                            <span>${map.relatedDisease}</span>
-                            <span>${map.source}</span>
-                            <span>${map.literature}</span>
+                            <span>
+                             <#if map.relatedDisease?exists>
+                                 <#list map.relatedDisease?split("\t") as relatedDate>
+                                     <#if relatedDate == "">
+                                         -
+                                     <#else>
+                                         <#if relatedDate_index !=0 >
+                                             ${relatedDate} <br/>
+                                         </#if>
+                                     </#if>
+                                 </#list>
+                             </#if>
+                            </span>
+                            <span>
+                             <#if map.source?exists>
+                                 <#list map.source?split("\t") as sourceDate>
+                                     <#if sourceDate == "">
+                                         -
+                                     <#else>
+                                         <#if sourceDate_index !=0 >
+                                             ${sourceDate} <br/>
+                                         </#if>
+                                     </#if>
+                                 </#list>
+                             </#if>
+                            </span>
+                            <span>
+                             <#if map.literature?exists>
+                                 <#list map.literature?split("\t") as latelyDate>
+                                     <#if latelyDate == "">
+                                         -
+                                     <#else>
+                                         <#if latelyDate_index <3 >
+                                             ${latelyDate} <br/>
+                                         </#if>
+                                     </#if>
+                                 </#list>
+                             </#if>
+                                </span>
                         </dd>
                     </#list>
                 </#if>
@@ -541,9 +577,44 @@
                         <dd>
                             <span style="width: 20%">${map.mutationType}</span>
                             <span style="width: 20%">${map.proteinChange}</span>
-                            <span style="width: 20%">${map.relatedDisease}</span>
-                            <span style="width: 20%">${map.source}</span>
-                            <span style="width: 20%; font-size: 12px">${map.literature}</span>
+                            <span style="width: 20%">
+                             <#if map.relatedDisease?exists>
+                                 <#list map.relatedDisease?split("\t") as relatedDate>
+                                     <#if relatedDate == "">
+                                     -
+                                 <#else>
+                                     <#if relatedDate_index !=0 >
+                                         ${relatedDate} <br/>
+                                     </#if>
+                                 </#if>
+                                 </#list>
+                             </#if>
+                            </span>
+                            <span style="width: 20%">
+                             <#if map.source?exists>
+                                 <#list map.source?split("\t") as sourceDate>
+                                     <#if sourceDate == "">
+                                     -
+                                 <#else>
+                                     <#if sourceDate_index !=0 >
+                                         ${sourceDate} <br/>
+                                     </#if>
+                                 </#if>
+                                 </#list>
+                             </#if>
+                            </span>
+                            <span style="width: 20%">
+                             <#if map.literature?exists>
+                                 <#list map.literature?split("\t") as latelyDate>                                                <#if latelyDate == "已过期">
+                                     -
+                                 <#else>
+                                     <#if latelyDate_index <3 >
+                                         ${latelyDate} <br/>
+                                     </#if>
+                                 </#if>
+                                 </#list>
+                             </#if>
+                            </span>
                         </dd>
                     </#list>
                 </#if>
@@ -595,7 +666,7 @@
         <div class="block block7">
             <p class="title"><em>参考文献</em></p>
             <p class="description" style="word-wrap: break-word !important; word-break: break-all !important;">
-               ${literature}
+                ${literature}
             </p>
         </div>
     </div>
