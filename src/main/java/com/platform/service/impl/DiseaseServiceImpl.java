@@ -30,11 +30,24 @@ public class DiseaseServiceImpl implements DiseaseService {
 
     @Override
     public Map<String, Object> disease(String omimId, String type) {
-        // TODO Auto-generated method stub
-        Map<String, String> result = diseaseDao.disease(omimId, type);
-        //把结果符合json格式
-        Map<String, Object> cleanResult = this.getJsonResult(result);
-        return cleanResult;
+        if (redisUtil.get("omimIdAndType:" + omimId) == null) {
+            Map<String, String> result = diseaseDao.disease(omimId, type);
+            //把结果符合json格式
+            Map<String, Object> cleanResult = this.getJsonResult(result);
+            if (!cleanResult.isEmpty()){
+                redisUtil.set("omimIdAndType:" + omimId, JSON.toJSONString(cleanResult), 60 * 10L);
+            }
+            return cleanResult;
+        } else {
+            Object o = redisUtil.get("omimIdAndType:" + omimId);
+            Map<String, Object> cleanResult = JSON.parseObject(o.toString(), Map.class);
+            return cleanResult;
+        }
+//        // TODO Auto-generated method stub
+//        Map<String, String> result = diseaseDao.disease(omimId, type);
+//        //把结果符合json格式
+//        Map<String, Object> cleanResult = this.getJsonResult(result);
+//        return cleanResult;
     }
 
     @Override

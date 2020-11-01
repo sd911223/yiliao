@@ -38,6 +38,7 @@ public class DefaultWebMvcConfigurerAdapter implements WebMvcConfigurer {
                         "/mtApi/file/show",
                         "/mtApi/user/forgetPassword",
                         "/mtApi/variation/**",
+                        "/mtApi/symptom/byDiseaseName",
                         "/mtApi/gene/**");
     }
 
