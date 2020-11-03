@@ -527,12 +527,20 @@
         </div>
         <div class="block block4">
             <p class="title"><em>重点关注疾病</em></p>
-            <#if maps??>
+            <#if maps?? && (maps?size>0)>
                 <div class="diseases-info">
-                    <p><i style="background-color:#3bcaff">疾病名</i><span>${maps['disease_name']}</span></p>
-                    <p><i style="background-color:#3bbcff">发病年龄</i><span>${maps['age_of_onset_orp']}</span></p>
-                    <p><i style="background-color:#3ba5ff">遗传方式</i><span>${maps['inheritance_orp']}</span></p>
-                    <p><i style="background-color:#3b8eff">发病率</i><span>${maps['prevalence_orp']?html}</span></p>
+                    <#if (maps['disease_name'])??>
+                        <p><i style="background-color:#3bcaff">疾病名</i><span>${maps['disease_name']}</span></p>
+                    </#if>
+                    <#if (maps['age_of_onset_orp'])??>
+                        <p><i style="background-color:#3bbcff">发病年龄</i><span>${maps['age_of_onset_orp']}</span></p>
+                    </#if>
+                    <#if (maps['inheritance_orp'])??>
+                        <p><i style="background-color:#3ba5ff">遗传方式</i><span>${maps['inheritance_orp']}</span></p>
+                    </#if>
+                    <#if (maps['prevalence_orp'])??>
+                        <p><i style="background-color:#3b8eff">发病率</i><span>${maps['prevalence_orp']?html}</span></p>
+                    </#if>
                 </div>
             </#if>
         </div>
