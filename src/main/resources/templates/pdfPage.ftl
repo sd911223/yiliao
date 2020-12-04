@@ -674,7 +674,12 @@
         <div class="block block7">
             <p class="title"><em>参考文献</em></p>
             <p class="description" style="word-wrap: break-word !important; word-break: break-all !important;">
-                ${literature}
+<#--                ${literature}-->
+                <#if literature?exists>
+                    <#list literature as map>
+                        <p><span>${map_index+1}.</span>${map?html}</p>
+                    </#list>
+                </#if>
             </p>
         </div>
     </div>

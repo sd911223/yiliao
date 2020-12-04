@@ -70,11 +70,13 @@ public class CollectServiceImpl implements CollectService {
         List<CollectInfo> collectInfos = collectInfoMapper.selectByExample(collectInfoExample);
         if (!collectInfos.isEmpty()) {
             collectInfos.forEach(e -> {
-                DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
-                diseaseOmimExample.createCriteria().andOmimIdEqualTo(Integer.valueOf(e.getName()));
-                List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
-                if (!diseaseOmims.isEmpty()) {
-                    e.setDiseaseName(diseaseOmims.get(0).getDiseaseName());
+                if (e.getType() == 0) {
+                    DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+                    diseaseOmimExample.createCriteria().andOmimIdEqualTo(Integer.valueOf(e.getName()));
+                    List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+                    if (!diseaseOmims.isEmpty()) {
+                        e.setDiseaseName(diseaseOmims.get(0).getDiseaseName());
+                    }
                 }
             });
         }

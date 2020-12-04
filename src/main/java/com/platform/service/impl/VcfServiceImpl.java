@@ -13,6 +13,7 @@ import com.platform.entity.resp.VcfCountResp;
 import com.platform.exception.BusinessException;
 import com.platform.model.*;
 import com.platform.service.DiseaseService;
+import com.platform.service.LiteratureService;
 import com.platform.service.VcfService;
 import com.platform.util.PdfUtilTest;
 import com.platform.util.ShellUtil;
@@ -56,6 +57,8 @@ public class VcfServiceImpl implements VcfService {
     DiseaseOmimMapper diseaseOmimMapper;
     @Autowired
     DiseaseService diseaseService;
+    @Autowired
+    LiteratureService literatureService;
 
     /**
      * VCF统计
@@ -372,7 +375,25 @@ public class VcfServiceImpl implements VcfService {
             if (replace.contains("None")) {
                 replace = replace.replace("None", "");
             }
-            dataMap.put("literature", replace);
+            log.info("============================={}", replace);
+            ArrayList<String> strings1 = new ArrayList<>();
+            if (!StringUtils.isBlank(replace)) {
+                String[] split = replace.split("\t");
+                List<String> strings = Arrays.asList(split);
+                for (int j = 0; j < strings.size(); j++) {
+                    if (j <= 10) {
+                        String s = strings.get(j);
+                        RestResponse restResponse = literatureService.literatureQuery(s);
+                        if (restResponse.getData() != null) {
+                            LiteratureMaterial literatureMaterial = JSON.parseObject(JSON.toJSONString(restResponse.getData()), LiteratureMaterial.class);
+                            strings1.add(literatureMaterial.getReference());
+                        }
+                    }
+                }
+
+            }
+            log.info("*************************{}", JSON.toJSONString(strings1));
+            dataMap.put("literature", strings1);
             baos = PdfUtilTest.createPDF(dataMap, "pdfPage.ftl");
             // 设置响应消息头，告诉浏览器当前响应是一个下载文件
             response.setContentType("application/x-msdownload");
