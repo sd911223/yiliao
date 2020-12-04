@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Slf4j
@@ -70,7 +72,8 @@ public class CollectServiceImpl implements CollectService {
         List<CollectInfo> collectInfos = collectInfoMapper.selectByExample(collectInfoExample);
         if (!collectInfos.isEmpty()) {
             collectInfos.forEach(e -> {
-                if (e.getType() == 0) {
+                log.info("type:{},name{}",e.getType(),e.getName());
+                if (e.getType() == 0 && isNumericzidai(e.getName())) {
                     DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
                     diseaseOmimExample.createCriteria().andOmimIdEqualTo(Integer.valueOf(e.getName()));
                     List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
@@ -78,9 +81,27 @@ public class CollectServiceImpl implements CollectService {
                         e.setDiseaseName(diseaseOmims.get(0).getDiseaseName());
                     }
                 }
+                if (e.getType() == 0 && !isNumericzidai(e.getName())) {
+                    DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+                    diseaseOmimExample.createCriteria().andDiseaseNameEqualTo(e.getName());
+                    List<DiseaseOmim> diseaseOmims = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+                    if (!diseaseOmims.isEmpty()) {
+                        e.setDiseaseName(diseaseOmims.get(0).getDiseaseName());
+                        e.setName(String.valueOf(diseaseOmims.get(0).getOmimId()));
+                    }
+                }
             });
         }
         return ResultUtil.success(collectInfos);
+    }
+
+    public static boolean isNumericzidai(String str) {
+        Pattern pattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        if (!isNum.matches()) {
+            return false;
+        }
+        return true;
     }
 
     /**
