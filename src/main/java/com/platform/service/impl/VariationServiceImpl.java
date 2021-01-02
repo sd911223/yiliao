@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.platform.common.RestResponse;
 import com.platform.common.ResultUtil;
 import com.platform.dao.DiseaseOmimMapper;
+import com.platform.dao.LiteratureMapper;
 import com.platform.dao.LiteratureMaterialMapper;
 import com.platform.dao.VariationMessageMapper;
 import com.platform.model.*;
@@ -29,11 +30,13 @@ public class VariationServiceImpl implements VariationService {
     @Autowired
     LiteratureMaterialMapper literatureMaterialMapper;
     @Autowired
+    LiteratureMapper literatureMapper;
+    @Autowired
     RedisUtil redisUtil;
     public static String paths = "/home/ec2-user/grakn_data/variants/vcf_annotation4.txt";
 
     public static String paths2 = "C:\\Users\\shidun\\Desktop\\医疗\\disease_id_disease_name.txt";
-    public static String paths3 = "C:\\Users\\shidun\\Desktop\\reference_tidy.txt";
+    public static String paths3 = "C:\\Users\\shidun\\Desktop\\ref_new1.txt";
 
     /**
      * 通过变异ID查询
@@ -115,16 +118,17 @@ public class VariationServiceImpl implements VariationService {
             String line;
             int count = 0;
             while ((line = br.readLine()) != null) {
-                LiteratureMaterial txt = new LiteratureMaterial();
+                Literature txt = new Literature();
                 String[] arr = line.split("\t");
                 if (arr.length > 0) {
-                    System.out.println(arr[0]);
                     txt.setLiteratureId(Integer.valueOf(arr[0]));
-                    System.out.println(arr[1]);
-                    txt.setReference(arr[1]);
-                    System.out.println(arr[2]);
-                    txt.setLiteratureData(arr[2]);
-                    literatureMaterialMapper.insert(txt);
+                    txt.setAuthor(arr[1]);
+                    txt.setTitle(arr[2]);
+                    txt.setPeriodicalName(arr[3]);
+                    txt.setPeriodicalNumber(arr[4]);
+                    txt.setPublishingTime(arr[5]);
+                    txt.setSummary(arr[6]);
+                    literatureMapper.insert(txt);
                 }
                 count++;
 

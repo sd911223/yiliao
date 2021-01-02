@@ -157,7 +157,7 @@
         <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
         <!--        </table>-->
 
-        <table tableName="literature_material" domainObjectName="LiteratureMaterial" enableCountByExample="true"
+        <table tableName="literature" domainObjectName="Literature" enableCountByExample="true"
                enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true"
