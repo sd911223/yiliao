@@ -7,7 +7,7 @@
     <title>Title</title>
     <style>
         @page {
-            size: 216mm 279mm;
+            size: landscape;
         }
 
         * {
@@ -199,18 +199,24 @@
             position: relative;
             display: block;
             min-height: 40px;
-            padding: 10px 20px;
+            line-height: 40px;
+            padding: 0px 20px;
             font-size: 18px;
             color: #656565;
+            text-align: center;
+            border: 1px solid #ccd0d4;
+            border-top: 0;
         }
 
         .block1 .base-info li span {
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            width: 160px;
+            /* position: absolute;
+             top: 10px;
+             left: 20px;*/
+            float: left;
+            width: 33%;
             height: 40px;
             line-height: 40px;
+            border-right: 1px solid #ccd0d4;
         }
 
         .block1 .base-info li span:after {
@@ -220,15 +226,19 @@
             width: 2px;
             height: 40px;
             margin-top: -20px;
-            background-color: #ccd0d4;
+            /*background-color: #ccd0d4;*/
+            border-right: 0px solid #ccd0d4;
             content: '';
         }
 
         .block1 .base-info li p {
-            position: relative;
+            float: left;
+            width: 33%;
+            /*position: relative;*/
             min-height: 40px;
             line-height: 40px;
-            padding-left: 170px;
+            /*padding-left: 170px;*/
+            border-right: 1px solid #ccd0d4;
         }
 
         .block2 .result {
@@ -401,43 +411,61 @@
         <div class="block block1">
             <p class="title"><em>患者基本信息</em></p>
             <ul class="base-info">
-                <li class="gray"><span>姓名：</span>
+                <li class="gray " style="border-top: 1px solid #ccd0d4;">
+                    <span>姓名</span>
+                    <span>性别</span>
+                    <span style="border-right: 0">年龄</span>
+                </li>
+                <li>
+                    <!-- 姓名： -->
                     <p>
+                        <!-- 小李 -->
                         <#if patientName??>
                             ${patientName}
                         <#else>
                             无
                         </#if>
                     </p>
-                </li>
-                <li><span>性别：</span>
+                    <!-- 性别： -->
                     <p>
+                        <!-- 男 -->
                         ${sex}
                     </p>
-                </li>
-                <li class="gray"><span>年龄：</span>
-                    <p>
+                    <!-- 年龄： -->
+                    <p style="border-right: 0">
+                        <!-- 57 -->
                         ${age}
                     </p>
                 </li>
-                <li><span>症状：</span>
-                    <p>
-                        ${symptom}
-                    </p>
+                <li class="gray">
+                    家族遗传病史
                 </li>
-                <li class="gray"><span>家族遗传病史：</span>
-                    <p>
-                        ${homeDisease}
-                    </p>
+                <li>
+                    <!-- 家族遗传病史： -->
+                    ${homeDisease}
                 </li>
+                <li class="gray">
+                    症状
+                </li>
+                <li>
+                    <!-- 症状： -->
+                    ${symptom}
+                </li>
+
             </ul>
         </div>
         <div class="block block2">
             <p class="title"><em>检测结果</em></p>
             <p class="result">
-                <span class="gray"><i class="danger"></i>检测到&nbsp;${heighList}&nbsp;个高度关注的突变。突变&nbsp;${heighResult}&nbsp;极有可能会导致&nbsp;${heighDisease}。</span>
-                <span>检测到&nbsp;${moderateList}&nbsp;个中度关注的突变。突变&nbsp;${moderateResult}&nbsp;可能导致&nbsp;${moderateDisease}。</span>
-                <span class="gray">检测到&nbsp;${lowList}&nbsp;个低度关注的突变。突变&nbsp;${lowResult}&nbsp;可能导致&nbsp;${lowDisease}。</span>
+                <#if heighList !=0 >
+                    <span class="gray"><i class="danger"></i>检测到&nbsp;${heighList}&nbsp;个高度关注的突变。突变&nbsp;${heighResult}&nbsp;极有可能会导致&nbsp;${heighDisease}。</span>
+                </#if>
+                <#if moderateList !=0 >
+                    <span>检测到&nbsp;${moderateList}&nbsp;个中度关注的突变。突变&nbsp;${moderateResult}&nbsp;可能导致&nbsp;${moderateDisease}。</span>
+                </#if>
+                <#if lowList !=0 >
+                    <span class="gray">检测到&nbsp;${lowList}&nbsp;个低度关注的突变。突变&nbsp;${lowResult}&nbsp;可能导致&nbsp;${lowDisease}。</span>
+                </#if>
             </p>
         </div>
         <div class="block block3">
@@ -589,12 +617,12 @@
                              <#if map.relatedDisease?exists>
                                  <#list map.relatedDisease?split("\t") as relatedDate>
                                      <#if relatedDate == "">
-                                     -
-                                 <#else>
-                                     <#if relatedDate_index !=0 >
-                                         ${relatedDate} <br/>
+                                         -
+                                     <#else>
+                                         <#if relatedDate_index !=0 >
+                                             ${relatedDate} <br/>
+                                         </#if>
                                      </#if>
-                                 </#if>
                                  </#list>
                              </#if>
                             </span>
@@ -602,12 +630,12 @@
                              <#if map.source?exists>
                                  <#list map.source?split("\t") as sourceDate>
                                      <#if sourceDate == "">
-                                     -
-                                 <#else>
-                                     <#if sourceDate_index !=0 >
-                                         ${sourceDate} <br/>
+                                         -
+                                     <#else>
+                                         <#if sourceDate_index !=0 >
+                                             ${sourceDate} <br/>
+                                         </#if>
                                      </#if>
-                                 </#if>
                                  </#list>
                              </#if>
                             </span>
@@ -674,12 +702,12 @@
         <div class="block block7">
             <p class="title"><em>参考文献</em></p>
             <p class="description" style="word-wrap: break-word !important; word-break: break-all !important;">
-<#--                ${literature}-->
-                <#if literature?exists>
-                    <#list literature as map>
-                        <p><span>${map_index+1}.</span>${map?html}</p>
-                    </#list>
-                </#if>
+                <#--                ${literature}-->
+                <#--                <#if literature?exists>-->
+                <#--                    <#list literature as map>-->
+                <#--                        <p><span>${map_index+1}.</span>${map?html}</p>-->
+                <#--                    </#list>-->
+                <#--                </#if>-->
             </p>
         </div>
     </div>

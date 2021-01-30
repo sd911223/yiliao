@@ -87,13 +87,13 @@ public class VcfServiceImpl implements VcfService {
         PatientInfoExample noInfoExample = new PatientInfoExample();
         noInfoExample.createCriteria()
                 .andIsEffectiveEqualTo(1)
-                .andIsResolveEqualTo(2)
+                .andIsResolveEqualTo(3)
                 .andDoctorIdEqualTo(userInfo.getUserId());
         long not = patientInfoMapper.countByExample(noInfoExample);
         log.info("統計vcf解讀=====未完成{}", not);
         //正在处理
         PatientInfoExample processExample = new PatientInfoExample();
-        processExample.createCriteria().andIsEffectiveEqualTo(1).andIsResolveEqualTo(3);
+        processExample.createCriteria().andIsEffectiveEqualTo(1).andIsResolveEqualTo(2);
         long patientTotal = patientInfoMapper.countByExample(processExample);
         log.info("統計vcf解讀=====正在处理{}", patientTotal);
         VcfCountResp vcfCountResp = VcfCountResp.builder().totalTask(total).completeTask(complete).NotTask(not).processTask(patientTotal).build();
@@ -331,7 +331,8 @@ public class VcfServiceImpl implements VcfService {
             }
             // 模板中的数据，实际运用从数据库中查询
             Map<String, Object> dataMap = new HashMap<>();
-            dataMap.put("statisticalTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            dataMap.put("statisticalTime", sdf.format(patientInfo.getCreateTime()));
             dataMap.put("doctor", userInfo.getUserName());
             dataMap.put("patientName", patientInfo.getPatientName());
             dataMap.put("sex", patientInfo.getSex() == 1 ? "男" : "女");
@@ -383,11 +384,15 @@ public class VcfServiceImpl implements VcfService {
                 for (int j = 0; j < strings.size(); j++) {
                     if (j <= 10) {
                         String s = strings.get(j);
-                        RestResponse restResponse = literatureService.literatureQuery(s);
-                        if (restResponse.getData() != null) {
-                            LiteratureMaterial literatureMaterial = JSON.parseObject(JSON.toJSONString(restResponse.getData()), LiteratureMaterial.class);
-                            strings1.add(literatureMaterial.getReference());
+                        if (!"".equals(s)) {
+                            log.info("===============================================参数:{}", s);
+                            RestResponse restResponse = literatureService.literatureQuery(s);
+                            if (restResponse.getData() != null) {
+                                LiteratureMaterial literatureMaterial = JSON.parseObject(JSON.toJSONString(restResponse.getData()), LiteratureMaterial.class);
+                                strings1.add(literatureMaterial.getReference());
+                            }
                         }
+
                     }
                 }
 

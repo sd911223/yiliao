@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,29 +48,53 @@ public class VariationServiceImpl implements VariationService {
      */
     @Override
     public RestResponse variationService(String rsId) {
-        if (redisUtil.get("variationId:" + rsId) == null) {
+        if (redisUtil.get("ByRsVariationId:" + rsId) == null) {
             VariationMessageExample messageExample = new VariationMessageExample();
             messageExample.createCriteria().andRsEqualTo(rsId);
             List<VariationMessage> variationMessages = variationMessageMapper.selectByExample(messageExample);
-            for (VariationMessage variationMessage : variationMessages) {
-                //处理疾病
-                variationMessage.setVariantPhenotype11(replaceString(variationMessage.getVariantPhenotype()));
-                //处理文献
-                variationMessage.setVariantPmid11(replaceString(variationMessage.getVariantPmid()));
-                //处理遗传方式
-                variationMessage.setVariantSource11(replaceString(variationMessage.getVariantSource()));
+            if (!variationMessages.isEmpty()) {
+                for (VariationMessage variationMessage : variationMessages) {
+                    //处理疾病
+                    variationMessage.setVariantPhenotype11(replaceString(variationMessage.getVariantPhenotype()));
+                    //疾病名称
+                    variationMessage.setDiseaseOmimList(getMapList(replaceString(variationMessage.getVariantPhenotype())));
+                    //处理文献
+                    variationMessage.setVariantPmid11(replaceString(variationMessage.getVariantPmid()));
+                    //处理遗传方式
+                    variationMessage.setVariantSource11(replaceString(variationMessage.getVariantSource()));
+                }
+                redisUtil.set("ByRsVariationId:" + rsId, JSON.toJSONString(variationMessages));
+                return ResultUtil.success(variationMessages);
             }
-            redisUtil.set("variationId:" + rsId, JSON.toJSONString(variationMessages));
-            return ResultUtil.success(variationMessages);
         } else {
-            Object o = redisUtil.get("variationId:" + rsId);
+            Object o = redisUtil.get("ByRsVariationId:" + rsId);
             List<VariationMessage> variationMessages = JSON.parseArray(o.toString(), VariationMessage.class);
             return ResultUtil.success(variationMessages);
         }
+        return null;
+    }
 
+    private List<DiseaseOmim> getMapList(String[] omidS) {
+        log.info("查询疾病名称:{}", omidS);
+        List<DiseaseOmim> list = new ArrayList<>();
+        if (null == omidS) {
+            return list;
+        }
+        List<String> stringList = Arrays.asList(omidS);
+
+        stringList.forEach(e -> {
+            DiseaseOmimExample diseaseOmimExample = new DiseaseOmimExample();
+            diseaseOmimExample.createCriteria().andOmimIdEqualTo(Integer.valueOf(e));
+            List<DiseaseOmim> omimList = diseaseOmimMapper.selectByExample(diseaseOmimExample);
+            list.add(omimList.get(0));
+        });
+        return list;
     }
 
     private String[] replaceString(String replaceString) {
+        if ("".equals(replaceString)) {
+            return new String[]{};
+        }
         if (replaceString.contains(",")) {
             if (replaceString.contains("[")) {
                 String replace = replaceString.replace("[", "");

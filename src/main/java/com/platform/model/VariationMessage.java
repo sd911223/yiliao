@@ -1,10 +1,10 @@
 package com.platform.model;
 
+import java.util.List;
+
 /**
- * 
- *
  * @author shiTou
- * @date   2020/07/26
+ * @date 2020/07/26
  */
 public class VariationMessage {
     /**
@@ -18,71 +18,74 @@ public class VariationMessage {
     private String rs;
 
     /**
-     * 
+     *
      */
     private String chr;
 
     /**
-     * 
+     *
      */
     private String start;
 
     /**
-     * 
+     *
      */
     private String end;
 
     /**
-     * 
+     *
      */
     private String ref;
 
     /**
-     * 
+     *
      */
     private String alt;
 
     /**
-     * 
+     *
      */
     private String gene;
 
     /**
-     * 
+     *
      */
     private String label;
 
     /**
-     * 
+     *
      */
     private String exonicfunc;
 
     /**
-     * 
+     *
      */
     private String aachange;
 
     /**
-     * 
+     *
      */
     private String mafGnomad;
 
     /**
-     * 
+     *
      */
     private String variantPhenotype;
+
     private String[] variantPhenotype11;
-
-
+    /**
+     * 疾病名称与ID
+     */
+    private List<DiseaseOmim> diseaseOmimList;
 
     /**
-     * 
+     *
      */
     private String variantSource;
     private String[] variantSource11;
 
     /**
-     * 
+     *
      */
     private String variantPmid;
     private String[] variantPmid11;
@@ -112,34 +115,42 @@ public class VariationMessage {
     }
 
     /**
-     * 
+     *
      */
     private String variantInheritance;
 
     /**
-     * 
+     *
      */
     private String genePhenotype;
 
     /**
-     * 
+     *
      */
     private String geneSource;
 
     /**
-     * 
+     *
      */
     private String genePmid;
 
     /**
-     * 
+     *
      */
     private String geneInheritance;
 
     /**
-     * 
+     *
      */
     private String nChange;
+
+    public List<DiseaseOmim> getDiseaseOmimList() {
+        return diseaseOmimList;
+    }
+
+    public void setDiseaseOmimList(List<DiseaseOmim> diseaseOmimList) {
+        this.diseaseOmimList = diseaseOmimList;
+    }
 
     public Integer getId() {
         return id;

@@ -57,7 +57,7 @@ public class PatientServiceImpl implements PatientService {
         patientInfo.setCreateTime(new Date());
         patientInfo.setDoctorId(userInfo.getUserId());
         patientInfo.setIsEffective(1);
-        patientInfo.setIsResolve(2);
+        patientInfo.setIsResolve(3);
         patientInfoMapper.insert(patientInfo);
         return ResultUtil.success("添加患者成功!");
     }
