@@ -472,43 +472,21 @@
             <p class="title"><em>高度关注</em></p>
             <dl class="table">
                 <dt>
-                    <span>RS</span>
+                    <span>变异位点</span>
                     <span>染色体位置</span>
-                    <span>Ref</span>
-                    <span>Alt</span>
-                    <span>基因型</span>
-                    <span>MAF</span>
-                    <span>基因</span>
-                    <span>致病分值</span>
-                </dt>
-                <#if heighData?exists>
-                    <#list heighData as map>
-                        <dd>
-                            <span>${map.variation}</span>
-                            <span>${map.chromosomePosition}</span>
-                            <span>${map.ref}</span>
-                            <span>${map.alt}</span>
-                            <span>${map.geneShape}</span>
-                            <span>${map.maf}</span>
-                            <span>${map.gene}</span>
-                            <span>${map.pathogenicPoints}</span>
-                        </dd>
-                    </#list>
-                </#if>
-            </dl>
-            <dl class="table">
-                <dt>
-                    <span>突变类型</span>
-                    <span>蛋白变化</span>
                     <span>相关疾病</span>
-                    <span>来源</span>
+                    <span>参考/患者 </span>
+                    <span>基因</span>
+                    <span>MAF（亚洲）</span>
+                    <span>蛋白变化</span>
+                    <span>依据</span>
                     <span>文献</span>
                 </dt>
                 <#if heighData?exists>
                     <#list heighData as map>
                         <dd>
-                            <span>${map.mutationType}</span>
-                            <span>${map.proteinChange}</span>
+                            <span>${map.variation}</span>
+                            <span>Chr${map.chromosomePosition}</span>
                             <span>
                              <#if map.relatedDisease?exists>
                                  <#list map.relatedDisease?split("\t") as relatedDate>
@@ -521,6 +499,24 @@
                                      </#if>
                                  </#list>
                              </#if>
+                            </span>
+                            <span>${map.ref}${map.ref}/
+                            	 <#if map.alt=="0/1">
+                                     CA
+                                 <#else>
+                                     AA
+                                 </#if>
+                            </span>
+                            <span>${map.gene}</span>
+                            <span>${map.maf}</span>
+                            <span>
+	                            <#if map.proteinChange?exists>
+                                    <#if map.proteinChange == 'N' || map.proteinChange == 'None'>
+                                        unknown
+                                    <#else>
+                                        ${map.proteinChange}
+                                    </#if>
+                                </#if>
                             </span>
                             <span>
                              <#if map.source?exists>
@@ -547,7 +543,7 @@
                                      </#if>
                                  </#list>
                              </#if>
-                                </span>
+                            </span>
                         </dd>
                     </#list>
                 </#if>
@@ -576,44 +572,22 @@
             <p class="title"><em>中度关注</em></p>
             <dl class="table">
                 <dt>
-                    <span>RS</span>
+                    <span>变异位点</span>
                     <span>染色体位置</span>
-                    <span>Ref</span>
-                    <span>Alt</span>
-                    <span>基因型</span>
-                    <span>MAF</span>
-                    <span>基因</span>
-                    <span>致病分值</span>
-                </dt>
-                <#if moderateData?exists>
-                    <#list moderateData as map>
-                        <dd>
-                            <span>${map.variation}</span>
-                            <span>${map.chromosomePosition}</span>
-                            <span>${map.ref}</span>
-                            <span>${map.alt}</span>
-                            <span>${map.geneShape}</span>
-                            <span>${map.maf}</span>
-                            <span>${map.gene}</span>
-                            <span>${map.pathogenicPoints}</span>
-                        </dd>
-                    </#list>
-                </#if>
-            </dl>
-            <dl class="table">
-                <dt>
-                    <span>突变类型</span>
-                    <span>蛋白变化</span>
                     <span>相关疾病</span>
-                    <span>来源</span>
+                    <span>参考/患者 </span>
+                    <span>基因</span>
+                    <span>MAF（亚洲）</span>
+                    <span>蛋白变化</span>
+                    <span>依据</span>
                     <span>文献</span>
                 </dt>
                 <#if moderateData?exists>
                     <#list moderateData as map>
                         <dd>
-                            <span style="width: 20%">${map.mutationType}</span>
-                            <span style="width: 20%">${map.proteinChange}</span>
-                            <span style="width: 20%">
+                            <span>${map.variation}</span>
+                            <span>Chr${map.chromosomePosition}</span>
+                            <span>
                              <#if map.relatedDisease?exists>
                                  <#list map.relatedDisease?split("\t") as relatedDate>
                                      <#if relatedDate == "">
@@ -626,7 +600,26 @@
                                  </#list>
                              </#if>
                             </span>
-                            <span style="width: 20%">
+                            <span>${map.ref}${map.ref}/
+                            	 <#if map.alt=='0/1'>
+                                     CA
+                                 </#if>
+                                <#if map.alt=='1/1'>
+                                    AA
+                                </#if>
+                            </span>
+                            <span>${map.gene}</span>
+                            <span>${map.maf}</span>
+                            <span>
+                            	 <#if map.proteinChange?exists>
+                                     <#if map.proteinChange == 'N' || map.proteinChange == 'None'>
+                                         unknown
+                                     <#else>
+                                         ${map.proteinChange}
+                                     </#if>
+                                 </#if>
+                            </span>
+                            <span>
                              <#if map.source?exists>
                                  <#list map.source?split("\t") as sourceDate>
                                      <#if sourceDate == "">
@@ -639,15 +632,16 @@
                                  </#list>
                              </#if>
                             </span>
-                            <span style="width: 20%">
+                            <span>
                              <#if map.literature?exists>
-                                 <#list map.literature?split("\t") as latelyDate>                                                <#if latelyDate == "已过期">
-                                     -
-                                 <#else>
-                                     <#if latelyDate_index <3 >
-                                         ${latelyDate} <br/>
+                                 <#list map.literature?split("\t") as latelyDate>
+                                     <#if latelyDate == "已过期">
+                                         -
+                                     <#else>
+                                         <#if latelyDate_index <3 >
+                                             ${latelyDate} <br/>
+                                         </#if>
                                      </#if>
-                                 </#if>
                                  </#list>
                              </#if>
                             </span>
@@ -660,40 +654,37 @@
             <p class="title"><em>其他</em></p>
             <dl class="table">
                 <dt>
-                    <span>RS</span>
+                    <span>变异位点</span>
                     <span>染色体位置</span>
-                    <span>Ref</span>
-                    <span>Alt</span>
-                    <span>基因型</span>
-                    <span>MAF</span>
+                    <span>参考/患者 </span>
+                    <span>MAF（亚洲）</span>
                     <span>基因</span>
-                    <span>致病分值</span>
-                </dt>
-                <#if lowData?exists>
-                    <#list lowData as map>
-                        <dd>
-                            <span>${map.variation}</span>
-                            <span>${map.chromosomePosition}</span>
-                            <span>${map.ref}</span>
-                            <span>${map.alt}</span>
-                            <span>${map.geneShape}</span>
-                            <span>${map.maf}</span>
-                            <span>${map.gene}</span>
-                            <span>${map.pathogenicPoints}</span>
-                        </dd>
-                    </#list>
-                </#if>
-            </dl>
-            <dl class="table">
-                <dt>
-                    <span>突变类型</span>
                     <span>蛋白变化</span>
                 </dt>
                 <#if lowData?exists>
                     <#list lowData as map>
                         <dd>
-                            <span style="width: 20%">${map.mutationType}</span>
-                            <span style="width: 20%">${map.proteinChange}</span>
+                            <span>${map.variation}</span>
+                            <span>Chr${map.chromosomePosition}</span>
+                            <span>${map.ref}${map.ref}/
+                            	 <#if map.alt=='0/1'>
+                                     CA
+                                 </#if>
+                                <#if map.alt=='1/1'>
+                                    AA
+                                </#if>
+                            </span>
+                            <span>${map.maf}</span>
+                            <span>${map.gene}</span>
+                            <span style="width: 20%">
+                            	<#if map.proteinChange?exists>
+                                    <#if map.proteinChange == 'N' || map.proteinChange == 'None'>
+                                        unknown
+                                    <#else>
+                                        ${map.proteinChange}
+                                    </#if>
+                                </#if>
+                            </span>
                         </dd>
                     </#list>
                 </#if>
