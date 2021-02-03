@@ -31,6 +31,7 @@ public class DefaultWebMvcConfigurerAdapter implements WebMvcConfigurer {
         registry.addInterceptor(getDefaultWebMvcConfigurerAdapter())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/swagger-resources/**",
+                        "/static/**",
                         "/mtApi/user/registered",
                         "/mtApi/user/login",
                         "/mtApi/send/captcha",

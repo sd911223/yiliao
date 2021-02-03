@@ -34,8 +34,6 @@ import java.net.URLEncoder;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -331,7 +329,7 @@ public class VcfServiceImpl implements VcfService {
             }
             // 模板中的数据，实际运用从数据库中查询
             Map<String, Object> dataMap = new HashMap<>();
-            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             dataMap.put("statisticalTime", sdf.format(patientInfo.getCreateTime()));
             dataMap.put("doctor", userInfo.getUserName());
             dataMap.put("patientName", patientInfo.getPatientName());
@@ -388,8 +386,14 @@ public class VcfServiceImpl implements VcfService {
                             log.info("===============================================参数:{}", s);
                             RestResponse restResponse = literatureService.literatureQuery(s);
                             if (restResponse.getData() != null) {
-                                LiteratureMaterial literatureMaterial = JSON.parseObject(JSON.toJSONString(restResponse.getData()), LiteratureMaterial.class);
-                                strings1.add(literatureMaterial.getReference());
+                                Literature literature1 = JSON.parseObject(JSON.toJSONString(restResponse.getData()), Literature.class);
+                                StringBuffer sb = new StringBuffer();
+                                sb.append(literature1.getAuthor());
+                                sb.append(literature1.getTitle());
+                                sb.append(literature1.getPeriodicalName());
+                                sb.append(literature1.getPeriodicalNumber());
+                                sb.append(literature1.getPublishingTime());
+                                strings1.add(sb.toString());
                             }
                         }
 

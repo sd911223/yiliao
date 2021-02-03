@@ -488,20 +488,18 @@
                             <span>${map.variation}</span>
                             <span>Chr${map.chromosomePosition}</span>
                             <span>
-                             <#if map.relatedDisease?exists>
-                                 <#list map.relatedDisease?split("\t") as relatedDate>
-                                     <#if relatedDate == "">
-                                         -
-                                     <#else>
-                                         <#if relatedDate_index !=0 >
-                                             ${relatedDate} <br/>
-                                         </#if>
-                                     </#if>
-                                 </#list>
-                             </#if>
+                                <#if map.relatedDisease?exists>
+                                    <#list map.relatedDisease?split("\t") as relatedDate>
+                                        <#if relatedDate == "">
+                                            -
+                                        <#else>
+                                            ${relatedDate} <br/>
+                                        </#if>
+                                    </#list>
+                                </#if>
                             </span>
                             <span>${map.ref}${map.ref}/
-                            	 <#if map.alt=="0/1">
+                            	 <#if map.geneShape=="0/1">
                                      CA
                                  <#else>
                                      AA
@@ -601,12 +599,11 @@
                              </#if>
                             </span>
                             <span>${map.ref}${map.ref}/
-                            	 <#if map.alt=='0/1'>
-                                     CA
-                                 </#if>
-                                <#if map.alt=='1/1'>
-                                    AA
-                                </#if>
+                            	  <#if map.geneShape=="0/1">
+                                      CA
+                                  <#else>
+                                      AA
+                                  </#if>
                             </span>
                             <span>${map.gene}</span>
                             <span>${map.maf}</span>
@@ -625,9 +622,7 @@
                                      <#if sourceDate == "">
                                          -
                                      <#else>
-                                         <#if sourceDate_index !=0 >
                                              ${sourceDate} <br/>
-                                         </#if>
                                      </#if>
                                  </#list>
                              </#if>
@@ -667,12 +662,11 @@
                             <span>${map.variation}</span>
                             <span>Chr${map.chromosomePosition}</span>
                             <span>${map.ref}${map.ref}/
-                            	 <#if map.alt=='0/1'>
+                            	 <#if map.geneShape=="0/1">
                                      CA
+                                 <#else>
+                                     AA
                                  </#if>
-                                <#if map.alt=='1/1'>
-                                    AA
-                                </#if>
                             </span>
                             <span>${map.maf}</span>
                             <span>${map.gene}</span>
@@ -693,12 +687,12 @@
         <div class="block block7">
             <p class="title"><em>参考文献</em></p>
             <p class="description" style="word-wrap: break-word !important; word-break: break-all !important;">
-                <#--                ${literature}-->
-                <#--                <#if literature?exists>-->
-                <#--                    <#list literature as map>-->
-                <#--                        <p><span>${map_index+1}.</span>${map?html}</p>-->
-                <#--                    </#list>-->
-                <#--                </#if>-->
+<#--                                ${literature}-->
+                                <#if literature?exists>
+                                    <#list literature as map>
+                                        <p><span style="padding-right:10px;">${map_index+1}.</span>${map?html}</p>
+                                    </#list>
+                                </#if>
             </p>
         </div>
     </div>
