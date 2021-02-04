@@ -396,6 +396,8 @@
         .gray {
             background-color: #ebeff2;
         }
+
+        .pageNext{page-break-after: always;}
     </style>
 </head>
 <body>
@@ -547,6 +549,7 @@
                 </#if>
             </dl>
         </div>
+        <div class="pageNext"></div>
         <div class="block block4">
             <p class="title"><em>重点关注疾病</em></p>
             <#if maps?? && (maps?size>0)>
