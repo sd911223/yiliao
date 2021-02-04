@@ -615,7 +615,8 @@ public class VcfServiceImpl implements VcfService {
             JSONObject o = JSONObject.parseObject(json.get(disease).toString());
             if (!o.isEmpty()) {
                 JSONObject jsonObject = JSONObject.parseObject(o.get("0").toString());
-                sb.append(jsonObject.get("染色体位置"+" "));
+                sb.append(jsonObject.get("染色体位置"));
+                sb.append(" ");
                 sb.append(jsonObject.get("Ref"));
                 sb.append(" > ");
                 sb.append(jsonObject.get("Alt"));
