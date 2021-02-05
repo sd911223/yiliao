@@ -21,8 +21,7 @@ public class StringUtil {
         if (Str.contains(",")) {
             String[] split = Str.split(",");
             return new String[]{split[0], split[1]};
-        } else {
-            return new String[]{Str};
         }
+        return null;
     }
 }

@@ -23,6 +23,7 @@ import org.thymeleaf.TemplateEngine;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -127,24 +128,84 @@ public class VcfController {
     }
 
     public static void main(String[] args) {
-        String json = "{\"高度关注\": {\"0\": {\"变异\": \"rs113288277\", \"染色体位置\": \"1:1044368\", \"Ref\": \"A\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0044843, \"基因\": \"AGRN\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.E728V\", \"相关疾病\": \"615120\", \"来源\": \"Clinvar/dbSNFP\", \"文献\": \"-\"}, \"1\": {\"变异\": \"rs242056\", \"染色体位置\": \"1:4712657\", \"Ref\": \"G\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": \"-\", \"基因\": \"AJAP1\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.G263R\", \"相关疾病\": [\"104300\", \"123400\", \"180300\", \"256700\"], \"来源\": [\"GWAS\", \"GWAS\", \"GWAS\", \"GWAS\"], \"文献\": [\"20061627\", \"22210626\", \"20453842\", \"21124317\"]}}, \"中度关注\": {\"0\": {\"变异\": \"rs3810982\", \"染色体位置\": \"1:6887657\", \"Ref\": \"C\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.275432, \"基因\": \"CAMTA1\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.L80F\", \"相关疾病\": \"614756\", \"来源\": \"OMIM/LOVD\", \"文献\": \"22693284,24738973\"}, \"1\": {\"变异\": \"rs228697\", \"染色体位置\": \"1:7827519\", \"Ref\": \"C\", \"Alt\": \"G\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0443523, \"基因\": \"PER3\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.P864A\", \"相关疾病\": [\"616882\", \"125853\", \"180300\"], \"来源\": [\"OMIM/LOVD\", \"GWAS\", \"GWAS\"], \"文献\": [\"26903630\", \"21647700\", \"20453842\"]}, \"2\": {\"变异\": \"rs17368528\", \"染色体位置\": \"1:9264154\", \"Ref\": \"C\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.05903, \"基因\": \"H6PD\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.P565L\", \"相关疾病\": \"604931\", \"来源\": \"OMIM/LOVD\", \"文献\": \"12858176,8370690,16091483,18628520,8923828,11150889,10522997,3990293,16817821,17062770\"}, \"3\": {\"变异\": \"rs2015352\", \"染色体位置\": \"1:16044572\", \"Ref\": \"G\", \"Alt\": \"T\", \"基因型\": \"1/1\", \"MAF(亚洲)\": \"-\", \"基因\": \"CLCNKB\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.R27L\", \"相关疾病\": [\"613090\", \"123400\", \"607364\"], \"来源\": [\"OMIM/LOVD\", \"GWAS\", \"LOVD\"], \"文献\": [\"9326936,15044642,8841184,18310267,22282380\", \"22210626\", \"None\"]}, \"4\": {\"变异\": \"rs4870\", \"染色体位置\": \"1:2556714\", \"Ref\": \"A\", \"Alt\": \"G\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.486547, \"基因\": \"TNFRSF14\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.K17R\", \"相关疾病\": \"180300\", \"来源\": \"GWAS\", \"文献\": \"20453842\"}, \"5\": {\"变异\": \"rs11585362\", \"染色体位置\": \"1:3512044\", \"Ref\": \"G\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": \"-\", \"基因\": \"MEGF6\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.A313V\", \"相关疾病\": \"176807\", \"来源\": \"GWAS\", \"文献\": \"23555315\"}, \"6\": {\"变异\": \"rs12407578\", \"染色体位置\": \"1:12277610\", \"Ref\": \"C\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": \"-\", \"基因\": \"VPS13D\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.S1341L\", \"相关疾病\": \"180300\", \"来源\": \"GWAS\", \"文献\": \"20453842\"}, \"7\": {\"变异\": \"rs61747667\", \"染色体位置\": \"1:13778554\", \"Ref\": \"C\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": \"-\", \"基因\": \"PRDM2\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.D52E\", \"相关疾病\": \"601665\", \"来源\": \"NLP\", \"文献\": \"32044406\"}, \"8\": {\"变异\": \"rs17350795\", \"染色体位置\": \"1:13779144\", \"Ref\": \"G\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0175607, \"基因\": \"PRDM2\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.S249N\", \"相关疾病\": \"601665\", \"来源\": \"NLP\", \"文献\": \"32044406\"}, \"9\": {\"变异\": \"rs116238585\", \"染色体位置\": \"1:13780640\", \"Ref\": \"C\", \"Alt\": \"G\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0175719, \"基因\": \"PRDM2\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.P748A\", \"相关疾病\": \"601665\", \"来源\": \"NLP\", \"文献\": \"32044406\"}}, \"其他\": {\"0\": {\"变异\": \"rs182217004\", \"染色体位置\": \"1:1072026\", \"Ref\": \"G\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0, \"基因\": \"RNF223\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.R181W\"}, \"1\": {\"变异\": \"rs116321663\", \"染色体位置\": \"1:1184997\", \"Ref\": \"T\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0, \"基因\": \"TTLL10\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.M357K\"}, \"2\": {\"变异\": \"rs1137003\", \"染色体位置\": \"1:1719348\", \"Ref\": \"T\", \"Alt\": \"C\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0, \"基因\": \"CDK11A\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.H112R\"}, \"3\": {\"变异\": \"rs56309807\", \"染色体位置\": \"1:3480498\", \"Ref\": \"G\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0, \"基因\": \"ARHGEF16\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.E681K\"}, \"4\": {\"变异\": \"rs2076063\", \"染色体位置\": \"1:12847517\", \"Ref\": \"A\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0, \"基因\": \"HNRNPCL1\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.V258D\"}, \"5\": {\"变异\": \"rs76937665\", \"染色体位置\": \"1:13116056\", \"Ref\": \"A\", \"Alt\": \"C\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.000319693, \"基因\": \"HNRNPCL2,HNRNPCL3\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.F115L\"}, \"6\": {\"变异\": \"rs77505369\", \"染色体位置\": \"1:13116060\", \"Ref\": \"C\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.000319693, \"基因\": \"HNRNPCL2,HNRNPCL3\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.G114D\"}, \"7\": {\"变异\": \"rs77556803\", \"染色体位置\": \"1:13116061\", \"Ref\": \"C\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.000319898, \"基因\": \"HNRNPCL2,HNRNPCL3\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.G114S\"}}, \"高度关注_num\": 2, \"中度关注_num\": 10, \"其他_num\": 8}";
-        JSONObject jsonObject = new JSONObject(json);
-        Map map = JSON.parseObject(jsonObject.get("高度关注").toString(), Map.class);
-        if (map.size() > 0) {
-            for (int i = 0; i < map.size(); i++) {
-                Map gaoDuMap = JSON.parseObject(new JSONObject(map.get(String.valueOf(i))).toString(), Map.class);
-                System.out.println(gaoDuMap.get("文献"));
-                String[] stingArray = new StringUtil().getStingArray(gaoDuMap.get("文献").toString());
-                gaoDuMap.put("wenxian",stingArray);
-
-                List<String> stringList = Arrays.asList(stingArray);
-                stringList.forEach(e->{
-                    System.out.println(e);
-                });
-
+        String result = "{\"高度关注\": {\"0\": {\"变异\": \"rs113288277\", \"染色体位置\": \"1:1044368\", \"Ref\": \"A\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0044843, \"基因\": \"AGRN\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.E728V\", \"相关疾病\": \"615120\", \"来源\": \"Clinvar/dbSNFP\", \"文献\": \"-\"}, \"1\": {\"变异\": \"rs242056\", \"染色体位置\": \"1:4712657\", \"Ref\": \"G\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": \"-\", \"基因\": \"AJAP1\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.G263R\", \"相关疾病\": [\"104300\", \"123400\", \"180300\", \"256700\"], \"来源\": [\"GWAS\", \"GWAS\", \"GWAS\", \"GWAS\"], \"文献\": [\"20061627\", \"22210626\", \"20453842\", \"21124317\"]}}, \"中度关注\": {\"0\": {\"变异\": \"rs3810982\", \"染色体位置\": \"1:6887657\", \"Ref\": \"C\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.275432, \"基因\": \"CAMTA1\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.L80F\", \"相关疾病\": \"614756\", \"来源\": \"OMIM/LOVD\", \"文献\": \"22693284,24738973\"}, \"1\": {\"变异\": \"rs228697\", \"染色体位置\": \"1:7827519\", \"Ref\": \"C\", \"Alt\": \"G\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0443523, \"基因\": \"PER3\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.P864A\", \"相关疾病\": [\"616882\", \"125853\", \"180300\"], \"来源\": [\"OMIM/LOVD\", \"GWAS\", \"GWAS\"], \"文献\": [\"26903630\", \"21647700\", \"20453842\"]}, \"2\": {\"变异\": \"rs17368528\", \"染色体位置\": \"1:9264154\", \"Ref\": \"C\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.05903, \"基因\": \"H6PD\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.P565L\", \"相关疾病\": \"604931\", \"来源\": \"OMIM/LOVD\", \"文献\": \"12858176,8370690,16091483,18628520,8923828,11150889,10522997,3990293,16817821,17062770\"}, \"3\": {\"变异\": \"rs2015352\", \"染色体位置\": \"1:16044572\", \"Ref\": \"G\", \"Alt\": \"T\", \"基因型\": \"1/1\", \"MAF(亚洲)\": \"-\", \"基因\": \"CLCNKB\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.R27L\", \"相关疾病\": [\"613090\", \"123400\", \"607364\"], \"来源\": [\"OMIM/LOVD\", \"GWAS\", \"LOVD\"], \"文献\": [\"9326936,15044642,8841184,18310267,22282380\", \"22210626\", \"None\"]}, \"4\": {\"变异\": \"rs4870\", \"染色体位置\": \"1:2556714\", \"Ref\": \"A\", \"Alt\": \"G\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.486547, \"基因\": \"TNFRSF14\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.K17R\", \"相关疾病\": \"180300\", \"来源\": \"GWAS\", \"文献\": \"20453842\"}, \"5\": {\"变异\": \"rs11585362\", \"染色体位置\": \"1:3512044\", \"Ref\": \"G\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": \"-\", \"基因\": \"MEGF6\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.A313V\", \"相关疾病\": \"176807\", \"来源\": \"GWAS\", \"文献\": \"23555315\"}, \"6\": {\"变异\": \"rs12407578\", \"染色体位置\": \"1:12277610\", \"Ref\": \"C\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": \"-\", \"基因\": \"VPS13D\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.S1341L\", \"相关疾病\": \"180300\", \"来源\": \"GWAS\", \"文献\": \"20453842\"}, \"7\": {\"变异\": \"rs61747667\", \"染色体位置\": \"1:13778554\", \"Ref\": \"C\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": \"-\", \"基因\": \"PRDM2\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.D52E\", \"相关疾病\": \"601665\", \"来源\": \"NLP\", \"文献\": \"32044406\"}, \"8\": {\"变异\": \"rs17350795\", \"染色体位置\": \"1:13779144\", \"Ref\": \"G\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0175607, \"基因\": \"PRDM2\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.S249N\", \"相关疾病\": \"601665\", \"来源\": \"NLP\", \"文献\": \"32044406\"}, \"9\": {\"变异\": \"rs116238585\", \"染色体位置\": \"1:13780640\", \"Ref\": \"C\", \"Alt\": \"G\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0175719, \"基因\": \"PRDM2\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.P748A\", \"相关疾病\": \"601665\", \"来源\": \"NLP\", \"文献\": \"32044406\"}}, \"其他\": {\"0\": {\"变异\": \"rs182217004\", \"染色体位置\": \"1:1072026\", \"Ref\": \"G\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0, \"基因\": \"RNF223\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.R181W\"}, \"1\": {\"变异\": \"rs116321663\", \"染色体位置\": \"1:1184997\", \"Ref\": \"T\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0, \"基因\": \"TTLL10\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.M357K\"}, \"2\": {\"变异\": \"rs1137003\", \"染色体位置\": \"1:1719348\", \"Ref\": \"T\", \"Alt\": \"C\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0, \"基因\": \"CDK11A\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.H112R\"}, \"3\": {\"变异\": \"rs56309807\", \"染色体位置\": \"1:3480498\", \"Ref\": \"G\", \"Alt\": \"A\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0, \"基因\": \"ARHGEF16\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.E681K\"}, \"4\": {\"变异\": \"rs2076063\", \"染色体位置\": \"1:12847517\", \"Ref\": \"A\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.0, \"基因\": \"HNRNPCL1\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.V258D\"}, \"5\": {\"变异\": \"rs76937665\", \"染色体位置\": \"1:13116056\", \"Ref\": \"A\", \"Alt\": \"C\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.000319693, \"基因\": \"HNRNPCL2,HNRNPCL3\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.F115L\"}, \"6\": {\"变异\": \"rs77505369\", \"染色体位置\": \"1:13116060\", \"Ref\": \"C\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.000319693, \"基因\": \"HNRNPCL2,HNRNPCL3\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.G114D\"}, \"7\": {\"变异\": \"rs77556803\", \"染色体位置\": \"1:13116061\", \"Ref\": \"C\", \"Alt\": \"T\", \"基因型\": \"0/1\", \"MAF(亚洲)\": 0.000319898, \"基因\": \"HNRNPCL2,HNRNPCL3\", \"致病分值\": \"1\", \"突变类型\": \"nonsynonymous\", \"蛋白变化\": \"p.G114S\"}}, \"高度关注_num\": 2, \"中度关注_num\": 10, \"其他_num\": 8}";
+        com.alibaba.fastjson.JSONObject jsonResult = new com.alibaba.fastjson.JSONObject();
+        int count = 1;
+        String gaoDuGuanZhu = new cn.hutool.json.JSONObject(result).get("高度关注").toString();
+        if (gaoDuGuanZhu != null) {
+            Map gaoDMap = JSON.parseObject(gaoDuGuanZhu, Map.class);
+            HashMap<String, Object> gaoduMap = new HashMap<>();
+            if (gaoDMap.size() > 0) {
+                for (int i = 0; i < gaoDMap.size(); i++) {
+                    Map map = JSON.parseObject(new cn.hutool.json.JSONObject(gaoDMap.get(String.valueOf(i))).toString(), Map.class);
+                    if (count <= 10) {
+                        String[] stingArray = new StringUtil().getStingArray(map.get("文献").toString());
+                        if (stingArray != null) {
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            List<String> list = Arrays.asList(stingArray);
+                            for (int j = 0; j < list.size(); j++) {
+                                hashMap.put(String.valueOf(count), list.get(j));
+                                count++;
+                            }
+                            map.put("wenXian", hashMap);
+                        }
+                    }
+                    gaoduMap.put(String.valueOf(i), map);
+                }
             }
+            jsonResult.put("高度关注", gaoduMap);
         }
-        System.out.println();
+
+        String zhongDuGuanZhu = new cn.hutool.json.JSONObject(result).get("中度关注").toString();
+        if (zhongDuGuanZhu != null) {
+            Map zDMap = JSON.parseObject(zhongDuGuanZhu, Map.class);
+            HashMap<String, Object> zduMap = new HashMap<>();
+            if (zDMap.size() > 0) {
+                for (int i = 0; i < zDMap.size(); i++) {
+                    Map map = JSON.parseObject(new cn.hutool.json.JSONObject(zDMap.get(String.valueOf(i))).toString(), Map.class);
+                    if (count <= 10) {
+                        String[] stingArray = new StringUtil().getStingArray(map.get("文献").toString());
+                        if (stingArray != null) {
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            List<String> list = Arrays.asList(stingArray);
+                            for (int j = 0; j < list.size(); j++) {
+                                hashMap.put(String.valueOf(count), list.get(j));
+                                count++;
+                            }
+                            map.put("wenXian", hashMap);
+                        }
+                    }
+
+                    zduMap.put(String.valueOf(i), map);
+                }
+            }
+            jsonResult.put("中度关注", zduMap);
+        }
+        String qiTa = new cn.hutool.json.JSONObject(result).get("其他").toString();
+        if (qiTa != null) {
+            Map qTMap = JSON.parseObject(new cn.hutool.json.JSONObject(result).get("其他").toString(), Map.class);
+            HashMap<String, Object> qTaMap = new HashMap<>();
+            if (qTMap.size() > 0) {
+                for (int i = 0; i < qTMap.size(); i++) {
+                    Map map = JSON.parseObject(new cn.hutool.json.JSONObject(qTMap.get(String.valueOf(i))).toString(), Map.class);
+                    qTaMap.put(String.valueOf(i), map);
+                }
+            }
+            jsonResult.put("其他", qTaMap);
+        }
+        String gaoNum = new cn.hutool.json.JSONObject(result).get("高度关注_num").toString();
+        if (gaoNum != null) {
+            jsonResult.put("高度关注_num", gaoNum);
+        }
+        String zhongNum = new cn.hutool.json.JSONObject(result).get("中度关注_num").toString();
+        if (zhongNum != null) {
+            jsonResult.put("中度关注_num", zhongNum);
+        }
+        String qiNum = new cn.hutool.json.JSONObject(result).get("其他_num").toString();
+        if (qiNum != null) {
+            jsonResult.put("其他_num", qiNum);
+        }
+        System.out.println("");
 //        List<String> list = JSON.parseArray(JSON.toJSONString(), String.class);
 //        System.out.println(list.size());
     }
