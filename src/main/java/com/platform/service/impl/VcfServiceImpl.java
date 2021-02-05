@@ -17,6 +17,7 @@ import com.platform.service.LiteratureService;
 import com.platform.service.VcfService;
 import com.platform.util.PdfUtilTest;
 import com.platform.util.ShellUtil;
+import com.platform.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -237,6 +238,32 @@ public class VcfServiceImpl implements VcfService {
     @Override
     public RestResponse vcfDetail(Integer vcfId) {
         VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(vcfId);
+        String result = vcfFile.getJsonResult();
+        JSONObject jsonObject = new JSONObject();
+        Map gaoDMap = JSON.parseObject(new cn.hutool.json.JSONObject(result).get("高度关注").toString(), Map.class);
+        HashMap<String, Object> gaoduMap = new HashMap<>();
+        if (gaoDMap.size() > 0) {
+            for (int i = 0; i < gaoDMap.size(); i++) {
+                Map map = JSON.parseObject(new cn.hutool.json.JSONObject(gaoDMap.get(String.valueOf(i))).toString(), Map.class);
+                String[] stingArray = new StringUtil().getStingArray(map.get("文献").toString());
+                map.put("wenXian", stingArray);
+                gaoduMap.put(String.valueOf(i), map);
+            }
+        }
+        jsonObject.put("高度关注",gaoduMap);
+
+
+        Map zDMap = JSON.parseObject(new cn.hutool.json.JSONObject(result).get("中度关注").toString(), Map.class);
+        HashMap<String, Object> zduMap = new HashMap<>();
+        if (zDMap.size() > 0) {
+            for (int i = 0; i < zDMap.size(); i++) {
+                Map map = JSON.parseObject(new cn.hutool.json.JSONObject(zDMap.get(String.valueOf(i))).toString(), Map.class);
+                String[] stingArray = new StringUtil().getStingArray(map.get("文献").toString());
+                map.put("wenXian", stingArray);
+                zduMap.put(String.valueOf(i), map);
+            }
+        }
+        jsonObject.put("中度关注",zduMap);
         return ResultUtil.success(vcfFile.getJsonResult());
     }
 
