@@ -16,6 +16,7 @@ import com.platform.service.DiseaseService;
 import com.platform.service.LiteratureService;
 import com.platform.service.VcfService;
 import com.platform.util.PdfUtilTest;
+import com.platform.util.RedisUtil;
 import com.platform.util.ShellUtil;
 import com.platform.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +59,8 @@ public class VcfServiceImpl implements VcfService {
     DiseaseService diseaseService;
     @Autowired
     LiteratureService literatureService;
+    @Autowired
+    RedisUtil redisUtil;
 
     /**
      * VCF统计
@@ -237,85 +240,98 @@ public class VcfServiceImpl implements VcfService {
      */
     @Override
     public RestResponse vcfDetail(Integer vcfId) {
-        VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(vcfId);
-        String result = vcfFile.getJsonResult();
-        JSONObject jsonResult = new JSONObject();
-        int count = 1;
-        String gaoDuGuanZhu = new cn.hutool.json.JSONObject(result).get("高度关注").toString();
-        if (gaoDuGuanZhu != null) {
-            Map gaoDMap = JSON.parseObject(gaoDuGuanZhu, Map.class);
-            HashMap<String, Object> gaoduMap = new HashMap<>();
-            if (gaoDMap.size() > 0) {
-                for (int i = 0; i < gaoDMap.size(); i++) {
-                    Map map = JSON.parseObject(new cn.hutool.json.JSONObject(gaoDMap.get(String.valueOf(i))).toString(), Map.class);
-                    if (count <= 10) {
-                        String[] stingArray = new StringUtil().getStingArray(map.get("文献").toString());
-                        if (stingArray != null) {
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            List<String> list = Arrays.asList(stingArray);
-                            for (int j = 0; j < list.size(); j++) {
-                                hashMap.put(String.valueOf(count), list.get(j));
-                                count++;
+        if (redisUtil.get("vcfDetail:" + vcfId) == null) {
+            VcfFile vcfFile = vcfFileMapper.selectByPrimaryKey(vcfId);
+            String result = vcfFile.getJsonResult();
+            JSONObject jsonResult = new JSONObject();
+            List<Map<String,Object>> wenXianList = new ArrayList<>();
+            int count = 1;
+            String gaoDuGuanZhu = new cn.hutool.json.JSONObject(result).get("高度关注").toString();
+            if (gaoDuGuanZhu != null) {
+                Map gaoDMap = JSON.parseObject(gaoDuGuanZhu, Map.class);
+                HashMap<String, Object> gaoduMap = new HashMap<>();
+                if (gaoDMap.size() > 0) {
+                    for (int i = 0; i < gaoDMap.size(); i++) {
+                        Map map = JSON.parseObject(new cn.hutool.json.JSONObject(gaoDMap.get(String.valueOf(i))).toString(), Map.class);
+                        if (count <= 10) {
+                            String[] stingArray = new StringUtil().getStingArray(map.get("文献").toString());
+                            if (stingArray != null) {
+                                HashMap<String, Object> hashMap = new HashMap<>();
+                                List<String> list = Arrays.asList(stingArray);
+                                for (int j = 0; j < list.size(); j++) {
+                                    hashMap.put(String.valueOf(count), list.get(j));
+
+                                    count++;
+                                }
+                                wenXianList.add(hashMap);
+                                map.put("wenXian", hashMap);
                             }
-                            map.put("wenXian", hashMap);
                         }
+                        gaoduMap.put(String.valueOf(i), map);
                     }
-                    gaoduMap.put(String.valueOf(i), map);
                 }
+                jsonResult.put("高度关注", gaoduMap);
             }
-            jsonResult.put("高度关注", gaoduMap);
+
+            String zhongDuGuanZhu = new cn.hutool.json.JSONObject(result).get("中度关注").toString();
+            if (zhongDuGuanZhu != null) {
+                Map zDMap = JSON.parseObject(zhongDuGuanZhu, Map.class);
+                HashMap<String, Object> zduMap = new HashMap<>();
+                if (zDMap.size() > 0) {
+                    for (int i = 0; i < zDMap.size(); i++) {
+                        Map map = JSON.parseObject(new cn.hutool.json.JSONObject(zDMap.get(String.valueOf(i))).toString(), Map.class);
+                        if (count <= 10) {
+                            String[] stingArray = new StringUtil().getStingArray(map.get("文献").toString());
+                            if (stingArray != null) {
+                                HashMap<String, Object> hashMap = new HashMap<>();
+                                List<String> list = Arrays.asList(stingArray);
+                                for (int j = 0; j < list.size(); j++) {
+                                    hashMap.put(String.valueOf(count), list.get(j));
+
+                                    count++;
+                                }
+                                wenXianList.add(hashMap);
+                                map.put("wenXian", hashMap);
+                            }
+                        }
+
+                        zduMap.put(String.valueOf(i), map);
+                    }
+                }
+                jsonResult.put("中度关注", zduMap);
+            }
+            String qiTa = new cn.hutool.json.JSONObject(result).get("其他").toString();
+            if (qiTa != null) {
+                Map qTMap = JSON.parseObject(new cn.hutool.json.JSONObject(result).get("其他").toString(), Map.class);
+                HashMap<String, Object> qTaMap = new HashMap<>();
+                if (qTMap.size() > 0) {
+                    for (int i = 0; i < qTMap.size(); i++) {
+                        Map map = JSON.parseObject(new cn.hutool.json.JSONObject(qTMap.get(String.valueOf(i))).toString(), Map.class);
+                        qTaMap.put(String.valueOf(i), map);
+                    }
+                }
+                jsonResult.put("其他", qTaMap);
+            }
+            jsonResult.put("wenXianList", wenXianList);
+            Object gaoNum = new cn.hutool.json.JSONObject(result).get("高度关注_num");
+            if (gaoNum != null) {
+                jsonResult.put("高度关注_num", gaoNum.toString());
+            }
+            Object zhongNum = new cn.hutool.json.JSONObject(result).get("中度关注_num");
+            if (zhongNum != null) {
+                jsonResult.put("中度关注_num", zhongNum.toString());
+            }
+            Object qiNum = new cn.hutool.json.JSONObject(result).get("其他_num");
+            if (qiNum != null) {
+                jsonResult.put("其他_num", qiNum.toString());
+            }
+            redisUtil.set("vcfDetail:" + vcfId, jsonResult.toJSONString());
+            return ResultUtil.success(jsonResult.toJSONString());
+        } else {
+            Object o = redisUtil.get("vcfDetail:" + vcfId);
+            return ResultUtil.success(o);
         }
 
-        String zhongDuGuanZhu = new cn.hutool.json.JSONObject(result).get("中度关注").toString();
-        if (zhongDuGuanZhu != null) {
-            Map zDMap = JSON.parseObject(zhongDuGuanZhu, Map.class);
-            HashMap<String, Object> zduMap = new HashMap<>();
-            if (zDMap.size() > 0) {
-                for (int i = 0; i < zDMap.size(); i++) {
-                    Map map = JSON.parseObject(new cn.hutool.json.JSONObject(zDMap.get(String.valueOf(i))).toString(), Map.class);
-                    if (count <= 10) {
-                        String[] stingArray = new StringUtil().getStingArray(map.get("文献").toString());
-                        if (stingArray != null) {
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            List<String> list = Arrays.asList(stingArray);
-                            for (int j = 0; j < list.size(); j++) {
-                                hashMap.put(String.valueOf(count), list.get(j));
-                                count++;
-                            }
-                            map.put("wenXian", hashMap);
-                        }
-                    }
-
-                    zduMap.put(String.valueOf(i), map);
-                }
-            }
-            jsonResult.put("中度关注", zduMap);
-        }
-        String qiTa = new cn.hutool.json.JSONObject(result).get("其他").toString();
-        if (qiTa != null) {
-            Map qTMap = JSON.parseObject(new cn.hutool.json.JSONObject(result).get("其他").toString(), Map.class);
-            HashMap<String, Object> qTaMap = new HashMap<>();
-            if (qTMap.size() > 0) {
-                for (int i = 0; i < qTMap.size(); i++) {
-                    Map map = JSON.parseObject(new cn.hutool.json.JSONObject(qTMap.get(String.valueOf(i))).toString(), Map.class);
-                    qTaMap.put(String.valueOf(i), map);
-                }
-            }
-            jsonResult.put("其他", qTaMap);
-        }
-        String gaoNum = new cn.hutool.json.JSONObject(result).get("高度关注_num").toString();
-        if (gaoNum != null) {
-            jsonResult.put("高度关注_num", gaoNum);
-        }
-        String zhongNum = new cn.hutool.json.JSONObject(result).get("中度关注_num").toString();
-        if (zhongNum != null) {
-            jsonResult.put("中度关注_num", zhongNum);
-        }
-        String qiNum = new cn.hutool.json.JSONObject(result).get("其他_num").toString();
-        if (qiNum != null) {
-            jsonResult.put("其他_num", qiNum);
-        }
-        return ResultUtil.success(jsonResult.toJSONString());
     }
 
     /**
